@@ -1,9 +1,11 @@
 const express = require('express')
-const {viewMovies,viewMovie,addMovie, deleteMovie} = require('../controllers/MovieController')
+const {viewMovies, viewMovie, addMovie, updateMovie, deleteMovie} = require('../controllers/MovieController')
 const movieRouter = express.Router()
-// const movie = require('../model/Movie')
-movieRouter.get('/',viewMovies)
-movieRouter.get('/movie/:id',viewMovie)
-movieRouter.post('/addMovie',addMovie)
-movieRouter.delete('/deleteMovie/:id',deleteMovie)
+
+movieRouter.get('/',viewMovies) /**To view all the movies */
+movieRouter.get('/:id',viewMovie) /**To view particular movie */
+movieRouter.post('/addMovie',addMovie) /**To add a new movie */
+movieRouter.put('/updateMovie/:id',updateMovie) /**To update a existing movie details */
+movieRouter.delete('/deleteMovie/:id',deleteMovie) /**To delete a particular movie */
+
 module.exports = movieRouter

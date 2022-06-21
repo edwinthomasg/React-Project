@@ -1,5 +1,6 @@
 const Movie = require('../model/Movie')
 
+/**To view all the movies running on screen */
 const viewMovies = async(req,res,next) => {
     let movies
     try{
@@ -12,6 +13,7 @@ const viewMovies = async(req,res,next) => {
     console.log("movies : ",movies)
     return res.status(404).json({message : "No movies found"})
 }
+/**To view particular movie running on screen */
 const viewMovie = async(req,res,next) => {
     console.log("Requested movie id : ",req.params.id)
     let movie
@@ -26,6 +28,7 @@ const viewMovie = async(req,res,next) => {
     
     return res.status(404).json({message : "No movie found"}) /*** */      
 }
+/**To add a new movie to the dashboard */
 const addMovie = async(req,res,next) => {
     let addedMovie
     console.log("req body : ",req.body)
@@ -48,9 +51,35 @@ const addMovie = async(req,res,next) => {
     catch(err) {
         console.log("Error Found : ",err.message)
     }
-        return res.status(500).json({message : "Unable to add movie"})
+        return res.status(404).json({message : "Unable to add movie"})
         
 }
+/**To update existing movie details */
+const updateMovie = async(req,res,next) => {
+    console.log("Requested movie id to update : ",req.params.id)
+    const { movieImageUrl, movieVideoUrl, movieName, ticketCost, description, actorName, directorName, startBookingDate, endBookingDate } = req.body
+    let movie
+    try{
+        movie = await Movie.findByIdAndUpdate(req.params.id,{
+            movieImageUrl,
+            movieVideoUrl,
+            movieName,
+            ticketCost,
+            description,
+            actorName,
+            directorName,
+            startBookingDate,
+            endBookingDate
+        })
+        movie = await movie.save()
+        return res.status(200).json({message:"Successfully updated",movie})
+    }
+    catch(err) {
+        console.log("Error Found : ",err.message)
+    }
+    return res.status(404).json({message:"Unable to update this id"}) 
+}
+/**To delete a movie from dashboard */
 const deleteMovie = async(req,res,next) => {
     console.log("Requested movie id to be deleted")
     let movie = await Movie.findById(req.params.id)
@@ -61,10 +90,12 @@ const deleteMovie = async(req,res,next) => {
     catch(err){
         console.log("Error Found : ",err.message)
     }
+    return res.status(404).json({message:"Unable to delete this id"}) 
 }
 module.exports = {
     viewMovies,
     viewMovie,
     addMovie,
+    updateMovie,
     deleteMovie
 }
