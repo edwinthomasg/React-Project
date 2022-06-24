@@ -61,26 +61,26 @@ const movieSchema = new Schema({
     startBookingDate : {
         type : Date,
         required : true,
-        // validate : {
-        //     validator : function(startBookingDate){
-        //         if(startBookingDate < Date.now())
-        //          return false
-        //     },
-        //     message : `The date has been expired from today`
+        validate : {
+            validator : function(startBookingDate){
+                if(startBookingDate < Date.now())
+                 return false
+            },
+            message : `The date has been expired from today`
 
-        // }
+        }
     },
     endBookingDate : {
         type : Date,
         required : true,
-        // validate : {
-        //     validator : function(endBookingDate){
-        //         if(endBookingDate < Date.now())
-        //          return false
-        //     },
-        //     message : `The date has been expired from today`
+        validate : {
+            validator : function(endBookingDate){
+                if(endBookingDate < Date.now())
+                 return false
+            },
+            message : `The date has been expired from today`
 
-        // }
+        }
     }
 
 })

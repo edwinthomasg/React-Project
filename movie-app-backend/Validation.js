@@ -16,21 +16,20 @@ const validateName = (name,key) => {
     {
         return name.match(/^[a-zA-Z ]+$/) ? true : `Director name should contain only alphabets`
     }
+    else if(key == 3)
+    {
+        return name.match(/^[a-zA-Z ]+$/) ? true : `User name should contain only alphabets`
+    }
 }
-const validateDate = (date,key) => {
-    console.log("todays : ",(Date.now()))
-    console.log("passes : ",date)
-    if(key == 1)
-    {
-        return Date(Date.now()) >= Date(date) ? true : `The date has been expired from today`
-    }
-    else if(key == 2)
-    {
-        return Date(Date.now()) >= Date(date) ? true : `The date has been expired from today`
-    }
+validateEmail = (email) => {
+    return email.match(/^([a-z]+[\.-\d]*)@$/) ? (email.match(/^([a-z-]+)\.([a-z\-]{2,8})(\.[a-z]{2,8})?$/)?true : `Username followed by domain name in lowercased alphabets with extension`) : `Username should starts with lowercase alphabets followed by digits if any`
+}
+validateConfirmPassword = (password,confirmPassword) => {
+    return (password == confirmPassword) ? true : `Both password and confirm password must match`
 }
 module.exports = {
     validateUrl,
     validateName,
-    validateDate
+    validateEmail,
+    validateConfirmPassword
 }

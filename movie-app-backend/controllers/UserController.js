@@ -1,9 +1,14 @@
 const User = require('../model/User')
-
+const { validateName, validateEmail, validateConfirmPassword } = require('../Validation')
 const registerUser = async(req,res) => {
     let user
     console.log("req body : ",req.body)
-    const{ userName, userEmail, userPassword, userConfirmPassword, userContact} = req.body
+    const{ userName, userEmail, userPassword, userConfirmPassword, userContact } = req.body
+    const userNameResult = validateName(userName,3)
+    const emailResult = validateEmail(userEmail)
+    const confirmPasswordResult = validateConfirmPassword(userPassword,userConfirmPassword)
+    if(userNameResult == true && emailResult == true && confirmPasswordResult == true)
+    {
     try{
         user = new User({
             userName,
@@ -18,8 +23,13 @@ const registerUser = async(req,res) => {
     catch(err) {
         return res.status(404).json({errorMessage : err.message})
     }
+    }
+    return res.status(500).json({message : "Unable to sign up user",errors : {
+        userName : userNameResult,
+        userMail : emailResult,
+        password : confirmPasswordResult
+    }})
     
-    return res.status(500).json({message : "Unable to sign up user"})
         
 }
 const loginUser = async(req,res,next) => {

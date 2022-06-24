@@ -1,5 +1,5 @@
 const Movie = require('../model/Movie')
-const { validateUrl, validateName, validateDate } = require('../Validation')
+const { validateUrl, validateName } = require('../Validation')
 /**To view all the movies running on screen */
 const viewMovies = async(req,res,next) => {
     let movies
@@ -41,10 +41,10 @@ const addMovie = async(req,res,next) => { /**check date */
     const videoResult = validateUrl(movieVideoUrl,2)
     const actorResult = validateName(actorName,1)
     const directorResult = validateName(actorName,1)
-    const startDateResult = validateDate(startBookingDate,1)
-    const endDateResult = validateDate(endBookingDate,2)
-    console.log(imgResult,videoResult,actorResult,directorResult,startDateResult,endDateResult)
-    if(imgResult == true && videoResult == true && actorResult == true && directorResult == true && startDateResult == true && endDateResult == true)
+
+    console.log(imgResult,videoResult,actorResult,directorResult)
+    
+    if(imgResult == true && videoResult == true && actorResult == true && directorResult == true)
     {
         try { /**spacing and method comments */
         addedMovie = new Movie({
@@ -65,7 +65,7 @@ const addMovie = async(req,res,next) => { /**check date */
         return res.status(404).json({errorMessage : err.message})
     }
     }
-        return res.status(404).json({message : "Unable to add movie",errors : { image : imgResult,
+    return res.status(404).json({message : "Unable to add movie",errors : { image : imgResult,
             video : videoResult, actor : actorResult , director : directorResult ,startDate : startDateResult, endDate : endDateResult
         }})
         
