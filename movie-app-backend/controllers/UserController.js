@@ -1,29 +1,32 @@
+const Joi = require('joi')
 const User = require('../model/User')
 const { registerValidationSchema } = require('../ValidationSchema')
 const registerUser = async(req,res) => {
     let user
     console.log("req body : ",req.body)
-   
-    const registerResult = await registerValidationSchema.validateAsync(req.body)
-    const {value,error} = registerResult
-    console.log(value,error)
-    
     try{
-        user = new User({
-            userName,
-            userEmail,
-            userPassword,
-            userConfirmPassword,
-            userContact
-        })
+        let options = {abortEarly : false}
+        const registerResult = await registerValidationSchema.validateAsync(req.body,options)
+        console.log("result : ",registerResult)
+        user = new User(registerResult)
         await user.save()
         return res.status(201).json({message : "Succesfully signed up",user})
     }
     catch(err) {
-        return res.status(404).json({errorMessage : err.message})
-    }
-    
-   
+        if(err.isJoi === true)
+        {
+            const errors = []
+            err.details.forEach(detail => {
+            let error = {
+                [detail.path] : detail.message
+            }
+            console.log(error)
+            errors.push(error)
+        })
+        if(err) return res.status(400).json(errors)
+        }
+        return res.status(400).json({errorMessage : err})
+    } 
 }
 const loginUser = async(req,res,next) => {
     let user

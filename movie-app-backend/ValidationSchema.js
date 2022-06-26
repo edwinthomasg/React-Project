@@ -6,6 +6,7 @@ const registerValidationSchema = Joi.object({
                   .max(30)
                   .pattern(new RegExp('^[a-zA-Z ]+$'))
                   .required(),
+
     userEmail : Joi.string()
                    .email()
                    .lowercase()
@@ -16,7 +17,11 @@ const registerValidationSchema = Joi.object({
                       .min(8)
                       .pattern(new RegExp('^[a-zA-Z0-9]{8,20}$'))
                       .required(),
-    userConfirmPassword : Joi.ref('userPassword')          
+    userConfirmPassword : Joi.ref('userPassword'),
+
+    userContact : Joi.string()
+                     .pattern(new RegExp('^[6-9]{1}[0-9]{9}$'))  
+                     .required()        
 })
 
 module.exports = {
