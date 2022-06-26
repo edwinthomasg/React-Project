@@ -1,5 +1,6 @@
 const Movie = require('../model/Movie')
 const { validateUrl, validateName } = require('../Validation')
+const { movieValidationSchema } = require('../ValidationSchema')
 /**To view all the movies running on screen */
 const viewMovies = async(req,res,next) => {
     let movies
@@ -11,12 +12,10 @@ const viewMovies = async(req,res,next) => {
     catch(err) {
         return res.status(404).json({errorMessage : err.message})
     }
-    console.log("movies : ",movies)
-    return res.status(404).json({message : "No movies have been showing"})
+    return res.status(404).json({error : "No movies have been showing"})
 }
 /**To view particular movie running on screen */
 const viewMovie = async(req,res,next) => { 
-    console.log("Requested movie id : ",req.params.id)
     let movie
         try{
             if(req.params.id.length == 24)
@@ -29,95 +28,72 @@ const viewMovie = async(req,res,next) => {
         catch(err) {
             return res.status(404).json({errorMessage : err})
         } 
-    return res.status(404).json({message : "No movie found with the id mentioned"})     
+    return res.status(404).json({error : "No movie found with the id mentioned"})    
 }
 /**To add a new movie to the dashboard */
-const addMovie = async(req,res,next) => { /**check date */
-    let addedMovie
-    console.log("req body : ",req.body)
-    const { movieImageUrl, movieVideoUrl, movieName, ticketCost, description, actorName, directorName, startBookingDate, endBookingDate } = req.body
-
-    const imgResult = validateUrl(movieImageUrl,1)
-    const videoResult = validateUrl(movieVideoUrl,2)
-    const actorResult = validateName(actorName,1)
-    const directorResult = validateName(actorName,1)
-
-    console.log(imgResult,videoResult,actorResult,directorResult)
-    
-    if(imgResult == true && videoResult == true && actorResult == true && directorResult == true)
-    {
-        try { /**spacing and method comments */
-        addedMovie = new Movie({
-            movieImageUrl,
-            movieVideoUrl,
-            movieName,
-            ticketCost,
-            description,
-            actorName,
-            directorName,
-            startBookingDate,
-            endBookingDate
-        })
-        await addedMovie.save()
-        return res.status(201).json({message : "Succesfully added",addedMovie})
+const addMovie = async(req,res,next) => { 
+    let movie
+    try{
+        let options = {abortEarly : false}
+        const movieResult = await movieValidationSchema.validateAsync(req.body,options)
+        movie = await Movie.findOne({movieName : movieResult.movieName,startBookingDate : movieResult.startBookingDate})
+        if(movie) 
+           throw "The movie has already been added"
+        movie = new Movie(movieResult)
+        await movie.save()
+        return res.status(201).json({message : "Succesfully movie has been added",movie})
     }
     catch(err) {
-        return res.status(404).json({errorMessage : err.message})
-    }
-    }
-    return res.status(404).json({message : "Unable to add movie",errors : { image : imgResult,
-            video : videoResult, actor : actorResult , director : directorResult ,startDate : startDateResult, endDate : endDateResult
-        }})
-        
+        if(err.isJoi === true)
+        {
+            const errors = []
+            err.details.forEach(detail => {
+            let error = {
+                [detail.path] : detail.message
+            }
+            errors.push(error)
+        })
+        return res.status(400).json(errors)
+        }
+        return res.status(400).json({errorMessage : err})
+    } 
 }
 /**To update existing movie details */
 const updateMovie = async(req,res,next) => {
-    console.log("Requested movie id to update : ",req.params.id)
-    const { movieImageUrl, movieVideoUrl, movieName, ticketCost, description, actorName, directorName, startBookingDate, endBookingDate } = req.body
     let movie
     try{
         if(req.params.id.length == 24)
-        {
-            movie = await Movie.findByIdAndUpdate(req.params.id,{
-            movieImageUrl,
-            movieVideoUrl,
-            movieName,
-            ticketCost,
-            description,
-            actorName,
-            directorName,
-            startBookingDate,
-            endBookingDate
-        })
-        }
+        movie = await Movie.findById(req.params.id)
         else throw `Invalid Object Id`
-        
         if(movie != null)
         {
-            movie = await movie.save()
-            return res.status(200).json({message:"Successfully updated",movie})
+        let options = {abortEarly : false}
+        const updateResult = await movieValidationSchema.validateAsync(req.body,options)
+        
+        movie = await Movie.findByIdAndUpdate(req.params.id,updateResult)
+        await movie.save()
+         res.status(200).json({message:"Successfully updated"})
         }
     }
     catch(err) {
         return res.status(404).json({errorMessage : err})
     }
-    return res.status(404).json({message:"Unable to update this id"}) 
+    return res.status(404).json({error : "Unable to update this movie"})
 }
 /**To delete a movie from dashboard */
 const deleteMovie = async(req,res,next) => {
-    console.log("Requested movie id to be deleted : ",req.params.id)
     let movie
-    try{
-        if(req.params.id.length == 24)
-        movie = await Movie.findByIdAndDelete(req.params.id)
-        else throw `Invalid Object Id`
-        if(movie != null)
-        return res.status(200).json({message : 'Successfully deleted',movie})
-    }
-    catch(err){
-        return res.status(404).json({errorMessage : err})
-    }
-    return res.status(404).json({message:"No movie can be deleted by this id"}) 
+        try{
+            if(req.params.id.length == 24)
+            movie = await Movie.findByIdAndDelete(req.params.id)
+            else throw `Invalid Object Id`
+            if(movie != null)
+            return res.status(200).json({message : "Succesfully deleted"})
+        }
+        catch(err) {
+            return res.status(404).json({errorMessage : err})
+        } 
+    return res.status(404).json({error : "Unable to delete this id"}) 
 }
 module.exports = {
     viewMovies,

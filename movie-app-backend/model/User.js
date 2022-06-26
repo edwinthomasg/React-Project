@@ -14,10 +14,6 @@ const UserSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    userConfirmPassword : {
-        type : String,
-        required : true
-    },
     userContact : {
         type : String,
         required : true

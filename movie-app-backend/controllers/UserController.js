@@ -1,15 +1,23 @@
 const Joi = require('joi')
 const User = require('../model/User')
-const { registerValidationSchema, loginValidationSchema } = require('../ValidationSchema')
+const { userValidationSchema, loginValidationSchema } = require('../ValidationSchema')
+
+/**To register an user */
 const registerUser = async(req,res) => {
     let user
     try{
         let options = {abortEarly : false}
-        const registerResult = await registerValidationSchema.validateAsync(req.body,options)
+        const registerResult = await userValidationSchema.validateAsync(req.body,options)
+        const { userName, userEmail, userPassword, userContact } = registerResult
         user = await User.findOne({userEmail : registerResult.userEmail})
         if(user) 
-           throw "This mail id has already been registered"
-        user = new User(registerResult)
+           throw "This mail id has already been registered"   
+        user = new User({
+            userName,
+            userEmail,
+            userPassword,
+            userContact
+        })
         await user.save()
         return res.status(201).json({message : "Succesfully signed up",user})
     }
@@ -28,6 +36,7 @@ const registerUser = async(req,res) => {
         return res.status(400).json({errorMessage : err})
     } 
 }
+/**To login as a user */
 const loginUser = async(req,res,next) => {
     let user
     try{
@@ -44,50 +53,62 @@ const loginUser = async(req,res,next) => {
         return res.status(404).json({errorMessage : err})
     }
 }
+/**To view my profile */
 const viewProfile = async(req,res,next) => {
     let user
-    console.log("Requested Profile Id : ",req.params.id)
-    try{
-        user = await User.findById(req.params.id)
-        return res.status(200).json({user})
-    }
-    catch(err) {
-        return res.status(404).json({errorMessage : err.message})
-    }
-    console.log("user : ",user)
-    return res.status(404).json({message : "No users found"})
+        try{
+            if(req.params.id.length == 24)
+            user = await User.findById(req.params.id)
+            else throw `Invalid Object Id`
+            if(user != null)
+            return res.status(200).json({user})
+        }
+        catch(err) {
+            return res.status(404).json({errorMessage : err})
+        } 
+    return res.status(404).json({message : "No user found with the id mentioned"}) 
 }
+/**To update my existing profile details */
 const updateProfile = async(req,res) => {
-    console.log("Requested id to update : ",req.params.id)
-    const{ userName, userEmail, userPassword, userConfirmPassword, userContact } = req.body
     let user
     try{
+        if(req.params.id.length == 24)
+        user = await User.findById(req.params.id)
+        else throw `Invalid Object Id`
+        if(user != null)
+        {
+        let options = {abortEarly : false}
+        const updateResult = await userValidationSchema.validateAsync(req.body,options)
+        const { userName, userEmail, userPassword, userContact } = updateResult
         user = await User.findByIdAndUpdate(req.params.id,{
             userName,
             userEmail,
             userPassword,
-            userConfirmPassword,
             userContact
         })
-        user = await user.save()
-        return res.status(200).json({message:"Successfully updated",user})
+        await user.save()
+         res.status(200).json({message:"Successfully updated"})
+        }
     }
     catch(err) {
-        return res.status(404).json({errorMessage : err.message})
+        return res.status(404).json({errorMessage : err})
     }
-    return res.status(404).json({message:"Unable to update this id"}) 
+    return res.status(404).json({error : "Unable to update this profile"})
 }
+/**To deactivate my profile */
 const deleteProfile = async(req,res) => {
-    console.log("Requested user id delete")
     let user
-    try{
-        user = await User.findByIdAndDelete(req.params.id)
-        return res.status(200).json({message:"Successfully deleted",user})
-    }
-    catch(err){
-        return res.status(404).json({errorMessage : err.message})
-    }
-    return res.status(404).json({message:"Unable to delete this id"}) 
+        try{
+            if(req.params.id.length == 24)
+            user = await User.findByIdAndDelete(req.params.id)
+            else throw `Invalid Object Id`
+            if(user != null)
+            return res.status(200).json({message : "Succesfully deleted"})
+        }
+        catch(err) {
+            return res.status(404).json({errorMessage : err})
+        } 
+    return res.status(404).json({error : "Unable to delete this id"}) 
 }
 module.exports = {
     registerUser,

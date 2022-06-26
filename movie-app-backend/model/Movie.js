@@ -23,6 +23,7 @@ const movieSchema = new Schema({
     },
     description : {
         type : String,
+        min : 10,
         required : true
     },
     actorName : {
