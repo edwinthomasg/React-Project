@@ -21,10 +21,10 @@ const validateName = (name,key) => {
         return name.match(/^[a-zA-Z ]+$/) ? true : `User name should contain only alphabets`
     }
 }
-validateEmail = (email) => {
+const validateEmail = (email) => {
     return email.match(/^([a-z]+[\.-\d]*)@$/) ? (email.match(/^([a-z-]+)\.([a-z\-]{2,8})(\.[a-z]{2,8})?$/)?true : `Username followed by domain name in lowercased alphabets with extension`) : `Username should starts with lowercase alphabets followed by digits if any`
 }
-validateConfirmPassword = (password,confirmPassword) => {
+const validateConfirmPassword = (password,confirmPassword) => {
     return (password == confirmPassword) ? true : `Both password and confirm password must match`
 }
 module.exports = {
@@ -33,3 +33,4 @@ module.exports = {
     validateEmail,
     validateConfirmPassword
 }
+
