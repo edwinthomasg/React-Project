@@ -24,6 +24,20 @@ const registerValidationSchema = Joi.object({
                      .required()        
 })
 
+const loginValidationSchema = Joi.object({
+    userEmail : Joi.string()
+                   .email()
+                   .lowercase()
+                   .pattern(new RegExp('^([a-z]+[\.-\d]*)@([a-z-]+)\.([a-z\-]{2,8})(\.[a-z]{2,8})?$'))
+                   .required(),
+
+    userPassword : Joi.string()
+                      .min(8)
+                      .pattern(new RegExp('^[a-zA-Z0-9]{8,20}$'))
+                      .required()     
+})
+
 module.exports = {
-    registerValidationSchema
+    registerValidationSchema,
+    loginValidationSchema
 }

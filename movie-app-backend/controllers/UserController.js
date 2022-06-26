@@ -1,13 +1,14 @@
 const Joi = require('joi')
 const User = require('../model/User')
-const { registerValidationSchema } = require('../ValidationSchema')
+const { registerValidationSchema, loginValidationSchema } = require('../ValidationSchema')
 const registerUser = async(req,res) => {
     let user
-    console.log("req body : ",req.body)
     try{
         let options = {abortEarly : false}
         const registerResult = await registerValidationSchema.validateAsync(req.body,options)
-        console.log("result : ",registerResult)
+        user = await User.findOne({userEmail : registerResult.userEmail})
+        if(user) 
+           throw "This mail id has already been registered"
         user = new User(registerResult)
         await user.save()
         return res.status(201).json({message : "Succesfully signed up",user})
@@ -20,23 +21,27 @@ const registerUser = async(req,res) => {
             let error = {
                 [detail.path] : detail.message
             }
-            console.log(error)
             errors.push(error)
         })
-        if(err) return res.status(400).json(errors)
+        return res.status(400).json(errors)
         }
         return res.status(400).json({errorMessage : err})
     } 
 }
 const loginUser = async(req,res,next) => {
     let user
-    console.log("Req body : ",req.body)
-    const{ userEmail, userPassword } = req.body
     try{
-
+        let options = {abortEarly : false}
+        const loginResult = await loginValidationSchema.validateAsync(req.body,options)
+        user = await User.findOne({userEmail : loginResult.userEmail})
+        if(user == null) 
+           throw "No account exists with this email id"
+        if(! (user.userPassword === loginResult.userPassword))
+            throw "Password doesn't match"
+        return res.status(201).json({message : "Succesfully logged in",user})
     }
     catch(err){
-        return res.status(404).json({errorMessage : err.message})
+        return res.status(404).json({errorMessage : err})
     }
 }
 const viewProfile = async(req,res,next) => {
