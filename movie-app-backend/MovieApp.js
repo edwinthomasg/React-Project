@@ -18,6 +18,8 @@ mongoose.connect(process.env.DATABASE_CONNECT_STRING)
     app.listen(3040)})
 .catch(err => console.log("Error in connecting to database, error : " ,err.message))
 
+console.log("hello world")
+
 
 /** 
  * connect string : 
