@@ -1,4 +1,6 @@
 const Joi = require('joi')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 const User = require('../model/User')
 const { userValidationSchema, loginValidationSchema } = require('../ValidationSchema')
 
@@ -11,11 +13,12 @@ const registerUser = async(req,res) => {
         const { userName, userEmail, userPassword, userContact } = registerResult
         user = await User.findOne({userEmail : registerResult.userEmail})
         if(user) 
-           throw "This mail id has already been registered"   
+           throw "This mail id has already been registered"
+        const hashedPassword = await bcrypt.hash(userPassword,15)   
         user = new User({
             userName,
             userEmail,
-            userPassword,
+            userPassword : hashedPassword,
             userContact
         })
         await user.save()
@@ -45,7 +48,7 @@ const loginUser = async(req,res,next) => {
         user = await User.findOne({userEmail : loginResult.userEmail})
         if(user == null) 
            throw "No account exists with this email id"
-        if(! (user.userPassword === loginResult.userPassword))
+        if(! (bcrypt.compareSync(loginResult.userPassword,user.userPassword)))
             throw "Password doesn't match"
         return res.status(201).json({message : "Succesfully logged in",user})
     }
@@ -80,10 +83,11 @@ const updateProfile = async(req,res) => {
         let options = {abortEarly : false}
         const updateResult = await userValidationSchema.validateAsync(req.body,options)
         const { userName, userEmail, userPassword, userContact } = updateResult
+        const hashedPassword = await bcrypt.hash(userPassword,15) 
         user = await User.findByIdAndUpdate(req.params.id,{
             userName,
             userEmail,
-            userPassword,
+            userPassword : hashedPassword,
             userContact
         })
         await user.save()

@@ -1,5 +1,4 @@
 const Movie = require('../model/Movie')
-const { validateUrl, validateName } = require('../Validation')
 const { movieValidationSchema } = require('../ValidationSchema')
 /**To view all the movies running on screen */
 const viewMovies = async(req,res,next) => {
@@ -69,7 +68,6 @@ const updateMovie = async(req,res,next) => {
         {
         let options = {abortEarly : false}
         const updateResult = await movieValidationSchema.validateAsync(req.body,options)
-        
         movie = await Movie.findByIdAndUpdate(req.params.id,updateResult)
         await movie.save()
          res.status(200).json({message:"Successfully updated"})

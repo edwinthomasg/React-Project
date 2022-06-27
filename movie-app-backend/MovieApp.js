@@ -1,12 +1,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
+require('dotenv').config()
 const movieRouter = require('./routes/MovieRoutes')
 const userRouter = require('./routes/UserRoutes')
+
 const app = express()
 app.use(express.json())
 app.use('/movies',movieRouter)
 app.use('/users',userRouter)
-mongoose.connect('mongodb+srv://admin:i1xJJiwKCSyljIfi@cluster0.vdogt.mongodb.net/movieTicket?retryWrites=true&w=majority')
+
+mongoose.connect(process.env.DATABASE_CONNECT_STRING)
 .then(() => {
     console.log("Db got connected")
 })
