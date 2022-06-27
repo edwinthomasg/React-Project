@@ -1,13 +1,13 @@
-const { array } = require('joi')
 const mongoose = require('mongoose')
-
+const Movie = require('./Movie')
 const showSchema = mongoose.Schema({
     showDate : {
         type : Date,
         required : true
     },
-    movieName : {
-        type : String,
+    movieId : {
+        type : mongoose.Types.ObjectId,
+        ref : 'Movie',
         required : true
     },
     seats : {
@@ -15,3 +15,5 @@ const showSchema = mongoose.Schema({
         require : true
     }
 })
+
+module.exports = mongoose.model('Show',showSchema)

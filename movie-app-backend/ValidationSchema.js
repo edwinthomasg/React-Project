@@ -74,6 +74,17 @@ const movieValidationSchema = Joi.object({
                           .greater(new Date(Date.now()))
                           .required()      
 })
+
+const showValidationSchema = Joi.object({
+    showDate : Joi.date()
+                  .greater(new Date(Date.now()))
+                  .required(),
+    movieName : Joi.string()
+                   .pattern(new RegExp('^[a-zA-Z0-9 ]+$'))
+                   .required(),
+    seats : Joi.array()
+               .required()
+})
 module.exports = {
     userValidationSchema,
     loginValidationSchema,

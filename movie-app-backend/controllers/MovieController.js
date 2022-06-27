@@ -1,5 +1,7 @@
 const Movie = require('../model/Movie')
+const Show = require('../model/Show')
 const { movieValidationSchema } = require('../ValidationSchema')
+const {addMovieShow} = require('./ShowController')
 /**To view all the movies running on screen */
 const viewMovies = async(req,res,next) => {
     let movies
@@ -40,6 +42,7 @@ const addMovie = async(req,res,next) => {
            throw "The movie has already been added"
         movie = new Movie(movieResult)
         await movie.save()
+        addMovieShow(movie)
         return res.status(201).json({message : "Succesfully movie has been added",movie})
     }
     catch(err) {
@@ -100,3 +103,4 @@ module.exports = {
     updateMovie,
     deleteMovie
 }
+
