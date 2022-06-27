@@ -17,7 +17,6 @@ mongoose.connect(process.env.DATABASE_CONNECT_STRING)
     console.log("Server is running on port : 3040")
     app.listen(3040)})
 .catch(err => console.log("Error in connecting to database, error : " ,err.message))
-console.log("edwin")
 
 /** 
  * connect string : 
