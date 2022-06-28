@@ -3,9 +3,9 @@ const Show = require('../model/Show')
 const Book = require('../model/Book')
 
 /**To view my bookings */
-const getMyBookings = async(req,res) => {
+const saveBookings = async(req,res) => {
     let booking
-    const { userId, bookDate, movieId, bookSeat } = req.params
+    const { userId, bookDate, movieId, bookSeat } = req.body
     console.log(req.params)
     try{
         booking = await Book({
@@ -16,7 +16,7 @@ const getMyBookings = async(req,res) => {
         })
         await booking.save()
         if(booking)
-        return res.status(201).json({message : "Succesfully booking has been confirmed",booking})
+        return res.status(201).json({ message : "Succesfully booking has been confirmed",booking })
     }
     catch(err){
         return res.status(400).json({errorMessage : err})
@@ -31,13 +31,13 @@ const viewBookings = async(req,res) => {
             return res.status(200).json({bookings})
         }
         catch(err) {
-            return res.status(404).json({errorMessage : err.message})
+            return res.status(404).json({ errorMessage : err.message })
         }
-        return res.status(404).json({error : "No bookings have been recorded"})
+        return res.status(404).json({ error : "No bookings have been recorded" })
 }
 
 module.exports = {
-    getMyBookings,
+    saveBookings,
     viewBookings
 }
     

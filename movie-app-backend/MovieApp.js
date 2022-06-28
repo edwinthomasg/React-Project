@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cookieParser = require('cookie-parser')
 require('dotenv').config()
 const movieRouter = require('./routes/MovieRoutes')
 const userRouter = require('./routes/UserRoutes')
@@ -8,16 +9,18 @@ const bookRouter = require('./routes/BookingRoutes')
 
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 app.use('/movies',movieRouter)
 app.use('/users',userRouter)
 app.use('/shows',showRouter)
-app.use('/book',bookRouter)
+app.use('/bookings',bookRouter)
+
 mongoose.connect(process.env.DATABASE_CONNECT_STRING)
 .then(() => {
     console.log("Db got connected")
 })
 .then(() => {
-    console.log("Server is running on port : 3040")
+    console.log(`Server is running on port : ${process.env.PORT_NUMBER}`)
     app.listen(3040)})
 .catch(err => console.log("Error in connecting to database, error : " ,err.message))
 
