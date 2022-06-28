@@ -1,5 +1,6 @@
 const express = require('express')
 const {viewMovies, viewMovie, addMovie, updateMovie, deleteMovie} = require('../controllers/MovieController')
+const isAuthenticatedUser = require('../auth')
 const movieRouter = express.Router()
 
 movieRouter.get('/',viewMovies) /**To view all the movies */

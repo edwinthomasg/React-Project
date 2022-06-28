@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('../model/User')
 const { userValidationSchema, loginValidationSchema } = require('../ValidationSchema')
-
+const sendToken = require('../utils/jwtToken')
 /**To register an user */
 const registerUser = async(req,res) => {
     let user
@@ -22,6 +22,9 @@ const registerUser = async(req,res) => {
             userContact
         })
         await user.save()
+        console.log(user)
+        sendToken(user,201,res)
+        console.log("hello")
         return res.status(201).json({message : "Succesfully signed up",user})
     }
     catch(err) {
@@ -50,7 +53,8 @@ const loginUser = async(req,res,next) => {
            throw "No account exists with this email id"
         if(! (bcrypt.compareSync(loginResult.userPassword,user.userPassword)))
             throw "Password doesn't match"
-        return res.status(201).json({message : "Succesfully logged in",user})
+        sendToken(user,200,res);    
+        return res.status(200).json({message : "Succesfully logged in",user})
     }
     catch(err){
         return res.status(404).json({errorMessage : err})

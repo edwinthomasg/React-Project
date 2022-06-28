@@ -2,10 +2,11 @@ const Movie = require('../model/Movie')
 const Show = require('../model/Show')
 const Book = require('../model/Book')
 
-
-const getBookedDetails = async(req,res) => {
+/**To view my bookings */
+const getMyBookings = async(req,res) => {
     let booking
-    const { userId, bookDate, movieId, bookSeat } = req.body
+    const { userId, bookDate, movieId, bookSeat } = req.params
+    console.log(req.params)
     try{
         booking = await Book({
             userId,
@@ -21,6 +22,7 @@ const getBookedDetails = async(req,res) => {
         return res.status(400).json({errorMessage : err})
     }
 }
+/**To view all the bookings for a movie in admin side */
 const viewBookings = async(req,res) => {
         let bookings
         try{
@@ -35,7 +37,7 @@ const viewBookings = async(req,res) => {
 }
 
 module.exports = {
-    getBookedDetails,
+    getMyBookings,
     viewBookings
 }
     
