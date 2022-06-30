@@ -49,6 +49,7 @@ const registerUser = async(req, res) => {
 /**To login as a user */
 const loginUser = async(req, res) => {
     let user
+    console.log(req.body)
     try{
         let options = { abortEarly : false }
         const loginResult = await loginValidationSchema.validateAsync(req.body,options)
