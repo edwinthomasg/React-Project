@@ -15,9 +15,11 @@ const registerUser = async(req, res) => {
         const { userName, userEmail, userPassword, userContact } = registerResult
         console.log(registerResult)
         user = await User.findOne({ userEmail : registerResult.userEmail })
-        console.log(user)
+        console.log("user : ",user)
         if(user) 
-           throw "This mail id has already been registered"
+           {
+            console.log("error occured")
+            throw "This mail id has already been registered"}
         const hashedPassword = await bcrypt.hash(userPassword, 10)  
         console.log(hashedPassword) 
         user = new User({
@@ -49,10 +51,14 @@ const registerUser = async(req, res) => {
 /**To login as a user */
 const loginUser = async(req, res) => {
     let user
+    const { userEmail, userPassword } = req.body
     console.log(req.body)
     try{
         let options = { abortEarly : false }
-        const loginResult = await loginValidationSchema.validateAsync(req.body,options)
+        const loginResult = await loginValidationSchema.validateAsync({
+            userEmail,
+            userPassword
+        },options)
         user = await User.findOne({ userEmail : loginResult.userEmail })
         if(user == null) 
            throw "No account exists with this email id"

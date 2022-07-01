@@ -3,7 +3,7 @@ const { registerUser, loginUser, viewProfile, updateProfile, deleteProfile } = r
 const isAuthenticatedUser = require('../middlewares/auth')
 
 const userRouter = express.Router()
-userRouter.post('/', registerUser) /**To register user*/
+userRouter.post('/signup', registerUser) /**To register user*/
 userRouter.post('/login', loginUser) /**To login with email and password */
 userRouter.get('/my-profile/:userId', isAuthenticatedUser, viewProfile) /**To view user profile */
 userRouter.put('/:userId', isAuthenticatedUser, updateProfile) /**To update details in existing profile */

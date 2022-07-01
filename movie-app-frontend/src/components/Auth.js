@@ -4,8 +4,11 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useStyles } from '../styles/styles'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { authActions } from '../store/slice'
 const Login = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [isSignUp, setIsSignUp] = useState(false)
     const [ userCredentials, setUserCredentials] = useState({
       userName : '',
@@ -17,16 +20,18 @@ const Login = () => {
     const { userName, userEmail, userPassword, userConfirmPassword, userContact } = userCredentials
     const classes = useStyles()
     
-    const sendRequest = async() => {
-      const res = axios.post("http://localhost:users/",{
+    const sendRequest = async(type="login") => {
+      console.log(`http://localhost:3040/users/${type}`)
+      const res = await axios.post(`http://localhost:3040/users/${type}`,{
         userName,
         userEmail,
         userPassword,
         userConfirmPassword,
         userContact
-      }).catch( err => console.log(err) )
+      }).catch( err => console.log(err.message) )
 
       const data = await res.data
+      console.log(data)
       return data
     }
     const changeCredentialHandler = (event) => {
@@ -40,10 +45,16 @@ const Login = () => {
       console.log("user credentials : ",userCredentials)
       if(isSignUp)
       {
-        setIsSignUp(false)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+        setIsSignUp(false)
+        sendRequest("signup")
+        .then(() => dispatch(authActions.login()))
+        .then( data => console.log(data) )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         navigate('/auth')
       }
       else{
+        sendRequest()
+        .then(() => dispatch(authActions.login()))
+        .then( data => console.log(data) )
         navigate('/home')
       }
     }
