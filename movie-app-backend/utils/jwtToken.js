@@ -1,4 +1,4 @@
-const sendToken = (user, statusCode, res, message) => {
+const sendUserToken = (user, statusCode, res, message) => {
     const token = user.generateJsonWebToken();
     const options = {
       expires: new Date(
@@ -7,11 +7,29 @@ const sendToken = (user, statusCode, res, message) => {
       httpOnly: true
     };
   
-    return res.status(statusCode).cookie("token", token, options).json({
+    return res.status(statusCode).cookie("userToken", token, options).json({
       success: message,
       user,
       token,
     });
   };
+const sendAdminToken = (admin, statusCode, res, message) => {
+    const token = admin.generateJsonWebToken();
+    const options = {
+      expires: new Date(
+        Date.now() + 5 * 60 * 1000 
+      ),
+      httpOnly: true
+    };
   
-  module.exports = sendToken;
+    return res.status(statusCode).cookie("adminToken", token, options).json({
+      success: message,
+      admin,
+      token,
+    });
+  };
+  
+  module.exports = {
+    sendUserToken,
+    sendAdminToken
+  };

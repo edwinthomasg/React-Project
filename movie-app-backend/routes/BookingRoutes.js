@@ -1,8 +1,10 @@
 const express = require('express')
-const { viewBookings, saveBookings } = require('../controllers/BookController')
+const { viewBookings, saveBookings, viewMyBookings } = require('../controllers/BookController')
+const { isAuthenticatedUser, isAuthenticatedAdmin } = require('../middlewares/auth')
 const bookRouter = express.Router()
 
-bookRouter.post('/', saveBookings) /**To view my bookings in user side */
-bookRouter.get('/bookings', viewBookings) /**To view all the bookings for a movie in admin side */
+bookRouter.get('/', isAuthenticatedAdmin, viewBookings) /**To view all the bookings for a movie in admin side */
+bookRouter.get('/:userId', isAuthenticatedUser, viewMyBookings) /**To view my bookings in user side */
+
 module.exports = bookRouter
 

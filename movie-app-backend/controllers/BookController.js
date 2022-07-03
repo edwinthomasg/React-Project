@@ -1,43 +1,50 @@
 const Movie = require('../model/Movie')
 const Show = require('../model/Show')
 const Book = require('../model/Book')
+const User = require('../model/User')
 
+/**To save my bookings */
+const saveBookings = async(book) => {
+    let bookings
+    bookings = await new Book(book)
+    await bookings.save()
+}
 /**To view my bookings */
-const saveBookings = async(req,res) => {
-    let booking
-    const { userId, bookDate, movieId, bookSeat } = req.body
-    console.log(req.params)
+const viewMyBookings = async(req,res) => {
+    let bookings,user
+    let userId = req.params.userId
     try{
-        booking = await Book({
-            userId,
-            bookDate,
-            movieId,
-            bookSeat
-        })
-        await booking.save()
-        if(booking)
-        return res.status(201).json({ message : "Succesfully booking has been confirmed",booking })
+        if(userId.length !== 24)
+        throw "Invalid Object Id"
+        user = await User.findById(userId)
+        if(user === null)
+        throw "No user found with the id mentioned"
+        bookings = await Book.find({ userId })
+        if(bookings.length <= 0)
+        throw "No bookings have been recorded"
+        return res.status(200).json({bookings})
     }
-    catch(err){
-        return res.status(400).json({errorMessage : err})
+    catch(err) {
+        return res.status(404).json({ errorMessage : err })
     }
 }
 /**To view all the bookings for a movie in admin side */
 const viewBookings = async(req,res) => {
-        let bookings
-        try{
-            bookings = await Book.find()
-            if(bookings.length > 0)
-            return res.status(200).json({bookings})
-        }
-        catch(err) {
-            return res.status(404).json({ errorMessage : err.message })
-        }
-        return res.status(404).json({ error : "No bookings have been recorded" })
+    let bookings
+    try{
+        bookings = await Book.find()
+        if(bookings.length <= 0)
+        throw "No bookings have been recorded"
+        return res.status(200).json({bookings})
+    }
+    catch(err) {
+        return res.status(404).json({ errorMessage : err.message })
+    }
 }
 
 module.exports = {
     saveBookings,
-    viewBookings
+    viewBookings,
+    viewMyBookings
 }
     

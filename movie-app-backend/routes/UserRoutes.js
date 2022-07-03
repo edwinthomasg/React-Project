@@ -1,6 +1,6 @@
 const express = require('express')
 const { registerUser, loginUser, viewProfile, updateProfile, deleteProfile } = require('../controllers/UserController')
-const isAuthenticatedUser = require('../middlewares/auth')
+const { isAuthenticatedUser } = require('../middlewares/auth')
 
 const userRouter = express.Router()
 userRouter.post('/signup', registerUser) /**To register user*/

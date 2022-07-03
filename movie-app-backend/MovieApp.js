@@ -7,6 +7,7 @@ const movieRouter = require('./routes/MovieRoutes')
 const userRouter = require('./routes/UserRoutes')
 const showRouter = require('./routes/ShowRoutes')
 const bookRouter = require('./routes/BookingRoutes')
+const adminRouter = require('./routes/AdminRouter')
 
 const app = express()
 app.use(express.json())
@@ -16,6 +17,7 @@ app.use('/movies',movieRouter)
 app.use('/users',userRouter)
 app.use('/shows',showRouter)
 app.use('/bookings',bookRouter)
+app.use('/admin',adminRouter)
 
 mongoose.connect(process.env.DATABASE_CONNECT_STRING)
 .then(() => {

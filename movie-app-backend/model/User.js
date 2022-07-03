@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
+const Book = require('./Book')
 require('dotenv').config()
 const UserSchema = new mongoose.Schema({
     userName : {
@@ -18,6 +19,11 @@ const UserSchema = new mongoose.Schema({
     userContact : {
         type : String,
         required : true
+    },
+    myBookings : {
+        type : [mongoose.Types.ObjectId],
+        ref : 'Book',
+        required : false
     }
 })
 
@@ -26,7 +32,5 @@ UserSchema.methods.generateJsonWebToken = function(){
         expiresIn:'5m',
     });
 }
-
-
 
 module.exports = mongoose.model('User',UserSchema)
