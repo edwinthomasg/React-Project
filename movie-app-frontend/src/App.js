@@ -3,12 +3,13 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Header from './components/Header';
 import Router from './components/Router';
-import { retrieveToken } from './components/redux/authActions';
+import { retrieveAdminToken, retrieveUserToken } from './components/redux/authActions';
 
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(retrieveToken())
+    dispatch(retrieveUserToken())
+    dispatch(retrieveAdminToken())
   },[dispatch])
 
   return (

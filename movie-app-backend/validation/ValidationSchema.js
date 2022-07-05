@@ -66,7 +66,7 @@ const movieValidationSchema = Joi.object({
                     .max(500)
                     .required(),
     description : Joi.string()
-                     .pattern(new RegExp('^[a-zA-Z\.0-9 ]+$'))
+                     .pattern(new RegExp('^[a-zA-Z\.0-9\, ]+$'))
                      .min(10)
                      .required() ,
     actorName : Joi.string()

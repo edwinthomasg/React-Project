@@ -7,20 +7,18 @@ const initialState = {
     adminLogin : false
 }
 const tokenState = {
-    token : localStorage.getItem("usersToken"),
+    userToken : localStorage.getItem("usersToken"),
     userName : '',
-    userEmail : '',
-    userPassword : '',
-    userConfirmPassword : '',
-    userContact : '',
-    _id : ''
+    _userId : '',
+    adminToken : localStorage.getItem("adminsToken"),
+    _adminId : ''
 }
-const userInitialState = {
-    userName : '',
-    userEmail : '',
-    userPassword : '',
-    userConfirmPassword : ''
-}
+// const userInitialState = {
+//     userName : '',
+//     userEmail : '',
+//     userPassword : '',
+//     userConfirmPassword : ''
+// }
 const authReducer = (state = initialState, action) => {
     switch(action.type){
         case 'SET_SIGNUP' : return {
@@ -48,22 +46,37 @@ const authReducer = (state = initialState, action) => {
 }
 const tokenReducer = (state = tokenState, action) => {
     switch(action.type){
-        case 'SET_TOKEN' : 
-        case 'SET_RETRIEVE_TOKEN' :
+        case 'SET_USER_TOKEN' : 
+        case 'SET_USER_RETRIEVE_TOKEN' :
         const user = jwtdecode(action.token)
         console.log("after refresh : ",user)
         return {
             ...tokenState,
-            token : action.token,
+            userToken : action.token,
             userName : user.userName,
-            userEmail : user.userEmail,
-            userPassword : user.userPassword,
-            userConfirmPassword : user.userConfirmPassword,
-            userContact : user.userContact,
-            _id : user.id
+            _userId : user.id
         }
-        case 'DELETE_USER_ID' : return {
-            state
+        case 'DELETE_USER_TOKEN' : localStorage.removeItem("usersToken")
+        return {
+            ...tokenState,
+            userToken : '',
+            userName : '',
+            _userId : ''
+        }
+        case 'SET_ADMIN_TOKEN' :
+        case 'SET_ADMIN_RETRIEVE_TOKEN' : 
+        const admin = jwtdecode(action.token)
+        console.log("after refresh : ",admin)
+        return {
+            ...tokenState,
+            adminToken : action.token,
+            _adminId : admin.id
+        }
+        case 'DELETE_ADMIN_TOKEN' : localStorage.removeItem("adminsToken")
+        return {
+            ...tokenState,
+            adminToken : '',
+            _adminId : ''
         }
         default : return state
     }

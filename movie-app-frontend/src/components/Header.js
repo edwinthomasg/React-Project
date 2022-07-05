@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import AdminHeader from "./AdminHeader";
-import UserHeader from "./UserHeader";
+import AdminHeader from "./admin/AdminHeader";
+import UserHeader from "./user/UserHeader";
 
 const Header = () => {
   const location = useLocation()

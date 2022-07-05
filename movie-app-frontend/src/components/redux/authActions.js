@@ -1,4 +1,4 @@
-import { SET_SIGNUP, SET_SIGNOUT, TOGGLE_SIGNUP, SET_ADMIN_LOGIN, SET_ADMIN_LOGOUT, SET_TOKEN, SET_RETRIEVE_TOKEN, DELETE_USER_ID } from "./authTypes"
+import { SET_SIGNUP, SET_SIGNOUT, TOGGLE_SIGNUP, SET_ADMIN_LOGIN, SET_ADMIN_LOGOUT, SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_ADMIN_TOKEN, SET_ADMIN_RETRIEVE_TOKEN, DELETE_ADMIN_TOKEN } from "./authTypes"
 import axios from 'axios'
 
 const setSignUp = () => {
@@ -26,41 +26,76 @@ const setAdminLogout = () => {
         type : SET_ADMIN_LOGOUT
     }
 } 
-const setToken = (token) => {
+const setUserToken = (token) => {
     return {
-        type : SET_TOKEN,
+        type : SET_USER_TOKEN,
         token
     }
 }
-const setRetrieveToken = (token) => {
+const setUserRetrieveToken = (token) => {
     return {
-        type : SET_RETRIEVE_TOKEN,
+        type : SET_USER_RETRIEVE_TOKEN,
         token
     }
 }
-const deleteUserId = () => {
+const deleteUserToken = () => {
     return {
-        type : DELETE_USER_ID
+        type : DELETE_USER_TOKEN
+    }
+}
+const setAdminToken = (token) => {
+    return {
+        type : SET_ADMIN_TOKEN,
+        token
+    }
+}
+const deleteAdminToken = () => {
+    return {
+        type : DELETE_ADMIN_TOKEN
+    }
+}
+const setAdminRetrieveToken = (token) => {
+    return {
+        type : SET_ADMIN_RETRIEVE_TOKEN,
+        token
     }
 }
 const storeUserToken = (user, type = 'login') => {
-    return(dispatch,getState) => {
+    return(dispatch) => {
         axios.post(`http://localhost:3040/users/${type}`,user)
         .then( token => {
             if(type === 'login')
             {
             localStorage.setItem("usersToken", token.data.accessToken)
-            dispatch(setToken(token.data.accessToken))
+            dispatch(setUserToken(token.data.accessToken))
             }
         })
         .catch( err => console.log(err.response.data,err.response.status))
     }
 }
-const retrieveToken = () => {
+const storeAdminToken = (admin) => {
+    return(dispatch) => {
+        axios.post(`http://localhost:3040/admin/login`,admin)
+        .then( token => {
+            localStorage.setItem("adminsToken", token.data.accessToken)
+            dispatch(setAdminToken(token.data.accessToken))
+        })
+        .catch( err => console.log(err.response.data,err.response.status))
+    }
+}
+const retrieveUserToken = () => {
     return(dispatch, getState) => {
-        const token = getState().tokener.token
+        const token = getState().tokener.userToken
         if(token){
-            dispatch(setRetrieveToken(token))
+            dispatch(setUserRetrieveToken(token))
+        } 
+    }
+}
+const retrieveAdminToken = () => {
+    return(dispatch, getState) => {
+        const token = getState().tokener.adminToken
+        if(token){
+            dispatch(setAdminRetrieveToken(token))
         } 
     }
 }
@@ -71,6 +106,9 @@ export {
     setAdminLogin,
     setAdminLogout,
     storeUserToken,
-    retrieveToken,
-    deleteUserId
+    retrieveUserToken,
+    deleteUserToken,
+    storeAdminToken,
+    retrieveAdminToken,
+    deleteAdminToken
 }
