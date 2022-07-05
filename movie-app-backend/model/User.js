@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.methods.generateJsonWebToken = function(){
-    return jwt.sign({id:this._id},process.env.SECRET_KEY,{
+    return jwt.sign({id:this._id,userName:this.userName},process.env.SECRET_KEY,{
         expiresIn:'5m',
     });
 }

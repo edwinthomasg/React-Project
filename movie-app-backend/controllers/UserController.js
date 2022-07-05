@@ -23,8 +23,7 @@ const registerUser = async(req, res) => {
             userContact
         })
         await user.save()
-        const message = "Succesfully signed up"
-        sendUserToken(user, 201, res, message)
+        return res.status(201).json({message : "Succesfully you have been registered",user})
     }
     catch(err) {
         if(err.isJoi === true)

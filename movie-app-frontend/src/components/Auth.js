@@ -3,15 +3,14 @@ import { Box } from '@mui/system'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useStyles } from '../styles/styles'
-import axios from 'axios'
 import { useSelector ,useDispatch } from 'react-redux'
-import { setLogin, setSignOut, toggleSignup } from './redux/authActions'
+import { setSignOut, toggleSignup, storeUserToken } from './redux/authActions'
 
 
 const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const signup = useSelector( state => state.signup )
+    const signup = useSelector( state => state.auth.signup )
     const [ userCredentials, setUserCredentials] = useState({
       userName : '',
       userEmail : '',
@@ -19,22 +18,7 @@ const Login = () => {
       userConfirmPassword : '',
       userContact : ''
     })
-    const { userName, userEmail, userPassword, userConfirmPassword, userContact } = userCredentials
     const classes = useStyles()
-    const sendRequest = async(type="login") => {
-      console.log(`http://localhost:3040/users/${type}`)
-      const res = await axios.post(`http://localhost:3040/users/${type}`,{
-        userName,
-        userEmail,
-        userPassword,
-        userConfirmPassword,
-        userContact
-      }).catch( err => console.log(err.message) )
-
-      const data = await res.data
-      console.log(data)
-      return data
-    }
     const changeCredentialHandler = (event) => {
       setUserCredentials((prevState) => ({
         ...prevState,
@@ -49,15 +33,12 @@ const Login = () => {
       console.log("user credentials : ",userCredentials)
       if(signup)
       {
-        sendRequest("signup")
-        .then(() => dispatch(setSignOut()))
-        .then( data => console.log(data) )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+        dispatch(storeUserToken(userCredentials, 'signup'))  
+        dispatch(setSignOut())                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
         navigate('/auth')
       }
       else{
-        sendRequest()
-        .then(() => dispatch(setLogin()))
-        .then( data => console.log(data) )
+        dispatch(storeUserToken(userCredentials))
         navigate('/home')
       }
     }

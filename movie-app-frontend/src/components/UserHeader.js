@@ -3,15 +3,19 @@ import { AppBar, Button, Box, Toolbar, Typography, Tabs, Tab, } from '@mui/mater
 import { Link, useLocation } from 'react-router-dom'
 import { appBar, headerMenu, } from '../styles/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLogout, setSignOut, setSignUp } from './redux/authActions'
+import { deleteUserId, setSignOut, setSignUp } from './redux/authActions'
 
 const UserHeader = () => {
     const location = useLocation()
-    const login = useSelector(state => state.login)
+    const user = useSelector( state => { console.log(state)
+        return state.tokener})
+    console.log("user id : ",user._id)
+    console.log(user.userName)
     const dispatch = useDispatch()
     const [selectTab, setSelectTab] = useState(0)
     const logoutHandler = () => {
-        dispatch(setLogout())
+        dispatch(deleteUserId())
+        localStorage.removeItem("usersToken")
     }
     const signupHandler = () => {
         dispatch(setSignUp())
@@ -47,13 +51,16 @@ const UserHeader = () => {
 
                 <Box display="flex" marginLeft="auto">
                     {
-                        !login && <>
+                        !user._id && <>
                             <Button onClick={loginHandler} LinkComponent={Link} to='/auth' variant='outlined' sx={{ margin: 1, borderRadius: 3 }} color='primary'>Login</Button>
                             <Button onClick={signupHandler} LinkComponent={Link} to='/auth' variant='outlined' sx={{ margin: 1, borderRadius: 3 }} color='warning'>Signup</Button>
                         </>
                     }
                     {
-                        login && <Button onClick={logoutHandler} LinkComponent={Link} to='/home' variant='outlined' sx={{ margin: 1, borderRadius: 3 }} color='warning'>Logout</Button>
+                        user._id && (<>
+                        <Typography variant='h5' style={{position : 'relative', top :'8px', right : '50px'}}>Hi { user.userName }</Typography>
+                        <Button onClick={logoutHandler} LinkComponent={Link} to='/home' variant='outlined' sx={{ margin: 1, borderRadius: 3 }} color='warning'>Logout</Button>
+                        </>)
                     }
                 </Box>
             </Toolbar>

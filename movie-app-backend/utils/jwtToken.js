@@ -7,11 +7,7 @@ const sendUserToken = (user, statusCode, res, message) => {
       httpOnly: true
     };
   
-    return res.status(statusCode).cookie("userToken", token, options).json({
-      success: message,
-      user,
-      token,
-    });
+    return res.status(statusCode).cookie("userToken", token, options).json({ accessToken : token , userName : user.userName });
   };
 const sendAdminToken = (admin, statusCode, res, message) => {
     const token = admin.generateJsonWebToken();
@@ -22,11 +18,7 @@ const sendAdminToken = (admin, statusCode, res, message) => {
       httpOnly: true
     };
   
-    return res.status(statusCode).cookie("adminToken", token, options).json({
-      success: message,
-      admin,
-      token,
-    });
+    return res.status(statusCode).cookie("adminToken", token, options).json({ accessToken : token });
   };
   
   module.exports = {

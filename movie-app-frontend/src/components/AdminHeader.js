@@ -9,10 +9,11 @@ import { setAdminLogin, setAdminLogout, setLogout } from './redux/authActions'
 const AdminHeader = () => {
     const classes = useStyles()
     const location = useLocation()
-    const login = useSelector(state => state.adminLogin)
+    const login = useSelector(state => state.auth.adminLogin)
     const dispatch = useDispatch()
     const [selectTab, setSelectTab] = useState(0)
     const logoutHandler = () => {
+        dispatch()
         dispatch(setAdminLogout())
     }
     useEffect( () => {
@@ -32,7 +33,7 @@ const AdminHeader = () => {
     return (<>
         <AppBar position='sticky' style={appBar}>
             <Toolbar>
-                <Typography variant='h4' margin="0 5%">TicketNew</Typography>
+                <Typography variant='h4' margin="0 5%">TicketNew {selectTab}</Typography>
                 <Tabs value={selectTab} onChange={ (event, value) => setSelectTab(value) } >
 
                     <Tab LinkComponent={Link} to='/admin/home' label="Home" style={headerMenu} />

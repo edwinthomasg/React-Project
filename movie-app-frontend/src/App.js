@@ -1,14 +1,17 @@
 import './App.css';
-import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from './store';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Header from './components/Header';
 import Router from './components/Router';
+import { retrieveToken } from './components/redux/authActions';
 
 function App() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(retrieveToken())
+  },[dispatch])
+
   return (
-    <Provider store={store}>
-      {/* <div className="App"> */}
       <React.Fragment>
         <header>
           <Header/>
@@ -17,8 +20,6 @@ function App() {
           <Router/>
         </main>
       </React.Fragment>
-      {/* </div> */}
-    </Provider>
   );
 }
 

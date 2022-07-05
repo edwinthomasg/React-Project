@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useStyles } from '../styles/styles'
 import axios from 'axios'
 import { useSelector ,useDispatch } from 'react-redux'
-import { setAdminLogin, setLogin } from './redux/authActions'
+import { setAdminLogin } from './redux/authActions'
 
 
 const AdminLogin = () => {
@@ -17,17 +17,6 @@ const AdminLogin = () => {
     })
     const { adminEmail, adminPassword } = adminCredentials
     const classes = useStyles()
-    // const sendRequest = async(type="login") => {
-    //   console.log(`http://localhost:3040/users/${type}`)
-    //   const res = await axios.post(`http://localhost:3040/users/${type}`,{
-    //     adminEmail,
-    //     adminPassword
-    //   }).catch( err => console.log(err.message) )
-
-    //   const data = await res.data
-    //   console.log(data)
-    //   return data
-    // }
     const changeCredentialHandler = (event) => {
         setAdminCredentials((prevState) => ({
         ...prevState,
