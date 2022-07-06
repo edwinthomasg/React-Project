@@ -1,4 +1,4 @@
-import { SET_SIGNUP, SET_SIGNOUT, TOGGLE_SIGNUP, SET_ADMIN_LOGIN, SET_ADMIN_LOGOUT, SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_ADMIN_TOKEN, SET_ADMIN_RETRIEVE_TOKEN, DELETE_ADMIN_TOKEN } from "./authTypes"
+import { SET_SIGNUP, SET_SIGNOUT, TOGGLE_SIGNUP, SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_ADMIN_TOKEN, SET_ADMIN_RETRIEVE_TOKEN, DELETE_ADMIN_TOKEN, SET_PROFILE } from "./authTypes"
 import axios from 'axios'
 
 const setSignUp = () => {
@@ -16,16 +16,6 @@ const toggleSignup = () => {
         type : TOGGLE_SIGNUP
     }
 }
-const setAdminLogin = () => {
-    return {
-        type : SET_ADMIN_LOGIN
-    }
-} 
-const setAdminLogout = () => {
-    return {
-        type : SET_ADMIN_LOGOUT
-    }
-} 
 const setUserToken = (token) => {
     return {
         type : SET_USER_TOKEN,
@@ -58,6 +48,12 @@ const setAdminRetrieveToken = (token) => {
     return {
         type : SET_ADMIN_RETRIEVE_TOKEN,
         token
+    }
+}
+const setProfile = (user) => {
+    return {
+        type : SET_PROFILE,
+        payload : user
     }
 }
 const storeUserToken = (user, type = 'login') => {
@@ -99,16 +95,24 @@ const retrieveAdminToken = () => {
         } 
     }
 }
+const viewProfile = (userId) => {
+    return(dispatch) => {
+        axios.get(`http://localhost:3040/users/my-profile/${userId}`)
+        .then((user) => {
+            dispatch(setProfile(user.data.user))
+        })
+        .catch( err => console.log(err) )
+    }
+}
 export {
     setSignUp,
     setSignOut,
     toggleSignup,
-    setAdminLogin,
-    setAdminLogout,
     storeUserToken,
     retrieveUserToken,
     deleteUserToken,
     storeAdminToken,
     retrieveAdminToken,
-    deleteAdminToken
+    deleteAdminToken,
+    viewProfile
 }

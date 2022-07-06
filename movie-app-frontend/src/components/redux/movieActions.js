@@ -1,4 +1,4 @@
-import { SET_MOVIES, VIEW_MOVIE } from "./movieTypes"
+import { SET_MOVIES, VIEW_MOVIE, DELETE_MOVIE } from "./movieTypes"
 import axios from 'axios'
 
 const setMovie = (movies) => {
@@ -33,8 +33,15 @@ const viewMovie = (movieId) => {
         .catch( err => console.log(err) )
     }
 }
-
+const deleteMovie = (movieId) => {
+    return() => {
+        axios.delete(`http://localhost:3040/movies/${movieId}`)
+        .then((message) => console.log(message) )
+        .catch( (err) => console.log(err))
+    }
+}
 export {
     addMovies,
-    viewMovie
+    viewMovie,
+    deleteMovie
 }

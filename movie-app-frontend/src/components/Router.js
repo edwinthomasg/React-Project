@@ -12,7 +12,9 @@ import AdminLogin from "./admin/AdminLogin";
 import MyProfile from "./user/MyProfile";
 import AdminMyProfile from "./admin/AdminMyProfile";
 import Feedbacks from "./admin/Feedbacks";
-import AboutMovie from "./user/AboutMovie";
+import AboutMovie from "../movie/AboutMovie";
+import EditProfile from "./user/EditProfile";
+
 
 const Router = () => {
     return(<>
@@ -25,11 +27,13 @@ const Router = () => {
             <Route path='/auth' element={<Auth />}></Route>
             <Route path='/about' element={<About/>}></Route>
             <Route path='/my-profile' element={<MyProfile/>}></Route>
+            <Route path='/my-profile/edit-profile' element={<EditProfile/>}></Route>
 
             <Route path='/admin' element={<AdminHome/>}></Route>
             <Route path='/admin/home' element={<AdminHome />}></Route>
             <Route path='/admin/login' element={<AdminLogin />}></Route>
             <Route path='/admin/movies' element={<AdminMovies />}></Route>
+            <Route path='/admin/movies/:movieId' element={<AboutMovie />}></Route>
             <Route path='/admin/bookings' element={<AdminBookings />}></Route>
             <Route path='/admin/my-profile' element={<AdminMyProfile />}></Route>
             <Route path='/admin/feedbacks' element={<Feedbacks />}></Route>

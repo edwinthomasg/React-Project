@@ -1,10 +1,8 @@
 import jwtdecode from 'jwt-decode'
 
 const initialState = {
-    login : false,
     signup : false,
-    user : true,
-    adminLogin : false
+    profile : ''
 }
 const tokenState = {
     userToken : localStorage.getItem("usersToken"),
@@ -13,12 +11,7 @@ const tokenState = {
     adminToken : localStorage.getItem("adminsToken"),
     _adminId : ''
 }
-// const userInitialState = {
-//     userName : '',
-//     userEmail : '',
-//     userPassword : '',
-//     userConfirmPassword : ''
-// }
+
 const authReducer = (state = initialState, action) => {
     switch(action.type){
         case 'SET_SIGNUP' : return {
@@ -33,13 +26,9 @@ const authReducer = (state = initialState, action) => {
             ...state,
             signup : ! state.signup
         }
-        case 'SET_ADMIN_LOGIN' : return {
+        case 'SET_PROFILE' : return {
             ...state,
-            adminLogin : true
-        }
-        case 'SET_ADMIN_LOGOUT' : return {
-            ...state,
-            adminLogin : false
+            profile : action.payload
         }
         default : return state
     }
@@ -49,7 +38,6 @@ const tokenReducer = (state = tokenState, action) => {
         case 'SET_USER_TOKEN' : 
         case 'SET_USER_RETRIEVE_TOKEN' :
         const user = jwtdecode(action.token)
-        console.log("after refresh : ",user)
         return {
             ...tokenState,
             userToken : action.token,
@@ -66,7 +54,6 @@ const tokenReducer = (state = tokenState, action) => {
         case 'SET_ADMIN_TOKEN' :
         case 'SET_ADMIN_RETRIEVE_TOKEN' : 
         const admin = jwtdecode(action.token)
-        console.log("after refresh : ",admin)
         return {
             ...tokenState,
             adminToken : action.token,

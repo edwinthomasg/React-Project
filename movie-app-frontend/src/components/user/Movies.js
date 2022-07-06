@@ -2,7 +2,7 @@ import { Grid } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Box } from '@mui/system'
-import MovieDisplay from './MovieDisplay'
+import MovieDisplay from '../../movie/MovieDisplay'
 
 const Movies = () => {
   const [movies, setMovies] = useState([])

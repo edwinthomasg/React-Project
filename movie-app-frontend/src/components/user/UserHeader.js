@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import { AppBar, Button, Box, Toolbar, Typography, Tabs, Tab, } from '@mui/material'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { appBar, headerMenu, } from '../../styles/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUserToken, setSignOut, setSignUp } from '../redux/authActions'
@@ -9,6 +9,7 @@ const UserHeader = () => {
     const location = useLocation()
     const user = useSelector( state => state.tokener )
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [selectTab, setSelectTab] = useState(0)
     const logoutHandler = () => {
         dispatch(deleteUserToken())

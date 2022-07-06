@@ -1,8 +1,7 @@
 import { Grid } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
-import Movie from './Movie'
+import MovieCard from '../../movie/MovieCard'
 import { Box } from '@mui/system'
 
 
@@ -23,7 +22,7 @@ const AdminHome = () => {
       <Box p={20} pt={15} minHeight="100vh">
       <Grid container spacing={5}>
       {
-        movies.map( movie => <Movie key={movie._id} data={movie}></Movie>)
+        movies.map( movie => <MovieCard key={movie._id} data={movie}></MovieCard>)
       }
       </Grid>
       </Box>
