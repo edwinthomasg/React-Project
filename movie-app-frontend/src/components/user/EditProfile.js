@@ -10,7 +10,7 @@ const EditProfile = () => {
     console.log("user profile : ",profile)
     const { userName, userEmail, userPassword, userContact } = profile
     const [userCredentials, setUserCredentials] = useState({
-        userName : profile.userName,
+        userName,
         userEmail,
         userPassword,
         userContact
@@ -18,6 +18,7 @@ const EditProfile = () => {
     console.log("user cred : ",userCredentials)
     const classes = useStyles()
     const changeCredentialHandler = (event) => {
+        console.log(`${[event.target.name]} : ${event.target.value}`)
         setUserCredentials({
             [event.target.name] : event.target.value
         })
