@@ -3,6 +3,10 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 const AdminSchema = new mongoose.Schema({
+    adminName : {
+        type : String,
+        required : false
+    },
     adminEmail : {
         type : String,
         lowercase :true,

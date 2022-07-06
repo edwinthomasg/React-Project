@@ -38,7 +38,11 @@ const loginValidationSchema = Joi.object({
                       .pattern(new RegExp('^[a-zA-Z0-9]{8,20}$'))
                       .required()     
 })
-const adminLoginValidationSchema = Joi.object({
+const adminValidationSchema = Joi.object({
+    adminName : Joi.string()
+                  .min(3)
+                  .max(30)
+                  .pattern(new RegExp('^[a-zA-Z ]+$')),
     adminEmail : Joi.string()
                    .email()
                    .lowercase()
@@ -101,5 +105,5 @@ module.exports = {
     userValidationSchema,
     loginValidationSchema,
     movieValidationSchema,
-    adminLoginValidationSchema
+    adminValidationSchema
 }

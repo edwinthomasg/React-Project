@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useStyles } from '../../styles/styles'
 import { appBar, headerMenu, } from '../../styles/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteAdminToken } from '../redux/authActions'
+import { deleteAdminToken, viewAdminProfile } from '../redux/authActions'
 
 const AdminHeader = () => {
     const classes = useStyles()
@@ -12,6 +12,7 @@ const AdminHeader = () => {
     const admin = useSelector( state => state.tokener )
     const dispatch = useDispatch()
     const [selectTab, setSelectTab] = useState(0)
+    console.log("admin : ",admin)
     const logoutHandler = () => {
         dispatch(deleteAdminToken())
     }
@@ -37,12 +38,10 @@ const AdminHeader = () => {
         {
             setSelectTab(4)
         }
-    },[])
-    const authAdmin = () => {
-        console.log("validate",admin._adminId)
-        if(admin._adminId === null)
-        navigate('/admin/login')
-    }
+    },[selectTab,admin._adminId])
+    useEffect(() => {
+        dispatch(viewAdminProfile(admin._adminId))
+    },[admin._adminId])
     return (<>
         <AppBar position='sticky' style={appBar}>
             <Toolbar>
@@ -50,7 +49,9 @@ const AdminHeader = () => {
                 <Tabs value={selectTab} onChange={ (event, value) => setSelectTab(value) } >
 
                     <Tab LinkComponent={Link} to='/admin/home' label="Home" style={headerMenu} />
-                    <Tab LinkComponent={Link} onClick={authAdmin} to='/admin/movies' label="Add Movies" style={headerMenu} />
+                    {
+                        admin._adminId  && <Tab LinkComponent={Link} to='/admin/movies' label="Add Movies" style={headerMenu} />
+                    }
                     <Tab LinkComponent={Link} to='/admin/bookings' label="Bookings" style={headerMenu} />
                     {
                         admin._adminId  && <Tab LinkComponent={Link} to='/admin/my-profile' label="My Profile" style={headerMenu} />

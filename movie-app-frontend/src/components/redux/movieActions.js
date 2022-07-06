@@ -40,8 +40,18 @@ const deleteMovie = (movieId) => {
         .catch( (err) => console.log(err))
     }
 }
+const updateMovie = (movieDetails,movieId) => {
+    return(dispatch) => {
+        axios.put(`http://localhost:3040/movies/${movieId}`,movieDetails)
+        .then(() => {
+            dispatch(setMovie(movieDetails))
+        })
+        .catch( err => console.log(err))
+    }
+}
 export {
     addMovies,
     viewMovie,
-    deleteMovie
+    deleteMovie,
+    updateMovie
 }

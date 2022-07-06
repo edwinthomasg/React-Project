@@ -64,6 +64,7 @@ const loginUser = async(req, res) => {
 }
 /**To view my profile */
 const viewProfile = async(req, res) => {
+    console.log("entered")
     let user
     let userId = req.params.userId
         try{

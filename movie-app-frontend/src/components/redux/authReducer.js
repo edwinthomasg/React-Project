@@ -2,11 +2,11 @@ import jwtdecode from 'jwt-decode'
 
 const initialState = {
     signup : false,
-    profile : ''
+    profile : '',
+    adminProfile : ''
 }
 const tokenState = {
     userToken : localStorage.getItem("usersToken"),
-    userName : '',
     _userId : '',
     adminToken : localStorage.getItem("adminsToken"),
     _adminId : ''
@@ -30,6 +30,10 @@ const authReducer = (state = initialState, action) => {
             ...state,
             profile : action.payload
         }
+        case 'SET_ADMIN_PROFILE' : return {
+            ...state,
+            adminProfile : action.payload
+        }
         default : return state
     }
 }
@@ -41,14 +45,12 @@ const tokenReducer = (state = tokenState, action) => {
         return {
             ...tokenState,
             userToken : action.token,
-            userName : user.userName,
             _userId : user.id
         }
         case 'DELETE_USER_TOKEN' : localStorage.removeItem("usersToken")
         return {
             ...tokenState,
             userToken : '',
-            userName : '',
             _userId : ''
         }
         case 'SET_ADMIN_TOKEN' :

@@ -1,4 +1,4 @@
-import { SET_SIGNUP, SET_SIGNOUT, TOGGLE_SIGNUP, SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_ADMIN_TOKEN, SET_ADMIN_RETRIEVE_TOKEN, DELETE_ADMIN_TOKEN, SET_PROFILE } from "./authTypes"
+import { SET_SIGNUP, SET_SIGNOUT, TOGGLE_SIGNUP, SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_ADMIN_TOKEN, SET_ADMIN_RETRIEVE_TOKEN, DELETE_ADMIN_TOKEN, SET_PROFILE, SET_ADMIN_PROFILE } from "./authTypes"
 import axios from 'axios'
 
 const setSignUp = () => {
@@ -56,6 +56,12 @@ const setProfile = (user) => {
         payload : user
     }
 }
+const setAdminProfile = (admin) => {
+    return {
+        type : SET_ADMIN_PROFILE,
+        payload : admin
+    }
+}
 const storeUserToken = (user, type = 'login') => {
     return(dispatch) => {
         axios.post(`http://localhost:3040/users/${type}`,user)
@@ -104,6 +110,38 @@ const viewProfile = (userId) => {
         .catch( err => console.log(err) )
     }
 }
+const viewAdminProfile = (adminId) => {
+    return(dispatch) => {
+        axios.get(`http://localhost:3040/admin/my-profile/${adminId}`)
+        .then((admin) => {
+            console.log("datas ... ",admin.data.admin)
+            dispatch(setAdminProfile(admin.data.admin))
+        })
+        .catch( err => console.log(err) )
+    }
+}
+const updateProfile = (userDetails,userId) => {
+    console.log("user details : ",userDetails)
+    console.log("id : ",userId)
+    return (dispatch) => {
+        axios.put(`http://localhost:3040/users/${userId}`,userDetails)
+        .then(() => { 
+            dispatch(setProfile(userDetails))
+        })
+        .catch( err => console.log("error : ",err))
+    }
+}
+const updateAdminProfile = (adminDetails,adminId) => {
+    console.log("admin details : ",adminDetails)
+    console.log("id : ",adminId)
+    return (dispatch) => {
+        axios.put(`http://localhost:3040/admin/${adminId}`,adminDetails)
+        .then(() => { 
+            dispatch(setAdminProfile(adminDetails))
+        })
+        .catch( err => console.log("error : ",err))
+    }
+}
 export {
     setSignUp,
     setSignOut,
@@ -114,5 +152,8 @@ export {
     storeAdminToken,
     retrieveAdminToken,
     deleteAdminToken,
-    viewProfile
+    viewProfile,
+    updateProfile,
+    viewAdminProfile,
+    updateAdminProfile
 }

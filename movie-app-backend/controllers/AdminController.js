@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const Admin = require('../model/Admin')
-const { adminLoginValidationSchema } = require('../validation/ValidationSchema')
+const { adminLoginValidationSchema, adminValidationSchema } = require('../validation/ValidationSchema')
 const { sendAdminToken } = require('../utils/jwtToken')
 require('dotenv').config()
 
@@ -11,7 +11,7 @@ const loginAdmin = async(req, res) => {
     console.log(req.body)
     try{
         let options = { abortEarly : false }
-        const loginResult = await adminLoginValidationSchema.validateAsync({
+        const loginResult = await adminValidationSchema.validateAsync({
             adminEmail,
             adminPassword
         },options)
@@ -43,7 +43,54 @@ const deleteAdminProfile = async(req,res) => {
         } 
     return res.status(404).json({error : "Unable to delete this id"}) 
 }
+/**To view admin profile */
+const viewAdminProfile = async(req, res) => {
+    console.log("entered")
+    let admin
+    let adminId = req.params.adminId
+    console.log("id:",adminId)
+        try{
+            if(adminId.length !== 24)
+            throw "Invalid Object Id"
+            admin = await Admin.findById(adminId)
+            if(admin === null)
+            throw "No admin found with the id mentioned"
+            return res.status(200).json({admin})
+        }
+        catch(err) {
+            return res.status(404).json({ errorMessage : err })
+        }
+}
+/**To update admin existing profile details */
+const updateAdminProfile = async(req, res) => {
+    
+    let admin
+    let adminId = req.params.adminId
+    try{
+        if(adminId.length !== 24)
+        throw "Invalid Object Id"
+        admin = await Admin.findById(adminId)
+        if(admin === null)
+        throw "Unable to update this profile"
+        let options = {abortEarly : false}
+        const updateResult = await adminValidationSchema.validateAsync(req.body,options)
+        const { adminName, adminEmail, adminPassword } = updateResult
+        const hashedPassword = await bcrypt.hash(adminPassword,10) 
+        admin = await Admin.findByIdAndUpdate(adminId,{
+            adminName,
+            adminEmail,
+            adminPassword : hashedPassword
+        })
+        await admin.save()
+        return res.status(200).json({message:"Successfully updated"})
+    }
+    catch(err) {
+        return res.status(404).json({errorMessage : err})
+    }
+}
 module.exports = {
     loginAdmin,
-    deleteAdminProfile
+    deleteAdminProfile,
+    viewAdminProfile,
+    updateAdminProfile
 }

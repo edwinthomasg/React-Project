@@ -2,7 +2,7 @@ import { Grid } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Box } from '@mui/system'
-import MovieDisplay from '../../movie/MovieDisplay'
+import MovieDisplay from '../movie/MovieDisplay'
 
 const Movies = () => {
   const [movies, setMovies] = useState([])
@@ -15,10 +15,10 @@ const Movies = () => {
   }
   useEffect(() => {
     getMovies()
-  }, [])
+  }, [movies])
   return (<>
     Movies Page
-    <Box p={20} pt={15} minHeight="100vh">
+    <Box p={15} pt={15} >
       <Grid container spacing={5}>
         {
           movies.map(movie => <MovieDisplay key={movie._id} data={movie}></MovieDisplay>)

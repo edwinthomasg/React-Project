@@ -8,6 +8,7 @@ import { viewProfile } from '../redux/authActions'
  const MyProfile = () => {
   const userId = useSelector( state => state.tokener._userId )
   const profile = useSelector( state => state.auth.profile )
+  console.log("user profile : ",profile)
   const dispatch = useDispatch()
     useEffect(() => {
       dispatch(viewProfile(userId))

@@ -12,8 +12,11 @@ import AdminLogin from "./admin/AdminLogin";
 import MyProfile from "./user/MyProfile";
 import AdminMyProfile from "./admin/AdminMyProfile";
 import Feedbacks from "./admin/Feedbacks";
-import AboutMovie from "../movie/AboutMovie";
+import AboutMovie from "./movie/AboutMovie";
 import EditProfile from "./user/EditProfile";
+import AdminEditProfile from "./admin/AdminEditProfile";
+import AboutMovieAdmin from "./movie/AboutMovieAdmin";
+import EditMovie from "./movie/EditMovie";
 
 
 const Router = () => {
@@ -33,11 +36,13 @@ const Router = () => {
             <Route path='/admin/home' element={<AdminHome />}></Route>
             <Route path='/admin/login' element={<AdminLogin />}></Route>
             <Route path='/admin/movies' element={<AdminMovies />}></Route>
-            <Route path='/admin/movies/:movieId' element={<AboutMovie />}></Route>
+            <Route path='/admin/movies/:movieId' element={<AboutMovieAdmin />}></Route>
+            <Route path='/admin/movies/:movieId/edit' element={<EditMovie />}></Route>
             <Route path='/admin/bookings' element={<AdminBookings />}></Route>
             <Route path='/admin/my-profile' element={<AdminMyProfile />}></Route>
             <Route path='/admin/feedbacks' element={<Feedbacks />}></Route>
-
+            <Route path='/admin/my-profile/edit-profile' element={<AdminEditProfile />}></Route>
+            
             <Route path='*' element={<Home/>}></Route> 
     </Routes>
     </>)
