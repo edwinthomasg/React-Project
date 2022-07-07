@@ -4,13 +4,14 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useStyles } from '../../styles/styles'
 import { useSelector ,useDispatch } from 'react-redux'
-import { setSignOut, toggleSignup, storeUserToken } from '../redux/authActions'
+import { setSignOut, toggleSignup } from '../redux/signupActions'
+import { storeUserToken } from '../redux/userActions'
 
 
 const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const signup = useSelector( state => state.auth.signup )
+    const signup = useSelector( state => state.signUp.signup )
     const [ userCredentials, setUserCredentials] = useState({
       userName : '',
       userEmail : '',

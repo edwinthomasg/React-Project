@@ -3,11 +3,11 @@ import { Box } from '@mui/system'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { viewProfile } from '../redux/authActions'
+import { viewProfile } from '../redux/userActions'
 
  const MyProfile = () => {
-  const userId = useSelector( state => state.tokener._userId )
-  const profile = useSelector( state => state.auth.profile )
+  const userId = useSelector( state => state.userTokener._userId )
+  const profile = useSelector( state => state.user.profile )
   console.log("user profile : ",profile)
   const dispatch = useDispatch()
     useEffect(() => {

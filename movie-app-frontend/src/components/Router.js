@@ -17,6 +17,7 @@ import EditProfile from "./user/EditProfile";
 import AdminEditProfile from "./admin/AdminEditProfile";
 import AboutMovieAdmin from "./movie/AboutMovieAdmin";
 import EditMovie from "./movie/EditMovie";
+import Shows from "./show/Shows";
 
 
 const Router = () => {
@@ -42,6 +43,8 @@ const Router = () => {
             <Route path='/admin/my-profile' element={<AdminMyProfile />}></Route>
             <Route path='/admin/feedbacks' element={<Feedbacks />}></Route>
             <Route path='/admin/my-profile/edit-profile' element={<AdminEditProfile />}></Route>
+
+            <Route path='/movies/shows/:movieId' element={<Shows />}></Route>
             
             <Route path='*' element={<Home/>}></Route> 
     </Routes>

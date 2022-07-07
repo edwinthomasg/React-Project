@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 })
 const MovieCard = ({ data }) => {
     const classes = useStyles()
-    const admin = useSelector( state => state.tokener )
+    const admin = useSelector( state => state.adminTokener )
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const viewHandler = () => {
@@ -24,7 +24,7 @@ const MovieCard = ({ data }) => {
     }
     const deleteHandler = () => {
         if(admin._adminId === '')
-        navigate('/admin/login',{replace:true})
+        return navigate('/admin/login',{replace:true})
         dispatch(deleteMovie(data._id))
     }
     return (

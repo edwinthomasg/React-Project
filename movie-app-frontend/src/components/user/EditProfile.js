@@ -3,13 +3,13 @@ import { Box } from "@mui/system"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useStyles } from "../../styles/styles"
-import { updateProfile, viewProfile } from "../redux/authActions"
+import { updateProfile, viewProfile } from "../redux/userActions"
 import { useNavigate } from 'react-router-dom'
 // import bcrypt from 'bcrypt'
 const EditProfile = () => {
     const classes = useStyles()
-    const userId = useSelector( state => state.tokener._userId )
-    const profile = useSelector( state => state.auth.profile )
+    const userId = useSelector( state => state.userTokener._userId )
+    const profile = useSelector( state => state.user.profile )
     const { userName, userEmail, userPassword, userContact } = profile
     const dispatch = useDispatch()
     const navigate = useNavigate()

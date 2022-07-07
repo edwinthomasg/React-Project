@@ -2,7 +2,7 @@ const sendUserToken = (user, statusCode, res, message) => {
     const token = user.generateJsonWebToken();
     const options = {
       expires: new Date(
-        Date.now() + 5 * 60 * 1000 
+        Date.now() + 10 * 60 * 1000 
       ),
       httpOnly: true
     };
@@ -13,7 +13,7 @@ const sendAdminToken = (admin, statusCode, res, message) => {
     const token = admin.generateJsonWebToken();
     const options = {
       expires: new Date(
-        Date.now() + 5 * 60 * 1000 
+        Date.now() + 10 * 60 * 1000 
       ),
       httpOnly: true
     };

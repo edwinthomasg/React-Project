@@ -2,14 +2,14 @@ import { Button, TextField, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { updateAdminProfile, viewAdminProfile } from "../redux/authActions"
+import { updateAdminProfile, viewAdminProfile } from "../redux/adminActions"
 import { useNavigate } from 'react-router-dom'
 import { useStyles } from "../../styles/styles"
 
 const AdminEditProfile = () => {
     const classes = useStyles()
-    const adminId = useSelector( state => state.tokener._adminId )
-    const adminProfile = useSelector( state => state.auth.adminProfile )
+    const adminId = useSelector( state => state.adminTokener._adminId )
+    const adminProfile = useSelector( state => state.admin.adminProfile )
     const { adminName, adminEmail, adminPassword } = adminProfile
     const dispatch = useDispatch()
     const navigate = useNavigate()

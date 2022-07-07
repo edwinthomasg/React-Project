@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
     root : {
@@ -17,6 +17,9 @@ const MovieDisplay = ({ data }) => {
     const navigate = useNavigate()
     const viewHandler = () => {
         navigate(`/movies/${data._id}`)
+    }
+    const bookHandler = () => {
+        navigate(`/movies/shows/${data._id}`)
     }
     return (
         <>
@@ -36,7 +39,7 @@ const MovieDisplay = ({ data }) => {
                 </CardContent>
                 <CardActions>
                     <Button size="small" onClick={viewHandler} color="primary" style={{marginRight:180}}>View</Button>
-                    <Button size="small" color="warning">Book</Button>
+                    <Button onClick={bookHandler} size="small" color="warning">Book</Button>
                 </CardActions>
             </Card>
        

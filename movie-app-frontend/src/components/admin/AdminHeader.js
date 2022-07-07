@@ -4,12 +4,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useStyles } from '../../styles/styles'
 import { appBar, headerMenu, } from '../../styles/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteAdminToken, viewAdminProfile } from '../redux/authActions'
+import { deleteAdminToken, viewAdminProfile } from '../redux/adminActions'
 
 const AdminHeader = () => {
     const classes = useStyles()
     const location = useLocation()
-    const admin = useSelector( state => state.tokener )
+    const admin = useSelector( state => state.adminTokener )
     const dispatch = useDispatch()
     const [selectTab, setSelectTab] = useState(0)
     console.log("admin : ",admin)
@@ -39,9 +39,9 @@ const AdminHeader = () => {
             setSelectTab(4)
         }
     },[selectTab,admin._adminId])
-    useEffect(() => {
-        dispatch(viewAdminProfile(admin._adminId))
-    },[admin._adminId])
+    // useEffect(() => {
+    //     dispatch(viewAdminProfile(admin._adminId))
+    // },[admin._adminId])
     return (<>
         <AppBar position='sticky' style={appBar}>
             <Toolbar>
@@ -70,6 +70,7 @@ const AdminHeader = () => {
                 </Box>
             </Toolbar>
         </AppBar>
+        <p>{selectTab}</p>
     </>)
 }
 

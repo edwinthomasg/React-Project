@@ -1,4 +1,4 @@
-import { SET_MOVIES, VIEW_MOVIE, DELETE_MOVIE } from "./movieTypes"
+import { SET_MOVIES, VIEW_MOVIE, DELETE_MOVIE } from "./actionTypes"
 import axios from 'axios'
 
 const setMovie = (movies) => {

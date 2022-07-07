@@ -9,7 +9,6 @@ const AboutMovie = () => {
     const dispatch = useDispatch()
     const movieDetails = useSelector(state => state.movie.film)
     const { movieName, description, actorName, directorName, startBookingDate, ticketCost } = movieDetails
-    const navigate = useNavigate()
     console.log(movieId+" ... ")
     useEffect(() => {
         dispatch(viewMovie(movieId))

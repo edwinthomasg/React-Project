@@ -25,7 +25,9 @@ const showSelectedMovie = async(req,res) => {
         if(movieId.length !== 24)
         throw "Invalid Object Id"
         const showAvailableDates = await Show.find({movieId},{ showDate : 1, _id : 0 })
+        console.log(showAvailableDates)
         const movie = await Movie.findById(movieId)
+        console.log(movie)
         if(!(showAvailableDates && movie))
         throw "No shows sheduled for this movie"
         return res.status(200).json({showAvailableDates,movie})

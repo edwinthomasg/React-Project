@@ -3,16 +3,17 @@ import { AppBar, Button, Box, Toolbar, Typography, Tabs, Tab, } from '@mui/mater
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { appBar, headerMenu, } from '../../styles/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteUserToken, setSignOut, setSignUp, viewProfile } from '../redux/authActions'
+import { deleteUserToken, viewProfile } from '../redux/userActions'
+import { setSignOut, setSignUp } from '../redux/signupActions'
+// import { deleteUserToken, setSignOut, setSignUp, viewProfile } from '../redux/authActions'
 
 const UserHeader = () => {
     const location = useLocation()
-    const user = useSelector( state => state.tokener )
+    const user = useSelector( state => state.userTokener )
     const dispatch = useDispatch()
     const [selectTab, setSelectTab] = useState(0)
-    const profile = useSelector( state => state.auth.profile )
+    const profile = useSelector( state => state.user.profile )
     const { userName } = profile
-    console.log("user : ",user)
     const logoutHandler = () => {
         dispatch(deleteUserToken())
     }
@@ -42,7 +43,7 @@ const UserHeader = () => {
     },[selectTab,user._userId])
     useEffect(() => {
         dispatch(viewProfile(user._userId))
-    },[user._userId])
+    },[dispatch, user._userId])
     return (<>
         <AppBar position='sticky' style={appBar}>
             <Toolbar>
@@ -74,8 +75,6 @@ const UserHeader = () => {
                 </Box>
             </Toolbar>
         </AppBar>
-        {/* <p> user login = {login ? "true" : "false"} </p>
-        <p> user signups = {signup ? "true" : "false"} </p> */}
     </>)
 }
 
