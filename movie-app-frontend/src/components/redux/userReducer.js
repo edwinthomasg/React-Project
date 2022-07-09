@@ -7,6 +7,9 @@ const tokenState = {
     userToken : localStorage.getItem("usersToken"),
     _userId : ''
 }
+const userErrorInitialState = {
+    errors : ''
+}
 
 const userReducer = (state = initialState, action) => {
     console.log(" auth type : ",action.type)
@@ -38,8 +41,19 @@ const tokenUserReducer = (state = tokenState, action) => {
     }
 }
 
+const userErrorReducer = (state = userErrorInitialState, action) => {
+    console.log("error from reducer")
+    switch(action.type){
+        case 'SET_USER_ERRORS' : return {
+            ...userErrorInitialState,
+            errors : action.payload
+        }
+        default : return state
+    }
+}
 
 export {
     userReducer,
-    tokenUserReducer
+    tokenUserReducer,
+    userErrorReducer
 }

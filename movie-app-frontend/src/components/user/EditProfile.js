@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useStyles } from "../../styles/styles"
 import { updateProfile, viewProfile } from "../redux/userActions"
 import { useNavigate } from 'react-router-dom'
-// import bcrypt from 'bcrypt'
+
 const EditProfile = () => {
     const classes = useStyles()
     const userId = useSelector( state => state.userTokener._userId )
@@ -13,7 +13,6 @@ const EditProfile = () => {
     const { userName, userEmail, userPassword, userContact } = profile
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    // userPassword = bcrypt.
     const [userCredentials, setUserCredentials] = useState({
       userName,
       userEmail,

@@ -35,7 +35,7 @@ const registerUser = async(req, res) => {
             }
             errors.push(error)
         })
-        return res.status(400).json(errors)
+        return res.status(400).json({errorMessage : errors})
         }
         return res.status(400).json({ errorMessage : err })
     } 
@@ -59,7 +59,7 @@ const loginUser = async(req, res) => {
         sendUserToken(user, 200, res, message);    
     }
     catch(err){
-        return res.status(404).json({ errorMessage : err })
+        return res.status(400).json({ errorMessage : err })
     }
 }
 /**To view my profile */
@@ -104,7 +104,7 @@ const updateProfile = async(req, res) => {
         return res.status(200).json({message:"Successfully updated"})
     }
     catch(err) {
-        return res.status(404).json({errorMessage : err})
+        return res.status(400).json({errorMessage : err})
     }
 }
 /**To deactivate my profile */
@@ -120,7 +120,7 @@ const deleteProfile = async(req,res) => {
             return res.status(200).json({ message : "Succesfully deleted" })
         }
         catch(err) {
-            return res.status(404).json({ errorMessage : err })
+            return res.status(400).json({ errorMessage : err })
         } 
 }
 module.exports = {

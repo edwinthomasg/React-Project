@@ -13,13 +13,16 @@ const saveBookings = async(book) => {
 const viewMyBookings = async(req,res) => {
     let bookings,user
     let userId = req.params.userId
+    console.log("requested from : ",userId)
     try{
         if(userId.length !== 24)
         throw "Invalid Object Id"
         user = await User.findById(userId)
         if(user === null)
         throw "No user found with the id mentioned"
-        bookings = await Book.find({ userId })
+        bookings = await Book.find({ userId : userId })
+        console.log("found : ",bookings)
+        console.log(bookings.length)
         if(bookings.length <= 0)
         throw "No bookings have been recorded"
         return res.status(200).json({bookings})

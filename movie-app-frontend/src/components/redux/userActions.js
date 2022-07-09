@@ -1,4 +1,4 @@
-import { SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_PROFILE } from "./actionTypes"
+import { SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_PROFILE, SET_USER_ERRORS } from "./actionTypes"
 import axios from "axios"
 
 const setUserToken = (token) => {
@@ -24,6 +24,12 @@ const setProfile = (user) => {
         payload : user
     }
 }
+const setUserErrors = (errors) => {
+    return {
+        type : SET_USER_ERRORS,
+        payload : errors
+    }
+}
 const storeUserToken = (user, type = 'login') => {
     console.log("store user token : ",user)
     return(dispatch) => {
@@ -35,7 +41,13 @@ const storeUserToken = (user, type = 'login') => {
             dispatch(setUserToken(token.data.accessToken))
             }
         })
-        .catch( err => console.log(err.response.data,err.response.status))
+        .catch( err => {
+            if(err.response.status === 400)
+            {
+                dispatch(setUserErrors(err.response.data))
+                console.log("error occured : ",err.response.data,err.response.status)
+            }
+        })
     }
 }
 const retrieveUserToken = () => {

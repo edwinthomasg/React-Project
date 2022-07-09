@@ -12,6 +12,8 @@ const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const signup = useSelector( state => state.signUp.signup )
+    // const errors = useSelector( state => state.userError.errors )
+    
     const [ userCredentials, setUserCredentials] = useState({
       userName : '',
       userEmail : '',
@@ -35,6 +37,8 @@ const Login = () => {
       if(signup)
       {
         dispatch(storeUserToken(userCredentials, 'signup'))  
+        // if(errors)
+        // alert(errors)
         dispatch(setSignOut())                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
         navigate('/auth')
       }

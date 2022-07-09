@@ -1,10 +1,11 @@
 // import { authReducer, tokenAdminReducer, tokenReducer } from "./authReducer"
 import { combineReducers } from "@reduxjs/toolkit"
 import { movieReducer } from "./movieReducer"
-import { tokenUserReducer, userReducer } from "./userReducer"
+import { tokenUserReducer, userErrorReducer, userReducer } from "./userReducer"
 import { adminReducer, tokenAdminReducer } from "./adminReducer"
 import { signUpReducer } from "./signUpReducer"
 import { showsReducer } from "./showReducer"
+import { bookReducer } from "./bookReducer"
 
 const root = combineReducers({
     movie : movieReducer,
@@ -13,7 +14,9 @@ const root = combineReducers({
     admin : adminReducer,
     adminTokener : tokenAdminReducer,
     signUp : signUpReducer,
-    show : showsReducer
+    show : showsReducer,
+    userError : userErrorReducer,
+    book : bookReducer
 })
 
 export default root

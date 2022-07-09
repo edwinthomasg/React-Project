@@ -19,7 +19,6 @@ import AboutMovieAdmin from "./movie/AboutMovieAdmin";
 import EditMovie from "./movie/EditMovie";
 import Shows from "./show/Shows";
 
-
 const Router = () => {
     return(<>
     <Routes>
@@ -45,7 +44,6 @@ const Router = () => {
             <Route path='/admin/my-profile/edit-profile' element={<AdminEditProfile />}></Route>
 
             <Route path='/movies/shows/:movieId' element={<Shows />}></Route>
-            
             <Route path='*' element={<Home/>}></Route> 
     </Routes>
     </>)

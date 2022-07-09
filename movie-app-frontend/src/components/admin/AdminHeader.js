@@ -70,7 +70,6 @@ const AdminHeader = () => {
                 </Box>
             </Toolbar>
         </AppBar>
-        <p>{selectTab}</p>
     </>)
 }
 
