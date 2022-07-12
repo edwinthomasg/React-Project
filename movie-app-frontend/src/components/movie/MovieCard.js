@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteMovie } from "../redux/movieActions";
+import { deleteMovie } from "../redux/MovieActions";
 
 const useStyles = makeStyles({
     root : {

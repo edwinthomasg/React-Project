@@ -3,7 +3,7 @@ const User = require('./User')
 const Movie = require('./Movie')
 
 const BookSchema = new mongoose.Schema({
-    userId: { 
+    user : { 
         type : mongoose.Types.ObjectId,
         ref : 'User',
         required : true
@@ -12,7 +12,7 @@ const BookSchema = new mongoose.Schema({
         type : Date,
         required : true
     },
-    movieId : {
+    movie : {
         type : mongoose.Types.ObjectId,
         ref : 'Movie',
         required : true

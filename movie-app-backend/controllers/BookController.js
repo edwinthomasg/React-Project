@@ -6,8 +6,10 @@ const User = require('../model/User')
 /**To save my bookings */
 const saveBookings = async(book) => {
     let bookings
+    console.log("book controller : ",book)
     bookings = await new Book(book)
     await bookings.save()
+    console.log("success")
 }
 /**To view my bookings */
 const viewMyBookings = async(req,res) => {
@@ -20,9 +22,8 @@ const viewMyBookings = async(req,res) => {
         user = await User.findById(userId)
         if(user === null)
         throw "No user found with the id mentioned"
-        bookings = await Book.find({ userId : userId })
+        bookings = await Book.find({ user : userId }).populate([{ path : 'user' },{ path : 'movie' }])
         console.log("found : ",bookings)
-        console.log(bookings.length)
         if(bookings.length <= 0)
         throw "No bookings have been recorded"
         return res.status(200).json({bookings})
@@ -35,7 +36,7 @@ const viewMyBookings = async(req,res) => {
 const viewBookings = async(req,res) => {
     let bookings
     try{
-        bookings = await Book.find()
+        bookings = await Book.find().populate([{path : 'user'},{path : 'movie'}])
         if(bookings.length <= 0)
         throw "No bookings have been recorded"
         return res.status(200).json({bookings})

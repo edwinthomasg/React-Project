@@ -2,7 +2,7 @@ import { Button, TextField, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { updateAdminProfile, viewAdminProfile } from "../redux/adminActions"
+import { updateAdminProfile, viewAdminProfile } from "../redux/AdminActions"
 import { useNavigate } from 'react-router-dom'
 import { useStyles } from "../../styles/styles"
 

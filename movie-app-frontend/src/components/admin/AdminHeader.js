@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useStyles } from '../../styles/styles'
 import { appBar, headerMenu, } from '../../styles/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteAdminToken, viewAdminProfile } from '../redux/adminActions'
+import { deleteAdminToken, viewAdminProfile } from '../redux/AdminActions'
 
 const AdminHeader = () => {
     const classes = useStyles()
@@ -12,7 +12,6 @@ const AdminHeader = () => {
     const admin = useSelector( state => state.adminTokener )
     const dispatch = useDispatch()
     const [selectTab, setSelectTab] = useState(0)
-    console.log("admin : ",admin)
     const logoutHandler = () => {
         dispatch(deleteAdminToken())
     }

@@ -3,7 +3,7 @@ import { Box } from "@mui/system"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useStyles } from "../../styles/styles"
-import { updateProfile, viewProfile } from "../redux/userActions"
+import { updateProfile, viewProfile } from "../redux/UserActions"
 import { useNavigate } from 'react-router-dom'
 
 const EditProfile = () => {

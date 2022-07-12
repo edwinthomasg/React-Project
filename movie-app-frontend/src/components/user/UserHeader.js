@@ -3,9 +3,9 @@ import { AppBar, Button, Box, Toolbar, Typography, Tabs, Tab, } from '@mui/mater
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { appBar, headerMenu, } from '../../styles/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteUserToken, viewProfile } from '../redux/userActions'
-import { setSignOut, setSignUp } from '../redux/signupActions'
-// import { deleteUserToken, setSignOut, setSignUp, viewProfile } from '../redux/authActions'
+import { deleteUserToken, viewProfile } from '../redux/UserActions'
+import { setSignOut, setSignUp } from '../redux/SignupActions'
+
 
 const UserHeader = () => {
     const location = useLocation()

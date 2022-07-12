@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const User = require('../model/User')
-const { sendUserToken } = require('../utils/jwtToken')
+const { sendUserToken } = require('../utils/JwtToken')
 const { userValidationSchema, loginValidationSchema } = require('../validation/ValidationSchema')
 
 require('dotenv').config()

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Movie = require('./Movie')
 const showSchema = mongoose.Schema({
-    movieId : {
+    movie : {
         type : mongoose.Types.ObjectId,
         ref : 'Movie',
         required : true

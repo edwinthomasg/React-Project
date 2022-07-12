@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from 'react-router-dom'
 import { useStyles } from "../../styles/styles"
-import { updateMovie, viewMovie } from "../redux/movieActions"
+import { updateMovie, viewMovie } from "../redux/MovieActions"
 
 
 const EditMovie = () => {
@@ -62,7 +62,6 @@ const EditMovie = () => {
     }
     const updateHandler = (event) => {
         event.preventDefault()
-        console.log("MOVIES : ",movie)
         dispatch(updateMovie(movie, movieId))
         navigate(`/admin/movies/${movieId}`) 
     }

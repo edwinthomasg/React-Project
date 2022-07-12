@@ -1,6 +1,6 @@
 const express = require('express')
 const { viewMovies, viewMovie, addMovie, updateMovie, deleteMovie } = require('../controllers/MovieController')
-const { isAuthenticatedAdmin } = require('../middlewares/auth')
+const { isAuthenticatedAdmin } = require('../middlewares/Auth')
 const movieRouter = express.Router()
 
 movieRouter.get('/', viewMovies) /**To view all the movies */

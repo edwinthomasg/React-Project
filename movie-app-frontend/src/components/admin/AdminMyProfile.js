@@ -3,18 +3,16 @@ import { Box } from '@mui/system'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { viewAdminProfile } from '../redux/adminActions'
+import { viewAdminProfile } from '../redux/AdminActions'
 
  const AdminMyProfile = () => {
   const adminId = useSelector( state => state.adminTokener._adminId )
   const adminProfile = useSelector( state => state.admin.adminProfile )
-  console.log("admin profile : ",adminProfile,adminId)
   const dispatch = useDispatch()
     useEffect(() => {
       dispatch(viewAdminProfile(adminId))
     },[adminId])
     return(<>
-      Admin Profile Page
       <Box sx={{
             width: 400,
             height: 370,

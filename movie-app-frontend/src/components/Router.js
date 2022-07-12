@@ -18,6 +18,7 @@ import AdminEditProfile from "./admin/AdminEditProfile";
 import AboutMovieAdmin from "./movie/AboutMovieAdmin";
 import EditMovie from "./movie/EditMovie";
 import Shows from "./show/Shows";
+import ProtectComponent from "./ProtectComponent";
 
 const Router = () => {
     return(<>
@@ -26,22 +27,22 @@ const Router = () => {
             <Route path='/home' element={<Home />}></Route>
             <Route path='/movies' element={<Movies />}></Route>
             <Route path='/movies/:movieId' element={<AboutMovie />}></Route>
-            <Route path='/bookings' element={<Bookings />}></Route>
+            <Route path='/bookings' element={<ProtectComponent role='user'><Bookings /></ProtectComponent>}></Route>
             <Route path='/auth' element={<Auth />}></Route>
             <Route path='/about' element={<About/>}></Route>
-            <Route path='/my-profile' element={<MyProfile/>}></Route>
-            <Route path='/my-profile/edit-profile' element={<EditProfile/>}></Route>
+            <Route path='/my-profile' element={<ProtectComponent role='user'><MyProfile/></ProtectComponent>}></Route>
+            <Route path='/my-profile/edit-profile' element={<ProtectComponent role='user'><EditProfile/></ProtectComponent>}></Route>
 
             <Route path='/admin' element={<AdminHome/>}></Route>
             <Route path='/admin/home' element={<AdminHome />}></Route>
             <Route path='/admin/login' element={<AdminLogin />}></Route>
             <Route path='/admin/movies' element={<AdminMovies />}></Route>
-            <Route path='/admin/movies/:movieId' element={<AboutMovieAdmin />}></Route>
-            <Route path='/admin/movies/:movieId/edit' element={<EditMovie />}></Route>
-            <Route path='/admin/bookings' element={<AdminBookings />}></Route>
-            <Route path='/admin/my-profile' element={<AdminMyProfile />}></Route>
-            <Route path='/admin/feedbacks' element={<Feedbacks />}></Route>
-            <Route path='/admin/my-profile/edit-profile' element={<AdminEditProfile />}></Route>
+            <Route path='/admin/movies/:movieId' element={<ProtectComponent role='admin'><AboutMovieAdmin /></ProtectComponent>}></Route>
+            <Route path='/admin/movies/:movieId/edit' element={<ProtectComponent role='admin'><EditMovie /></ProtectComponent>}></Route>
+            <Route path='/admin/bookings' element={<ProtectComponent role='admin'><AdminBookings /></ProtectComponent>}></Route>
+            <Route path='/admin/my-profile' element={<ProtectComponent role='admin'><AdminMyProfile /></ProtectComponent>}></Route>
+            <Route path='/admin/feedbacks' element={<ProtectComponent role='admin'><Feedbacks /></ProtectComponent>}></Route>
+            <Route path='/admin/my-profile/edit-profile' element={<ProtectComponent role='admin'><AdminEditProfile /></ProtectComponent>}></Route>
 
             <Route path='/movies/shows/:movieId' element={<Shows />}></Route>
             <Route path='*' element={<Home/>}></Route> 

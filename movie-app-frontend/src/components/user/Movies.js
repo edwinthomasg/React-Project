@@ -17,7 +17,6 @@ const Movies = () => {
     getMovies()
   }, [movies])
   return (<>
-    Movies Page
     <Box p={15} pt={15} >
       <Grid container spacing={5}>
         {

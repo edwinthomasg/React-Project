@@ -18,7 +18,6 @@ const AdminHome = () => {
       getMovies()
     },[movies])
     return(<>
-      AdminHome Page
       <Box p={15} pt={15} >
       <Grid container spacing={5}>
       {

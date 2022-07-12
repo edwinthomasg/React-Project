@@ -2,14 +2,13 @@ import { Box, Button, SnackbarContent, Stack } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { viewMovie } from "../redux/movieActions";
+import { viewMovie } from "../redux/MovieActions";
 
 const AboutMovie = () => {
     let { movieId } = useParams();
     const dispatch = useDispatch()
     const movieDetails = useSelector(state => state.movie.film)
     const { movieName, description, actorName, directorName, startBookingDate, ticketCost } = movieDetails
-    console.log(movieId+" ... ")
     useEffect(() => {
         dispatch(viewMovie(movieId))
     }, [movieId])

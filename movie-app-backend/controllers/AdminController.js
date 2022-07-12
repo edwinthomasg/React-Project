@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const Admin = require('../model/Admin')
 const { adminLoginValidationSchema, adminValidationSchema } = require('../validation/ValidationSchema')
-const { sendAdminToken } = require('../utils/jwtToken')
+const { sendAdminToken } = require('../utils/JwtToken')
 require('dotenv').config()
 
 /**To login as a admin */

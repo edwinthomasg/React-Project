@@ -28,8 +28,8 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.methods.generateJsonWebToken = function(){
-    return jwt.sign({id:this._id},process.env.SECRET_KEY,{
-        expiresIn:'10m',
+    return jwt.sign({id:this._id, role:'user'},process.env.SECRET_KEY,{
+        expiresIn:'20m',
     });
 }
 

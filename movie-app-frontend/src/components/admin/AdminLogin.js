@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStyles } from '../../styles/styles'
 import { useSelector ,useDispatch } from 'react-redux'
-import { storeAdminToken } from '../redux/adminActions'
+import { storeAdminToken } from '../redux/AdminActions'
 
 
 const AdminLogin = () => {

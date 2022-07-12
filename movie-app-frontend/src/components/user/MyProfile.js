@@ -3,18 +3,16 @@ import { Box } from '@mui/system'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { viewProfile } from '../redux/userActions'
+import { viewProfile } from '../redux/UserActions'
 
  const MyProfile = () => {
   const userId = useSelector( state => state.userTokener._userId )
   const profile = useSelector( state => state.user.profile )
-  console.log("user profile : ",profile)
   const dispatch = useDispatch()
     useEffect(() => {
       dispatch(viewProfile(userId))
     },[userId])
     return(<>
-      My Profile Page
       <Box sx={{
             width: 400,
             height: 370,

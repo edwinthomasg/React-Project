@@ -64,6 +64,8 @@ const addMovie = async(req, res) => {
 /**To update existing movie details */
 const updateMovie = async(req, res) => {
     let movie
+    let movieShow
+    let show
     let movieId = req.params.movieId
     try{
         if(movieId.length !== 24)
@@ -71,10 +73,18 @@ const updateMovie = async(req, res) => {
         movie = await Movie.findById(movieId)
         if(movie === null)
         throw "Unable to update this movie"
+        movieShow = await Movie.findById(movieId)
         let options = { abortEarly : false }
         const updateResult = await movieValidationSchema.validateAsync(req.body, options)
         movie = await Movie.findByIdAndUpdate(movieId, updateResult)
         await movie.save()
+        movie = await Movie.findById(movieId)
+        show = await Show.find({movie : movieId, showDate : movieShow.startBookingDate})
+        for(var i=0 ;i<3; i++)
+        {
+        show = await Show.updateOne({movie : movieId, showDate : new Date(movieShow.startBookingDate.getTime() + (1000 * i * 86400))},
+        {showDate : new Date(movie.startBookingDate.getTime() + (1000 * i * 86400))})
+        }
         return res.status(200).json({message:"Successfully updated"})
     }
     catch(err) {

@@ -1,6 +1,6 @@
 const express = require('express')
 const { loginAdmin, deleteAdminProfile, viewAdminProfile, updateAdminProfile } = require('../controllers/AdminController')
-const { isAuthenticatedAdmin } = require('../middlewares/auth')
+const { isAuthenticatedAdmin } = require('../middlewares/Auth')
 
 const adminRouter = express.Router()
 adminRouter.post('/login', loginAdmin) /**To login with email and password */

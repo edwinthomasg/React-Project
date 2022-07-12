@@ -2,7 +2,7 @@ import { Box, Button, SnackbarContent, Stack } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { viewMovie } from "../redux/movieActions";
+import { viewMovie } from "../redux/MovieActions";
 
 const AboutMovieAdmin = () => {
     let { movieId } = useParams();
@@ -10,7 +10,6 @@ const AboutMovieAdmin = () => {
     const movieDetails = useSelector(state => state.movie.film)
     const { movieName, description, actorName, directorName, startBookingDate, ticketCost } = movieDetails
     const navigate = useNavigate()
-    console.log(movieId+" ... ")
     useEffect(() => {
         dispatch(viewMovie(movieId))
     }, [movieId])

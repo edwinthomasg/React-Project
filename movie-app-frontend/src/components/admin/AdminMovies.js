@@ -3,7 +3,7 @@ import { Button, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { useStyles } from '../../styles/styles'
 import { useDispatch } from 'react-redux'
-import { addMovies } from '../redux/movieActions'
+import { addMovies } from '../redux/MovieActions'
 import { useNavigate } from 'react-router-dom'
 
  const AdminMovies = () => {
@@ -33,7 +33,6 @@ import { useNavigate } from 'react-router-dom'
     navigate('/admin/home')
   }
     return(<>
-      Admin Movies Page
       <form  onSubmit={submitHandler}>
         <Box className = {classes.loginForm}>
           <Typography padding={1} variant='h4' textAlign="center">
