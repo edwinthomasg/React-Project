@@ -37,7 +37,7 @@ const Router = () => {
             <Route path='/admin/home' element={<AdminHome />}></Route>
             <Route path='/admin/login' element={<AdminLogin />}></Route>
             <Route path='/admin/movies' element={<AdminMovies />}></Route>
-            <Route path='/admin/movies/:movieId' element={<ProtectComponent role='admin'><AboutMovieAdmin /></ProtectComponent>}></Route>
+            <Route path='/admin/movies/:movieId' element={<AboutMovieAdmin />}></Route>
             <Route path='/admin/movies/:movieId/edit' element={<ProtectComponent role='admin'><EditMovie /></ProtectComponent>}></Route>
             <Route path='/admin/bookings' element={<ProtectComponent role='admin'><AdminBookings /></ProtectComponent>}></Route>
             <Route path='/admin/my-profile' element={<ProtectComponent role='admin'><AdminMyProfile /></ProtectComponent>}></Route>

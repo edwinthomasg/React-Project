@@ -9,9 +9,13 @@ import { viewAdminProfile } from '../redux/AdminActions'
   const adminId = useSelector( state => state.adminTokener._adminId )
   const adminProfile = useSelector( state => state.admin.adminProfile )
   const dispatch = useDispatch()
+    // useEffect(() => {
+    //   dispatch(viewAdminProfile(adminId))
+    // },[adminId])
     useEffect(() => {
       dispatch(viewAdminProfile(adminId))
     },[adminId])
+    
     return(<>
       <Box sx={{
             width: 400,

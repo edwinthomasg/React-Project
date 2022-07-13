@@ -38,7 +38,6 @@ const storeAdminToken = (admin) => {
 }
 
 const retrieveAdminToken = () => {
-    
     return(dispatch, getState) => {
         const token = getState().adminTokener.adminToken
         if(token){

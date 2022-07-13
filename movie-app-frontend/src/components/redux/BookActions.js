@@ -1,7 +1,7 @@
 import axios from "axios"
 import { BookBase } from "../api/BaseUrl"
 import { axiosUserInstance } from "../api/Interceptors"
-import { SET_BOOK } from "./ActionTypes"
+import { SET_BOOK, SET_BOOKINGS } from "./ActionTypes"
 import { axiosAdminInstance } from "../api/Interceptors"
 
 const setBook = (book) => {
@@ -12,7 +12,7 @@ const setBook = (book) => {
 }
 const setBookings = (bookings) =>  {
     return {
-    type : 'SET_BOOKINGS',
+    type : SET_BOOKINGS,
     payload : bookings
     }
 }
@@ -34,6 +34,7 @@ const viewAllBookings = () => {
             method: "get"
         })
         .then( bookings => {
+            console.log("book : ",bookings)
             dispatch(setBookings(bookings.data.bookings))
         })
         .catch((err) => console.log("err : ",err))

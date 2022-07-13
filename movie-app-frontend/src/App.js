@@ -7,9 +7,6 @@ import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { retrieveUserToken } from './components/redux/UserActions';
 import { retrieveAdminToken } from './components/redux/AdminActions';
-import ProtectComponent from './components/ProtectComponent';
-
-
 
 function App() {
   const dispatch = useDispatch()

@@ -85,6 +85,7 @@ const updateMovie = async(req, res) => {
         show = await Show.updateOne({movie : movieId, showDate : new Date(movieShow.startBookingDate.getTime() + (1000 * i * 86400))},
         {showDate : new Date(movie.startBookingDate.getTime() + (1000 * i * 86400))})
         }
+        console.log("updated : ",movie)
         return res.status(200).json({message:"Successfully updated"})
     }
     catch(err) {

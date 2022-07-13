@@ -22,14 +22,10 @@ const Login = () => {
       dispatch(toggleSignup())
     }
     const { message, error } = useSelector( state => state.userTokener )
-    
-    // console.log("from component message : "+message+" error : "+error)
     const submitHandler = async(userData) => {
       if(signup)
       {
         dispatch(storeUserToken(userData, 'signup'))  
-        console.log("after signup disptach from comp")
-        console.log("from component message : "+message+" error : "+error)
         if(error === '')
         {
           dispatch(setSignOut())                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
@@ -38,8 +34,6 @@ const Login = () => {
       }
       else{
         dispatch(storeUserToken(userData))
-        console.log("after login disptach from comp")
-        console.log("from component message : "+message+" error : "+error)
         if(error === '')
         {
           navigate('/home')

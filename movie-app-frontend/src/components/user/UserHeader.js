@@ -42,8 +42,9 @@ const UserHeader = () => {
         }
     },[selectTab,user._userId])
     useEffect(() => {
+        if(user._userId)
         dispatch(viewProfile(user._userId))
-    },[dispatch, user._userId])
+    },[dispatch, user._userId]) /**To display user name in user header */
     return (<>
         <AppBar position='sticky' style={appBar}>
             <Toolbar>

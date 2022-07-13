@@ -17,6 +17,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.0",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "redux-logger": "^3.0.6"
   }
 }

@@ -15,7 +15,7 @@ const Movies = () => {
   }
   useEffect(() => {
     getMovies()
-  }, [movies])
+  }, [])
   return (<>
     <Box p={15} pt={15} >
       <Grid container spacing={5}>

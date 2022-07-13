@@ -8,11 +8,12 @@ const addMovieShow = async(movieDetails) => {
     let show
     const {  _id, startBookingDate , endBookingDate } = movieDetails
     let days =  (( endBookingDate - startBookingDate ) / 60000) / 1440
+    console.log("days : ",days)
     for(var i=0 ;i<=Math.round(days); i++)
     {
         show = await new Show({
         movie : _id,
-        showDate : new Date(startBookingDate.getTime() + 1000 * i * 86400 ),
+        showDate : new Date(startBookingDate.getTime() + (1000 * i * 86400) ),
         seats:[]
     })
     await show.save()

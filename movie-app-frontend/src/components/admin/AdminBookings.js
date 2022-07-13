@@ -7,6 +7,7 @@ import AdminBookCard from './AdminBookCard'
  const AdminBookings = () => {
   const dispatch = useDispatch()
   const bookings = useSelector( state => state.book.allBookings )
+  console.log("bookigs : ",bookings)
    useEffect(() => {
     dispatch(viewAllBookings())
    },[])

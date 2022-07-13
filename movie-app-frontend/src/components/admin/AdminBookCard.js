@@ -14,6 +14,7 @@ const useStyles = makeStyles({
     }
 })
 const AdminBookCard = ({ data }) => {
+    console.log("Movie recieved : ",data.movie)
     const classes = useStyles()
     const navigate = useNavigate()
     const dispatch = useDispatch()
