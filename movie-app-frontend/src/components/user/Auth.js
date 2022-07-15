@@ -24,7 +24,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const { message, error } = useSelector( state => state.user )
   
-    console.log("errorMessage : ",errorMessage)
+    console.log("errorMesgsage : ",errorMessage)
     const submitHandler = async(userData) => {
       if(signup)
       {
