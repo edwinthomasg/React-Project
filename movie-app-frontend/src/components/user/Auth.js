@@ -21,23 +21,25 @@ const Login = () => {
     const signupHandler = () => {
       dispatch(toggleSignup())
     }
-    const { message, error } = useSelector( state => state.userTokener )
+    const [errorMessage, setErrorMessage] = useState('')
+    const { message, error } = useSelector( state => state.user )
+  
+    console.log("errorMessage : ",errorMessage)
     const submitHandler = async(userData) => {
       if(signup)
       {
         dispatch(storeUserToken(userData, 'signup'))  
-        if(error === '')
-        {
-          dispatch(setSignOut())                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-          navigate('/auth')
-        }
+        dispatch(setSignOut())
+        navigate('/auth')
       }
       else{
         dispatch(storeUserToken(userData))
-        if(error === '')
-        {
-          navigate('/home')
-        }
+        navigate('/home')
+        // if(error !== '')
+        // {
+        //   alert('invalid credentials')
+        //   // navigate('/home')
+        // }
       }
       // reset()
     }

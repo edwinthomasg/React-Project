@@ -1,6 +1,7 @@
 const Movie = require('../model/Movie')
 const Show = require('../model/Show')
 const Book = require('../model/Book')
+const User = require('../model/User')
 const { saveBookings } = require('./BookController')
 
 /**Add movie to show collection */
@@ -41,9 +42,11 @@ const showSelectedMovie = async(req,res) => {
 const bookShow = async(req,res) => {
     let show,book
     const { movieId, showDate, seats, userId } = req.body
-    console.log("req : ",req.body)
+    console.log("book movie id : ",movieId,showDate)
+    console.log("gonna book : ",req.body)
     try{
         show = await Show.findOne( { movie : movieId, showDate } , { seats : 1, _id : 0 })
+        console.log("existing show record : ",show)
         if(!show)
         throw "Show not available"
         const seatsArray = show.seats
@@ -62,7 +65,10 @@ const bookShow = async(req,res) => {
             movie : movieId,
             bookSeat : seats
         }
-        saveBookings(book)
+        book = await saveBookings(book)
+        console.log("booked id : ",book)
+        
+        await User.updateOne({ _id : userId },{ $push: {myBookings : book._id} })
 
         return res.status(200).json({message : "successfully your tickets have been confirmed", show})
     }

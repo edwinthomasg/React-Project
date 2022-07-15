@@ -25,8 +25,8 @@ const useStyles = makeStyles({
 const SeatDisplay = ({data}) => {
   const dispatch = useDispatch()
   const classes = useStyles()
-  const userId = useSelector( state => state.userTokener._userId )
-  const {message} = useSelector( state => state.booking)
+  const userId = useSelector( state => state.user._userId )
+  // const {message} = useSelector( state => state.book)
   const navigate = useNavigate()
   const [status, setStatus] = useState(false)
   const [title, setTitle] = useState('')
@@ -44,10 +44,11 @@ const SeatDisplay = ({data}) => {
 
 const bookHandler = () => {
     dispatch(bookShow({ movieId : data.selectedMovieId, showDate : data.selectedDate, userId, seats }))
-    if(message === '')
-    {setStatus(true)
-    setTitle('successfully your tickets have been confirmed')
-    setType('success')}
+    navigate('/home')
+    // if(message === '')
+    // {setStatus(true)
+    // setTitle('successfully your tickets have been confirmed')
+    // setType('success')}
 }
 console.log("movie show : ",data.movie)
   return (<div className='row'>

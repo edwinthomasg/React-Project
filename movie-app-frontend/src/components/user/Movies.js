@@ -3,18 +3,14 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Box } from '@mui/system'
 import MovieDisplay from '../movie/MovieDisplay'
+import { useDispatch, useSelector } from 'react-redux'
+import { viewMovies } from '../redux/MovieActions'
 
 const Movies = () => {
-  const [movies, setMovies] = useState([])
-  const getMovies = () => {
-    axios.get('http://localhost:3040/movies')
-      .then(movies => {
-        setMovies(movies.data.movies)
-      })
-      .catch(err => console.log(err))
-  }
+  const dispatch = useDispatch()
+  const movies = useSelector( state => state.movie.movies )
   useEffect(() => {
-    getMovies()
+    dispatch(viewMovies())
   }, [])
   return (<>
     <Box p={15} pt={15} >

@@ -8,7 +8,7 @@ import { useStyles } from "../../styles/styles"
 
 const AdminEditProfile = () => {
     const classes = useStyles()
-    const adminId = useSelector( state => state.adminTokener._adminId )
+    const adminId = useSelector( state => state.admin._adminId )
     const adminProfile = useSelector( state => state.admin.adminProfile )
     const { adminName, adminEmail, adminPassword } = adminProfile
     const dispatch = useDispatch()

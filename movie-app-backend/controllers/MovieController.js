@@ -32,6 +32,21 @@ const viewMovie = async(req, res) => {
             return res.status(404).json({ errorMessage : err })
         }   
 }
+/**To view current movies playing */
+const viewCurrentMovies = async(req,res) => {
+    const currentDate = req.query.current.substring(0,10) + 'T00:00:00.000+00:00'
+    let movies
+    // let currentDate = new Date(req.query.current)
+        try{
+            console.log("date : ",currentDate)
+            movies = await Movie.find({ startBookingDate : new Date(currentDate) })
+            console.log("Current Movies : ",movies)
+            return res.status(200).json({movies})
+        }
+        catch(err) {
+            return res.status(400).json({ errorMessage : err })
+        }
+}
 /**To add a new movie to the dashboard */
 const addMovie = async(req, res) => { 
     let movie
@@ -102,6 +117,7 @@ const deleteMovie = async(req, res) => {
             movie = await Movie.findByIdAndDelete(movieId)
             if(movie === null)
             throw "Unable to delete this id"
+            await Show.deleteMany({movie : movieId})
             return res.status(200).json({ message : "Succesfully deleted" })
         }
         catch(err) {
@@ -111,6 +127,7 @@ const deleteMovie = async(req, res) => {
 module.exports = {
     viewMovies,
     viewMovie,
+    viewCurrentMovies,
     addMovie,
     updateMovie,
     deleteMovie

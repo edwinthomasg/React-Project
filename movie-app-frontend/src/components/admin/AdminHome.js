@@ -3,20 +3,16 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import MovieCard from '../movie/MovieCard'
 import { Box } from '@mui/system'
+import { useDispatch, useSelector } from 'react-redux'
+import { viewMovies } from '../redux/MovieActions'
 
 
 const AdminHome = () => {
-    const [ movies, setMovies ] = useState([])
-    const getMovies = () => {
-      axios.get('http://localhost:3040/movies')
-      .then( movies => {
-        setMovies(movies.data.movies)
-    } )
-      .catch( err => console.log(err) )
-    }
+  const movies = useSelector( state => state.movie.movies )
+  const dispatch = useDispatch()
     useEffect(() => {
-      getMovies()
-    },[movies])
+      dispatch(viewMovies())
+    }, [])
     return(<>
       <Box p={15} pt={15} >
       <Grid container spacing={5}>

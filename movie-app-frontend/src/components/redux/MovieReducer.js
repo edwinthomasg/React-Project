@@ -1,17 +1,17 @@
 let movieInitialState = {
     movies : [],
-    film : ''
+    movie : ''
 }
 
 const movieReducer = ( state = movieInitialState, action ) => {
     switch(action.type){
         case 'SET_MOVIES' : return {
-            ...movieInitialState,
+            ...state,
             movies : action.payload
         }
-        case 'VIEW_MOVIE' :  return {
-            ...movieInitialState,
-            film : action.payload
+        case 'SET_MOVIE' :  return {
+            ...state,
+            movie : action.payload
         }
         default : return state
     }

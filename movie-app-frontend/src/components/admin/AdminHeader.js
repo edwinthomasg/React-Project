@@ -9,7 +9,7 @@ import { deleteAdminToken, viewAdminProfile } from '../redux/AdminActions'
 const AdminHeader = () => {
     const classes = useStyles()
     const location = useLocation()
-    const admin = useSelector( state => state.adminTokener )
+    const admin = useSelector( state => state.admin )
     const dispatch = useDispatch()
     const [selectTab, setSelectTab] = useState(0)
     const logoutHandler = () => {

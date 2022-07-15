@@ -5,17 +5,16 @@ const User = require('../model/User')
 
 /**To save my bookings */
 const saveBookings = async(book) => {
-    let bookings
+    let bookings,booked
     console.log("book controller : ",book)
     bookings = await new Book(book)
-    await bookings.save()
-    console.log("success")
+    return booked = await bookings.save()
 }
 /**To view my bookings */
 const viewMyBookings = async(req,res) => {
     let bookings,user
     let userId = req.params.userId
-    console.log("requested from : ",userId)
+    console.log("book requested from : ",userId)
     try{
         if(userId.length !== 24)
         throw "Invalid Object Id"

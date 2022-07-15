@@ -40,7 +40,7 @@ const Router = () => {
             <Route path='/admin/movies/:movieId' element={<AboutMovieAdmin />}></Route>
             <Route path='/admin/movies/:movieId/edit' element={<ProtectComponent role='admin'><EditMovie /></ProtectComponent>}></Route>
             <Route path='/admin/bookings' element={<ProtectComponent role='admin'><AdminBookings /></ProtectComponent>}></Route>
-            <Route path='/admin/my-profile' element={<ProtectComponent role='admin'><AdminMyProfile /></ProtectComponent>}></Route>
+            <Route path='/admin/my-profile' key={document.location.href} element={<ProtectComponent role='admin'><AdminMyProfile /></ProtectComponent>}></Route>
             <Route path='/admin/feedbacks' element={<ProtectComponent role='admin'><Feedbacks /></ProtectComponent>}></Route>
             <Route path='/admin/my-profile/edit-profile' element={<ProtectComponent role='admin'><AdminEditProfile /></ProtectComponent>}></Route>
 
@@ -51,3 +51,5 @@ const Router = () => {
 }
 
 export default Router
+
+/**Check for admin home page when url is not matched */

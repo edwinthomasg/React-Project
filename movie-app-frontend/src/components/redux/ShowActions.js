@@ -31,6 +31,7 @@ const viewShow = (movieId) => {
     }
 }
 const bookShow = (bookingDetails) => {
+    console.log("booking details : ",bookingDetails)
     return(dispatch) =>
     {
         axiosUserInstance({

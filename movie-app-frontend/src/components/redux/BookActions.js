@@ -1,13 +1,12 @@
 import axios from "axios"
-import { BookBase } from "../api/BaseUrl"
 import { axiosUserInstance } from "../api/Interceptors"
-import { SET_BOOK, SET_BOOKINGS } from "./ActionTypes"
+import { SET_BOOKING, SET_BOOKINGS, CLEAR_BOOKING } from "./ActionTypes"
 import { axiosAdminInstance } from "../api/Interceptors"
 
-const setBook = (book) => {
+const setBooking = (booking) => {
     return {
-        type : SET_BOOK,
-        payload : book
+        type : SET_BOOKING,
+        payload : booking
     }
 }
 const setBookings = (bookings) =>  {
@@ -16,14 +15,20 @@ const setBookings = (bookings) =>  {
     payload : bookings
     }
 }
-const viewBook = (userId) => {
+const clearBooking = () => {
+    return {
+        type : CLEAR_BOOKING,
+    }
+}
+const viewBooking = (userId) => {
     return(dispatch) => {
         axiosUserInstance({
             url: `bookings/${userId}`,
             method: "get"
         })
         .then(book => {
-            dispatch(setBook(book.data.bookings))
+            console.log("user book : ",book.data.bookings)
+            dispatch(setBooking(book.data.bookings))
         })
     }
 }
@@ -43,6 +48,7 @@ const viewAllBookings = () => {
 
 
 export {
-    viewBook,
-    viewAllBookings
+    viewBooking,
+    viewAllBookings,
+    clearBooking
 }

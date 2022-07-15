@@ -24,11 +24,17 @@ const UserSchema = new mongoose.Schema({
         type : [mongoose.Types.ObjectId],
         ref : 'Book',
         required : false
+    },
+    role : {
+        type : String,
+        default : 'user',
+        required : false
     }
+
 })
 
 UserSchema.methods.generateJsonWebToken = function(){
-    return jwt.sign({id:this._id, role:'user'},process.env.SECRET_KEY,{
+    return jwt.sign({ id:this._id, role : this.role },process.env.SECRET_KEY,{
         expiresIn:'20m',
     });
 }

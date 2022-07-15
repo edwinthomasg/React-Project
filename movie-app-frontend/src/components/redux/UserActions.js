@@ -1,4 +1,4 @@
-import { SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_PROFILE, SET_AUTH_ERROR, SET_SIGN_UP } from "./ActionTypes"
+import { SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_PROFILE, SET_AUTH_ERROR, SET_SIGN_UP, SET_USER_REFRESH } from "./ActionTypes"
 import axios from "axios"
 import { UserBase } from "../api/BaseUrl"
 import { axiosUserInstance } from "../api/Interceptors"
@@ -26,6 +26,11 @@ const setProfile = (user) => {
         payload : user
     }
 }
+const refreshProfile = () => {
+    return {
+        type : SET_USER_REFRESH
+    }
+}
 const setAuthError = (error) => {
     return {
         type : SET_AUTH_ERROR,
@@ -38,23 +43,17 @@ const setSignUp = () => {
     }
 }
 const storeUserToken = (user, type = 'login') => {
-    console.log("entering actions...")
     return (dispatch) => {
         axios.post(`${UserBase}/${type}`,user)
         .then( token => {
             if(type === 'login')
             {
-            console.log("login action ..")
             sessionStorage.setItem("usersToken", token.data.accessToken)
             dispatch(setUserToken(token.data.accessToken))
-            console.log("stored login success message in state")
             }
             else
             {
-                console.log("signup action ..")
                 dispatch(setSignUp())
-                console.log("stored signup success message in state")
-
             }
         })
         .catch( err => {
@@ -62,15 +61,13 @@ const storeUserToken = (user, type = 'login') => {
             {
                 console.log("message received from backend : ",err.response.data.errorMessage)
                 dispatch(setAuthError(err.response.data.errorMessage))
-                console.log("stored error in state using dispatch")
             }
         })
     }
 }
 const retrieveUserToken = () => {
-    
     return(dispatch, getState) => {
-        const token = getState().userTokener.userToken
+        const token = getState().user.userToken
         if(token){
             dispatch(setUserRetrieveToken(token))
         } 

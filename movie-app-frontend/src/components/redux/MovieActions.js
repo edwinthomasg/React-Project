@@ -1,21 +1,47 @@
-import { SET_MOVIES, VIEW_MOVIE, DELETE_MOVIE } from "./ActionTypes"
+import { SET_MOVIES, SET_MOVIE, DELETE_MOVIE } from "./ActionTypes"
 import axios from 'axios'
 import { MovieBase } from "../api/BaseUrl"
 import { axiosAdminInstance } from "../api/Interceptors"
 
-const setMovie = (movies) => {
+const setMovies = (movies) => {
     return {
         type : SET_MOVIES,
         payload : movies
     }
 }
-const setSingleMovie = (movie) => {
+const setMovie = (movie) => {
     return {
-        type : VIEW_MOVIE,
+        type : SET_MOVIE,
         payload : movie
     }
 }
-
+const setCurrentMovies = (movies) => {
+    return {
+        type : 'SET_CURRENT_MOVIES',
+        payload : movies
+    }
+}
+const viewMovies = () => {
+    return(dispatch) => {
+        axios.get(`${MovieBase}`)
+        .then(movies => {
+            console.log("movies : ",movies.data.movies)
+            dispatch(setMovies(movies.data.movies))
+        })
+        .catch( err => console.log(err) )
+    }
+}
+const viewCurrentMovies = (currentDate) => {
+    return(dispatch) => {
+        axios.get(`${MovieBase}/today/?current=${currentDate}`)
+        .then(movies => {
+            console.log("Current Movies : ",movies.data)
+        })
+        .catch( err => {
+            console.log("error : ",err)
+        })
+    }
+}
 const addMovies = (movieDetails) => {
     return (dispatch) => {
         axiosAdminInstance({
@@ -24,7 +50,8 @@ const addMovies = (movieDetails) => {
             data:movieDetails
         })
         .then(movie => { 
-            dispatch(setMovie(movie.data.movie))
+            console.log("movie added : ",movie.data.movie)
+            // dispatch(setMovie(movie.data.movie))
         })
         .catch( err => console.log("error : ",err))
     }
@@ -33,7 +60,7 @@ const viewMovie = (movieId) => {
     return(dispatch) => {
         axios.get(`${MovieBase}/${movieId}`)
         .then(movie => {
-            dispatch(setSingleMovie(movie.data.movie))
+            dispatch(setMovie(movie.data.movie))
         })
         .catch( err => console.log(err) )
     }
@@ -63,7 +90,9 @@ const updateMovie = (movieDetails,movieId) => {
 }
 export {
     addMovies,
+    viewMovies,
     viewMovie,
+    viewCurrentMovies,
     deleteMovie,
     updateMovie
 }

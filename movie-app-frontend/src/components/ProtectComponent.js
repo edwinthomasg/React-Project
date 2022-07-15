@@ -1,16 +1,24 @@
+import jwtDecode from 'jwt-decode'
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 const ProtectComponent = ({role, children}) => {
-    const user = useSelector( state => state.userTokener )
-    const admin = useSelector( state => state.adminTokener )
-    
-    if(user._userId && user.userRole === role)
-    return children
+    let user,admin
+    const userToken = sessionStorage.getItem('usersToken')
+    const adminToken = sessionStorage.getItem('adminsToken')
 
-    if(admin._adminId && admin.adminRole === role)
-    return children
+    if(userToken)
+    {
+        user = jwtDecode(userToken)
+        if(user.id && user.role === role)
+        return children
+    }
+    if(adminToken)
+    {
+        admin = jwtDecode(adminToken)
+        if(admin.id && admin.role === role)
+        return children
+    }
 
     if(role === 'admin')
     return <Navigate to='/admin/login' replace/>

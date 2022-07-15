@@ -15,11 +15,16 @@ const AdminSchema = new mongoose.Schema({
     adminPassword : {
         type : String,
         required : true
+    },
+    role : {
+        type : String,
+        default : 'admin',
+        required : false
     }
 })
 
 AdminSchema.methods.generateJsonWebToken = function(){
-    return jwt.sign({id:this._id, role : 'admin'},process.env.SECRET_KEY,{
+    return jwt.sign({ id:this._id, role : this.role },process.env.SECRET_KEY,{
         expiresIn:'20m',
     });
 }

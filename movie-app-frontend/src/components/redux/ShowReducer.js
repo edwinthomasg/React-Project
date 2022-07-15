@@ -1,49 +1,63 @@
 const showInitialState = {
-    shows : ''
-}
-const seatsInitialState = {
-    seats : ''
-}
-const bookInitialState = {
+    shows : '',
+    seats : '',
     book : '',
     message : ''
 }
+// const seatsInitialState = {
+//     seats : ''
+// }
+// const bookInitialState = {
+//     book : '',
+//     message : ''
+// }
 
 const showsReducer = (state = showInitialState, action) => {
     switch(action.type){
         case 'SET_SHOW' : return {
-            ...showInitialState,
+            ...state,
             shows : action.payload
         }
-        default : return state
-    }
-}
-const seatsReducer = (state = seatsInitialState, action) => {
-    switch(action.type){
         case 'SET_SEATS' : return {
-            ...seatsInitialState,
+            ...state,
             seats : action.payload
         }
-        default : return state
-    }
-}
-const bookingReducer = (state = bookInitialState, action) => {
-    switch(action.type){
         case 'SET_BOOKING_STATUS' : return {
-            ...bookInitialState,
-            book : action.payload,
-            message : ''
+            ...state,
+            book : action.payload
         }
         case 'SET_SEAT_ERROR' : return {
-            ...bookInitialState,
+            ...state,
             book : '',
             message : action.payload
         }
         default : return state
     }
 }
+// const seatsReducer = (state = seatsInitialState, action) => {
+//     switch(action.type){
+//         case 'SET_SEATS' : return {
+//             ...seatsInitialState,
+//             seats : action.payload
+//         }
+//         default : return state
+//     }
+// }
+// const bookingReducer = (state = bookInitialState, action) => {
+//     switch(action.type){
+//         case 'SET_BOOKING_STATUS' : return {
+//             ...bookInitialState,
+//             book : action.payload,
+//             message : ''
+//         }
+//         case 'SET_SEAT_ERROR' : return {
+//             ...bookInitialState,
+//             book : '',
+//             message : action.payload
+//         }
+//         default : return state
+//     }
+// }
 export {
-    showsReducer,
-    seatsReducer,
-    bookingReducer
+    showsReducer
 }

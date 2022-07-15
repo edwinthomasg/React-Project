@@ -5,16 +5,18 @@ import { appBar, headerMenu, } from '../../styles/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUserToken, viewProfile } from '../redux/UserActions'
 import { setSignOut, setSignUp } from '../redux/SignupActions'
+import { clearBooking } from '../redux/BookActions'
 
 
 const UserHeader = () => {
     const location = useLocation()
-    const user = useSelector( state => state.userTokener )
+    const user = useSelector( state => state.user )
     const dispatch = useDispatch()
     const [selectTab, setSelectTab] = useState(0)
     const profile = useSelector( state => state.user.profile )
     const { userName } = profile
     const logoutHandler = () => {
+        dispatch(clearBooking())
         dispatch(deleteUserToken())
     }
     const signupHandler = () => {

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { viewAdminProfile } from '../redux/AdminActions'
 
  const AdminMyProfile = () => {
-  const adminId = useSelector( state => state.adminTokener._adminId )
+  const adminId = useSelector( state => state.admin._adminId )
   const adminProfile = useSelector( state => state.admin.adminProfile )
   const dispatch = useDispatch()
     // useEffect(() => {

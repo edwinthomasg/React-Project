@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 })
 const MovieCard = ({ data }) => {
     const classes = useStyles()
-    const admin = useSelector( state => state.adminTokener )
+    const admin = useSelector( state => state.admin )
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const viewHandler = () => {

@@ -10,7 +10,7 @@ import { updateMovie, viewMovie } from "../redux/MovieActions"
 const EditMovie = () => {
     const classes = useStyles()
     let { movieId } = useParams();
-    const movieDetails = useSelector(state => state.movie.film)
+    const movieDetails = useSelector(state => state.movie.movie)
     const { movieImageUrl,
         movieVideoUrl,
         movieName,

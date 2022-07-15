@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 const EditProfile = () => {
     const classes = useStyles()
-    const userId = useSelector( state => state.userTokener._userId )
+    const userId = useSelector( state => state.user._userId )
     const profile = useSelector( state => state.user.profile )
     const { userName, userEmail, userPassword, userContact } = profile
     const dispatch = useDispatch()

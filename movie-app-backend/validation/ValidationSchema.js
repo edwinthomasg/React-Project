@@ -1,5 +1,7 @@
 const Joi = require('joi')
-
+const currentDate = new Date().toISOString()
+let date = currentDate.substring(0,10) + 'T00:00:00.000+00:00'
+console.log("date : ",date)
 /**Joi validation for user registration and updation */
 const userValidationSchema = Joi.object({
     userName : Joi.string()
@@ -84,10 +86,10 @@ const movieValidationSchema = Joi.object({
                       .pattern(new RegExp('^[a-zA-Z ]+$'))
                       .required() ,
     startBookingDate : Joi.date()
-                          .greater(new Date(Date.now()))
+                          .greater(date)
                           .required(),
     endBookingDate   : Joi.date()  
-                          .greater(new Date(Date.now()))
+                          .greater(date)
                           .required()      
 })
 

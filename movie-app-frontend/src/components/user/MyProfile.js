@@ -2,14 +2,16 @@ import { Button, SnackbarContent, Stack } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { viewProfile } from '../redux/UserActions'
 
  const MyProfile = () => {
-  const userId = useSelector( state => state.userTokener._userId )
+  const userId = useSelector( state => state.user._userId )
   const profile = useSelector( state => state.user.profile )
+  const location = useLocation()
   const dispatch = useDispatch()
     useEffect(() => {
+      if(userId)
       dispatch(viewProfile(userId))
     },[userId])
     return(<>

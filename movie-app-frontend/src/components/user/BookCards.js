@@ -17,7 +17,6 @@ const BookCard = ({ data }) => {
     const classes = useStyles()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    console.log("booked data : ",data)
     return (
         <>
             <Card className={classes.root}>

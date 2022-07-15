@@ -1,17 +1,20 @@
 const bookInitialState = {
     bookings : '',
-    allBookings : ''
+    allBookings : []
 }
 
 const bookReducer = (state = bookInitialState, action) => {
     switch(action.type){
-        case 'SET_BOOK' : return {
-            ...bookInitialState,
+        case 'SET_BOOKING' : return {
+            ...state,
             bookings : action.payload
         }
         case 'SET_BOOKINGS' : return {
-            ...bookInitialState,
+            ...state,
             allBookings : action.payload
+        }
+        case 'CLEAR_BOOKING' : return {
+            bookings : ''
         }
         default : return state
     }

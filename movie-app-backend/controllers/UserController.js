@@ -64,15 +64,16 @@ const loginUser = async(req, res) => {
 }
 /**To view my profile */
 const viewProfile = async(req, res) => {
-    console.log("entered")
+    console.log("id : ",req.params.userId)
     let user
     let userId = req.params.userId
         try{
             if(userId.length !== 24)
             throw "Invalid Object Id"
-            user = await User.findById(userId)
+            user = await User.findById(userId).populate({ path: 'myBookings' })
             if(user === null)
             throw "No user found with the id mentioned"
+            console.log("user : ",user)
             return res.status(200).json({user})
         }
         catch(err) {
@@ -81,7 +82,8 @@ const viewProfile = async(req, res) => {
 }
 /**To update my existing profile details */
 const updateProfile = async(req, res) => {
-    
+    console.log("id to update : ",req.params.userId)
+    console.log("to update : ",req.body)
     let user
     let userId = req.params.userId
     try{
@@ -100,7 +102,8 @@ const updateProfile = async(req, res) => {
             userPassword : hashedPassword,
             userContact
         })
-        await user.save()
+        user = await user.save()
+        console.log("updated : ",user)
         return res.status(200).json({message:"Successfully updated"})
     }
     catch(err) {

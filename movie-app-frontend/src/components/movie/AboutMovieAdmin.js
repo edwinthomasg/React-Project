@@ -7,7 +7,7 @@ import { viewMovie } from "../redux/MovieActions";
 const AboutMovieAdmin = () => {
     let { movieId } = useParams();
     const dispatch = useDispatch()
-    const movieDetails = useSelector(state => state.movie.film)
+    const movieDetails = useSelector(state => state.movie.movie)
     const { movieName, description, actorName, directorName, startBookingDate, ticketCost } = movieDetails
     const navigate = useNavigate()
     useEffect(() => {
