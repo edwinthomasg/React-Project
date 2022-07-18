@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useStyles } from '../../styles/styles'
 import { useSelector ,useDispatch } from 'react-redux'
 import { setSignOut, toggleSignup } from '../redux/SignupActions'
-import { storeUserToken } from '../redux/UserActions'
+import { loginUser, signUpUser } from '../redux/UserActions'
 import { useForm } from 'react-hook-form'
 import ReactJsAlert from "reactjs-alert"
 import '../../styles/Style.css'
@@ -21,38 +21,44 @@ const Login = () => {
     const signupHandler = () => {
       dispatch(toggleSignup())
     }
-    const [errorMessage, setErrorMessage] = useState('')
-    const { message, error } = useSelector( state => state.user )
-  
-    console.log("errorMesgsage : ",errorMessage)
-    const submitHandler = async(userData) => {
+    const [status, setStatus] = useState(false)
+    const [type, setType] = useState('')
+    const [title, setTitle] = useState('')
+    const { loginMessage, signupMessage, loginSuccess, signupSuccess } = useSelector( state => state.user )
+    
+    useEffect( () => {
+      if(signupSuccess)
+      {
+        setStatus(true)
+        setType('success')
+        setTitle(signupMessage)
+      }
+      else if(loginSuccess)
+      {
+        setStatus(true)
+        setType('success')
+        setTitle(loginMessage)
+      }
+    },[loginSuccess, signupSuccess, loginMessage, signupMessage])
+    
+    const submitHandler = (userData) => {
       if(signup)
       {
-        dispatch(storeUserToken(userData, 'signup'))  
-        dispatch(setSignOut())
-        navigate('/auth')
+        dispatch(signUpUser(userData))  
       }
       else{
-        dispatch(storeUserToken(userData))
-        navigate('/home')
-        // if(error !== '')
-        // {
-        //   alert('invalid credentials')
-        //   // navigate('/home')
-        // }
+        dispatch(loginUser(userData))
       }
       // reset()
     }
     const password = watch('userPassword')
 
     return(<>
-      <form  onSubmit={ handleSubmit(submitHandler) }>
+      <form onSubmit={ handleSubmit(submitHandler) }>
         <Box className = {classes.loginForm}>
           <Typography padding={1} variant='h4' textAlign="center">
             { signup ? "Signup" : "Login" }
           </Typography>
-          {message && <small>{message}</small>}
-
           { signup && <TextField {...register('userName',{ required : 'Username required', 
             pattern : {
               value : /^[a-zA-Z ]+$/,
@@ -91,18 +97,31 @@ const Login = () => {
             { errors.userContact && <small className='credential-error'>{errors.userContact.message}</small>}
             </>
           }
-          {error && <small>{error}</small>}
+          {!loginSuccess && <small>{loginMessage}</small>}
+          {!signupSuccess && <small>{signupMessage}</small>}
           <Button type='submit' variant='contained' color='warning' style={{margin : '5% 0'}}>{ signup ? "Signup" : "Login" }</Button>
           { !signup && <Typography>Dont't have an account ?</Typography> }
           <Link onClick={signupHandler} to='/auth'>{ !signup && "Signup"}</Link>
         </Box>
       </form>
-      {/* <ReactJsAlert
-          status={status} 
-          type={type} 
-          title={title}
-          
-        /> */}
+      <ReactJsAlert
+      status = {status}
+      type = {type}
+      title = {title}
+      Close = {(status) => {
+        if(signupMessage)
+        {
+          setStatus(false)
+          dispatch(setSignOut())
+          navigate('/auth')
+        }
+        else if(loginMessage)
+        {
+          setStatus(false)
+          navigate('/home')
+        }
+      }}
+      />
     </>)
  }
 

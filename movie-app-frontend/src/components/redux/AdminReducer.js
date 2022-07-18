@@ -5,14 +5,10 @@ const adminInitialState = {
     _adminId : '',
     adminRole : '',
     adminProfile : '',
-    message : ''
+    adminLoginMessage : '',
+    adminLoginSuccess : false,
+    adminLogoutMessage : ''
 }
-// const tokenAdminState = {
-//     adminToken : sessionStorage.getItem("adminsToken"),
-//     _adminId : '',
-//     adminRole : '',
-//     message : ''
-// }
 
 const adminReducer = (state = adminInitialState, action) => {
     switch(action.type){
@@ -24,7 +20,13 @@ const adminReducer = (state = adminInitialState, action) => {
             adminToken : action.token,
             _adminId : admin.id,
             adminRole : admin.role,
-            message : 'logged in'
+            adminLoginMessage : action.payload,
+            adminLoginSuccess : true
+        }
+        case 'SET_ADMIN_LOGIN_ERROR' : return {
+            ...state,
+            adminLoginMessage : action.payload,
+            adminLoginSuccess : false
         }
         case 'DELETE_ADMIN_TOKEN' : sessionStorage.removeItem("adminsToken")
         return {
@@ -32,7 +34,8 @@ const adminReducer = (state = adminInitialState, action) => {
             _adminId : '',
             adminRole : '',
             adminProfile : '',
-            message : 'logged out'
+            adminLoginMessage : '',
+            adminLogoutMessage : ''
         }
         case 'SET_ADMIN_PROFILE' : return {
             ...state,
@@ -41,30 +44,7 @@ const adminReducer = (state = adminInitialState, action) => {
         }
         default : return state
     }
-}
-// const tokenAdminReducer = (state = tokenAdminState, action) => {
-//     switch(action.type){
-//         case 'SET_ADMIN_TOKEN' :
-//         case 'SET_ADMIN_RETRIEVE_TOKEN' : 
-//         const admin = jwtdecode(action.token)
-//         return {
-//             ...tokenAdminState,
-//             adminToken : action.token,
-//             _adminId : admin.id,
-//             adminRole : admin.role,
-//             message : 'Admin Successfully logged in'
-
-//         }
-//         case 'DELETE_ADMIN_TOKEN' : sessionStorage.removeItem("adminsToken")
-//         return {
-//             adminToken : '',
-//             _adminId : '',
-//             adminRole : '',
-//             message : 'Admin logged out'
-//         }
-//         default : return state
-//     }
-// }
+}     
 
 export {
     adminReducer

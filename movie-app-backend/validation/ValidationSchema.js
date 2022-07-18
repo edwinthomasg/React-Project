@@ -1,7 +1,5 @@
 const Joi = require('joi')
-const currentDate = new Date().toISOString()
-let date = currentDate.substring(0,10) + 'T00:00:00.000+00:00'
-console.log("date : ",date)
+
 /**Joi validation for user registration and updation */
 const userValidationSchema = Joi.object({
     userName : Joi.string()
@@ -62,7 +60,7 @@ const movieValidationSchema = Joi.object({
                        .pattern(new RegExp('^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$')) 
                        .required(),
     movieVideoUrl : Joi.string()
-                       .pattern(new RegExp('(http\:\/\/)?(youtube\.com|youtu\.be)+'))   
+                    //    .pattern(new RegExp('^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$'))   
                        .required(),
     movieName : Joi.string()
                    .pattern(new RegExp('^[a-zA-Z0-9 ]+$'))
@@ -86,10 +84,10 @@ const movieValidationSchema = Joi.object({
                       .pattern(new RegExp('^[a-zA-Z ]+$'))
                       .required() ,
     startBookingDate : Joi.date()
-                          .greater(date)
+                          .greater(new Date())
                           .required(),
     endBookingDate   : Joi.date()  
-                          .greater(date)
+                          .greater(new Date())
                           .required()      
 })
 

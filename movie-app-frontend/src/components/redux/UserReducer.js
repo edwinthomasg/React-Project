@@ -4,9 +4,10 @@ const userInitialState = {
     userToken : sessionStorage.getItem("usersToken"),
     _userId : '',
     userRole : '',
-    message : '',
-    loginSuccess : '',
-    loginFailed : '',
+    loginMessage : '',
+    signupMessage : '',
+    loginSuccess : false,
+    signupSuccess : false,
     profile : ''
 }
 
@@ -21,34 +22,42 @@ const userReducer = (state = userInitialState, action) => {
             userToken : action.token,
             _userId : user.id,
             userRole : user.role,
-            message : 'logged in',
+            loginMessage : action.payload,
             profile : user,
-            error : ''
+            loginSuccess : true,
+            signupSuccess : false
         }
         case 'SET_SIGN_UP' : return {
             ...state,
             userToken : '',
-            _userId : '',
-            userRole : '',
-            message : 'signed up',
-            error : ''
+            signupMessage : action.payload,
+            signupSuccess : true,
+            loginSuccess : false
         }
-        case 'SET_AUTH_ERROR' : return {
-            userToken : '',
-            _userId : '',
-            userRole : '',
-            message : '',
-            profile : '',
-            error : action.payload
+        case 'SET_LOGIN_ERROR' : return {
+            ...state,
+            loginMessage : action.payload,
+            loginSuccess : false,
+            signupSuccess : false,
+            signupMessage : ''
+        }
+        case 'SET_SIGNUP_ERROR' : return {
+            ...state,
+            signupMessage : action.payload,
+            loginMessage : '',
+            loginSuccess : false,
+            signupSuccess : false
         }
         case 'DELETE_USER_TOKEN' : sessionStorage.removeItem("usersToken")
         return {
             userToken : '',
             _userId : '',
             userRole : '',
-            message : '',
+            loginMessage : '',
+            signupMessage : '',
             profile : '',
-            error : ''
+            loginSuccess : false,
+            signupSuccess : false
         }
         case 'SET_PROFILE' : return {
             ...state,

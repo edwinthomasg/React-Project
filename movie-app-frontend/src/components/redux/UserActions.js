@@ -1,4 +1,4 @@
-import { SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_PROFILE, SET_AUTH_ERROR, SET_SIGN_UP, SET_USER_REFRESH } from "./ActionTypes"
+import { SET_USER_TOKEN, SET_USER_RETRIEVE_TOKEN, DELETE_USER_TOKEN, SET_PROFILE, SET_LOGIN_ERROR , SET_SIGN_UP, SET_SIGNUP_ERROR,  SET_USER_REFRESH } from "./ActionTypes"
 import axios from "axios"
 import { UserBase } from "../api/BaseUrl"
 import { axiosUserInstance } from "../api/Interceptors"
@@ -6,7 +6,8 @@ import { axiosUserInstance } from "../api/Interceptors"
 const setUserToken = (token) => {
     return {
         type : SET_USER_TOKEN,
-        token
+        token : token.accessToken,
+        payload : token.message
     }
 }
 const setUserRetrieveToken = (token) => {
@@ -31,38 +32,45 @@ const refreshProfile = () => {
         type : SET_USER_REFRESH
     }
 }
-const setAuthError = (error) => {
+const setLoginError = (error) => {
     return {
-        type : SET_AUTH_ERROR,
+        type : SET_LOGIN_ERROR,
         payload : error
     }
 }
-const setSignUp = () => {
+const setSignUpError = (error) => {
     return {
-        type : SET_SIGN_UP
+        type : SET_SIGNUP_ERROR,
+        payload : error
     }
 }
-const storeUserToken = (user, type = 'login') => {
+const setSignUp = (success) => {
+    return {
+        type : SET_SIGN_UP,
+        payload : success
+    }
+}
+const loginUser = (user) => {
     return (dispatch) => {
-        axios.post(`${UserBase}/${type}`,user)
+        axios.post(`${UserBase}/login`,user)
         .then( token => {
-            if(type === 'login')
-            {
             sessionStorage.setItem("usersToken", token.data.accessToken)
-            dispatch(setUserToken(token.data.accessToken))
-            }
-            else
-            {
-                dispatch(setSignUp())
-            }
+            dispatch(setUserToken(token.data))
         })
-        .catch( err => {
-            if(err.response.status === 400)
-            {
-                console.log("message received from backend : ",err.response.data.errorMessage)
-                dispatch(setAuthError(err.response.data.errorMessage))
-            }
+        .catch( error => {
+            dispatch(setLoginError(error.response.data.errorMessage))
         })
+    }
+}
+const signUpUser = (user) => {
+    return(dispatch) => {
+        axios.post(`${UserBase}/signup`,user)
+        .then(response => {
+        dispatch(setSignUp(response.data.message))
+        })
+        .catch( error => {
+        dispatch(setSignUpError(error.response.data.errorMessage))
+         })
     }
 }
 const retrieveUserToken = () => {
@@ -82,7 +90,7 @@ const viewProfile = (userId) => {
         .then((user) => {
             dispatch(setProfile(user.data.user))
         })
-        .catch( err => console.log(err) )
+        .catch( error => console.log(error) )
     }
 }
 const updateProfile = (userDetails,userId) => {
@@ -95,14 +103,15 @@ const updateProfile = (userDetails,userId) => {
         .then(() => { 
             dispatch(setProfile(userDetails))
         })
-        .catch( err => console.log("error : ",err))
+        .catch( error => console.log("error : ",error))
     }
 }
 
 export {
-    storeUserToken,
+    loginUser,
     retrieveUserToken,
     deleteUserToken,
     viewProfile,
-    updateProfile
+    updateProfile,
+    signUpUser
 }

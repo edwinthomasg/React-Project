@@ -22,7 +22,7 @@ const isAuthenticatedUser = async (req, res, next) => {
         next()
     }
     catch(err){
-      return res.status(401).json({errorMessage : err})
+      return res.status(401).json({errorMessage : err}) /**UnAuthorized */
     }
 }
 const isAuthenticatedAdmin = async (req, res, next) => {
@@ -44,7 +44,7 @@ const isAuthenticatedAdmin = async (req, res, next) => {
       next()
   }
     catch(err){
-      return res.status(401).json({errorMessage : err})
+      return res.status(401).json({errorMessage : err}) /**UnAuthorized */
     }
 }
 // const isAuthenticatedUser = async (req, res, next) => {

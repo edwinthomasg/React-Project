@@ -1,11 +1,12 @@
-import { SET_ADMIN_TOKEN, SET_ADMIN_RETRIEVE_TOKEN, DELETE_ADMIN_TOKEN, SET_ADMIN_PROFILE } from "./ActionTypes"
+import { SET_ADMIN_TOKEN, SET_ADMIN_RETRIEVE_TOKEN, DELETE_ADMIN_TOKEN, SET_ADMIN_PROFILE, SET_ADMIN_LOGIN_ERROR } from "./ActionTypes"
 import axios from 'axios'
 import { AdminBase } from "../api/BaseUrl"
 import { axiosAdminInstance } from "../api/Interceptors"
 const setAdminToken = (token) => {
     return {
         type : SET_ADMIN_TOKEN,
-        token
+        token : token.accessToken,
+        payload : token.message
     }
 }
 const deleteAdminToken = () => {
@@ -25,15 +26,26 @@ const setAdminProfile = (admin) => {
         payload : admin
     }
 }
+const setAdminLoginError = (error) => {
+    return {
+        type : SET_ADMIN_LOGIN_ERROR,
+        payload : error
+    }
+}
 
 const storeAdminToken = (admin) => {
     return(dispatch) => {
         axios.post(`${AdminBase}/login`,admin)
         .then( token => {
             sessionStorage.setItem("adminsToken", token.data.accessToken)
-            dispatch(setAdminToken(token.data.accessToken))
+            dispatch(setAdminToken(token.data))
         })
-        .catch( err => console.log(err.response.data,err.response.status))
+        .catch( error => {
+            if(error.response.status === 400)
+            {
+                dispatch(setAdminLoginError(error.response.data.errorMessage))
+            }
+        })
     }
 }
 

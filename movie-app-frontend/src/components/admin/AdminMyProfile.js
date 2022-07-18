@@ -9,10 +9,9 @@ import { viewAdminProfile } from '../redux/AdminActions'
   const adminId = useSelector( state => state.admin._adminId )
   const adminProfile = useSelector( state => state.admin.adminProfile )
   const dispatch = useDispatch()
-    // useEffect(() => {
-    //   dispatch(viewAdminProfile(adminId))
-    // },[adminId])
+  
     useEffect(() => {
+      if(adminId)
       dispatch(viewAdminProfile(adminId))
     },[adminId])
     

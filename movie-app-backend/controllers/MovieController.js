@@ -1,5 +1,6 @@
 const Movie = require('../model/Movie')
 const Show = require('../model/Show')
+const Book = require('../model/Book')
 const { movieValidationSchema } = require('../validation/ValidationSchema')
 const { addMovieShow } = require('./ShowController')
 /**To view all the movies running on screen */
@@ -38,9 +39,7 @@ const viewCurrentMovies = async(req,res) => {
     let movies
     // let currentDate = new Date(req.query.current)
         try{
-            console.log("date : ",currentDate)
             movies = await Movie.find({ startBookingDate : new Date(currentDate) })
-            console.log("Current Movies : ",movies)
             return res.status(200).json({movies})
         }
         catch(err) {
@@ -51,9 +50,9 @@ const viewCurrentMovies = async(req,res) => {
 const addMovie = async(req, res) => { 
     let movie
     try{
-        let options = { abortEarly : false }
-        const movieResult = await movieValidationSchema.validateAsync(req.body,options)
-        movie = await Movie.findOne({ movieName : movieResult.movieName, startBookingDate : movieResult.startBookingDate })
+        // let options = { abortEarly : false }
+        const movieResult = await movieValidationSchema.validateAsync(req.body)
+        movie = await Movie.findOne({ movieName : movieResult.movieName, startBookingDate : movieResult.startBookingDate, endBookingDate : movieResult.endBookingDate })
         if(movie) 
         throw "The movie has already been added"
         movie = new Movie(movieResult)
@@ -109,11 +108,14 @@ const updateMovie = async(req, res) => {
 }
 /**To delete a movie from dashboard */
 const deleteMovie = async(req, res) => {
-    let movie
+    let movie, user
     let movieId = req.params.movieId
         try{
             if(movieId.length !== 24)
             throw "Invalid Object Id"
+            user = await Book.find({ movie : movieId })
+            if(user)
+            throw "Movie has already been booked by a user"
             movie = await Movie.findByIdAndDelete(movieId)
             if(movie === null)
             throw "Unable to delete this id"
@@ -121,7 +123,7 @@ const deleteMovie = async(req, res) => {
             return res.status(200).json({ message : "Succesfully deleted" })
         }
         catch(err) {
-            return res.status(404).json({ errorMessage : err })
+            return res.status(400).json({ errorMessage : err })
         }  
 }
 module.exports = {

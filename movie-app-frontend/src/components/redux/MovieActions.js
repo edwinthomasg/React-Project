@@ -1,4 +1,4 @@
-import { SET_MOVIES, SET_MOVIE, DELETE_MOVIE } from "./ActionTypes"
+import { SET_MOVIES, SET_MOVIE, SET_UPDATED_MOVIE, SET_ADDED_MOVIE, SET_MOVIE_ERROR, CLEAR_MOVIE_ERROR } from "./ActionTypes"
 import axios from 'axios'
 import { MovieBase } from "../api/BaseUrl"
 import { axiosAdminInstance } from "../api/Interceptors"
@@ -9,10 +9,33 @@ const setMovies = (movies) => {
         payload : movies
     }
 }
+const setUpdatedMovie = (movie) => {
+    return {
+        type : SET_UPDATED_MOVIE,
+        payload : movie
+    }
+}
 const setMovie = (movie) => {
     return {
         type : SET_MOVIE,
         payload : movie
+    }
+}
+const setAddedMovie = (success) => {
+    return {
+        type : SET_ADDED_MOVIE,
+        payload : success
+    }
+}
+const setMovieError = (error) => {
+    return {
+        type : SET_MOVIE_ERROR,
+        payload : error
+    }
+}
+const clearMovieError = () => {
+    return {
+        type : CLEAR_MOVIE_ERROR
     }
 }
 const setCurrentMovies = (movies) => {
@@ -25,7 +48,6 @@ const viewMovies = () => {
     return(dispatch) => {
         axios.get(`${MovieBase}`)
         .then(movies => {
-            console.log("movies : ",movies.data.movies)
             dispatch(setMovies(movies.data.movies))
         })
         .catch( err => console.log(err) )
@@ -50,10 +72,22 @@ const addMovies = (movieDetails) => {
             data:movieDetails
         })
         .then(movie => { 
-            console.log("movie added : ",movie.data.movie)
-            // dispatch(setMovie(movie.data.movie))
+            dispatch(setAddedMovie(movie.data.message))
         })
-        .catch( err => console.log("error : ",err))
+        .catch( error => {
+            console.log("error : ",error.response.data)
+            
+            if(error.response.status === 400)
+                {
+                    if(error.response.data[0] && error.response.data[0].startBookingDate !== '')
+                    dispatch(setMovieError(error.response.data[0].startBookingDate))
+                    else if(error.response.data[0] && error.response.data[0].endBookingDate !== '')
+                    dispatch(setMovieError(error.response.data[0].endBookingDate))
+                    else
+                    dispatch(setMovieError(error.response.data.errorMessage))
+                }
+        }
+        )
     }
 }
 const viewMovie = (movieId) => {
@@ -66,13 +100,16 @@ const viewMovie = (movieId) => {
     }
 }
 const deleteMovie = (movieId) => {
-    return() => {
+    return(dispatch) => {
         axiosAdminInstance({
             url: `movies/${movieId}`,
             method: "delete"
         })
         .then((message) => console.log(message) )
-        .catch( (err) => console.log(err))
+        .catch( (error) => {
+            if(error.response.status === 400)
+            dispatch(setMovieError(error.response.data.errorMessage))
+        })
     }
 }
 const updateMovie = (movieDetails,movieId) => {
@@ -83,7 +120,7 @@ const updateMovie = (movieDetails,movieId) => {
             data:movieDetails
         })
         .then(() => {
-            dispatch(setMovie(movieDetails))
+            dispatch(setUpdatedMovie(movieDetails))
         })
         .catch( err => console.log(err))
     }
@@ -94,5 +131,6 @@ export {
     viewMovie,
     viewCurrentMovies,
     deleteMovie,
-    updateMovie
+    updateMovie,
+    clearMovieError
 }

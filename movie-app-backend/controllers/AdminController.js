@@ -18,13 +18,13 @@ const loginAdmin = async(req, res) => {
         admin = await Admin.findOne({ adminEmail : loginResult.adminEmail })
         if(admin == null) 
            throw "No account exists with this email id"
-        // if(! (bcrypt.compareSync(loginResult.adminPassword, admin.adminPassword)))
-        //     throw "Password doesn't match"
+        if(! (bcrypt.compareSync(loginResult.adminPassword, admin.adminPassword)))
+            throw "Password doesn't match"
         const message = "Succesfully logged in"
-        sendAdminToken(admin, 200, res, message);    
+        sendAdminToken(admin, 200, res, message)
     }
     catch(err){
-        return res.status(404).json({ errorMessage : err })
+        return res.status(400).json({ errorMessage : err })
     }
 }
 /**To deactivate my profile */

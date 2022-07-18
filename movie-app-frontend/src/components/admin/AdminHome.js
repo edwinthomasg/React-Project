@@ -4,7 +4,7 @@ import axios from 'axios'
 import MovieCard from '../movie/MovieCard'
 import { Box } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
-import { viewMovies } from '../redux/MovieActions'
+import { clearMovieError, viewMovies } from '../redux/MovieActions'
 
 
 const AdminHome = () => {
@@ -12,6 +12,8 @@ const AdminHome = () => {
   const dispatch = useDispatch()
     useEffect(() => {
       dispatch(viewMovies())
+      console.log("clear error of movie")
+      dispatch(clearMovieError())
     }, [])
     return(<>
       <Box p={15} pt={15} >
