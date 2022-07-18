@@ -12,8 +12,6 @@ const AdminHome = () => {
   const dispatch = useDispatch()
     useEffect(() => {
       dispatch(viewMovies())
-      console.log("clear error of movie")
-      dispatch(clearMovieError())
     }, [])
     return(<>
       <Box p={15} pt={15} >

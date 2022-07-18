@@ -4,17 +4,18 @@ import { useDispatch } from 'react-redux';
 
 import CarouselContainer from '../movie/Carousel'
 import { viewCurrentMovies } from '../redux/MovieActions';
+import { clearSeatError } from '../redux/ShowActions';
 
  const Home = () => {
   const [toggle, setToggle] = useState('Now Showing');
   const dispatch = useDispatch()
   const current = new Date()
-  const formattedDate = current.toISOString()
+  console.log("current : ",current+"\n"+current.toISOString())
   const tabChange = (event, newTab) => {
     setToggle(newTab)
   }
   const displayCurrentMovies = () => {
-    dispatch(viewCurrentMovies(formattedDate))
+    dispatch(viewCurrentMovies(current.toISOString()))
   }
     return(<>
       <CarouselContainer/>

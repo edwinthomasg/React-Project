@@ -73,7 +73,6 @@ const viewProfile = async(req, res) => {
             user = await User.findById(userId).populate({ path: 'myBookings' })
             if(user === null)
             throw "No user found with the id mentioned"
-            console.log("user : ",user)
             return res.status(200).json({user})
         }
         catch(err) {

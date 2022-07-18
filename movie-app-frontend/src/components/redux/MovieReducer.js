@@ -26,6 +26,11 @@ const movieReducer = ( state = movieInitialState, action ) => {
             movieMessage : action.payload,
             movieSuccess : false
         }
+        case 'SET_DELETE_MOVIE' : return {
+            ...state,
+            movieMessage : action.payload,
+            movieSuccess : true
+        }
         case 'CLEAR_MOVIE_ERROR' : return {
             ...state,
             movieMessage : '',

@@ -36,8 +36,8 @@ const viewMovie = async(req, res) => {
 /**To view current movies playing */
 const viewCurrentMovies = async(req,res) => {
     const currentDate = req.query.current.substring(0,10) + 'T00:00:00.000+00:00'
+    console.log("current date : ",currentDate)
     let movies
-    // let currentDate = new Date(req.query.current)
         try{
             movies = await Movie.find({ startBookingDate : new Date(currentDate) })
             return res.status(200).json({movies})
@@ -114,7 +114,8 @@ const deleteMovie = async(req, res) => {
             if(movieId.length !== 24)
             throw "Invalid Object Id"
             user = await Book.find({ movie : movieId })
-            if(user)
+            console.log("user : ",user.length)
+            if(user.length > 0)
             throw "Movie has already been booked by a user"
             movie = await Movie.findByIdAndDelete(movieId)
             if(movie === null)

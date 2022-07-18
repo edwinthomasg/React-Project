@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteMovie } from "../redux/MovieActions";
+import { clearMovieError, deleteMovie } from "../redux/MovieActions";
 import ReactJsAlert from "reactjs-alert"
 
 const useStyles = makeStyles({
@@ -31,6 +31,7 @@ const MovieCard = ({ data }) => {
         if(admin._adminId === '')
         return navigate('/admin/login',{replace:true})
         dispatch(deleteMovie(data._id))
+        dispatch(clearMovieError())
     }
     useEffect(() => {
     if(movieSuccess)
@@ -38,6 +39,7 @@ const MovieCard = ({ data }) => {
       setStatus(true)
       setType('success')
       setTitle(movieMessage)
+      dispatch(clearMovieError())
     }
     else if((!movieSuccess) && (movieMessage !== ''))
     {
@@ -45,7 +47,7 @@ const MovieCard = ({ data }) => {
       setType('error')
       setTitle(movieMessage)
     }
-    })
+    },[movieSuccess, movieMessage])
     return (
         <>
             <Card className={classes.root}>

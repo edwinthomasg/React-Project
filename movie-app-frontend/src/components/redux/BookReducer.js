@@ -1,6 +1,8 @@
 const bookInitialState = {
     bookings : '',
-    allBookings : []
+    allBookings : [],
+    bookingSuccess : false,
+    bookingMessage : ''
 }
 
 const bookReducer = (state = bookInitialState, action) => {
@@ -13,8 +15,14 @@ const bookReducer = (state = bookInitialState, action) => {
             ...state,
             allBookings : action.payload
         }
+        case 'SET_BOOKING_ERROR' : return {
+            ...state,
+            bookingMessage : action.payload,
+            bookingSuccess : false
+        }
         case 'CLEAR_BOOKING' : return {
-            bookings : ''
+            bookings : '',
+            bookingMessage : ''
         }
         default : return state
     }

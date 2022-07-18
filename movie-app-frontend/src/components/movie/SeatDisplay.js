@@ -4,7 +4,7 @@ import { CardMedia } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { bookShow } from '../redux/ShowActions';
+import { bookShow, clearSeatError } from '../redux/ShowActions';
 import ReactJsAlert from "reactjs-alert"
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
@@ -26,12 +26,28 @@ const SeatDisplay = ({data}) => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const userId = useSelector( state => state.user._userId )
-  // const {message} = useSelector( state => state.book)
+
   const navigate = useNavigate()
   const [status, setStatus] = useState(false)
   const [title, setTitle] = useState('')
   const [type, setType] = useState('')
   const [seats, setSeats] = useState([])
+  const { showMessage, showSuccess } = useSelector( state => state.show )
+  console.log("from comp : ",showMessage,showSuccess)
+  useEffect(() => {
+    if(showSuccess)
+    {
+      setStatus(true)
+      setType('success')
+      setTitle(showMessage)
+    }
+    else if((!showSuccess) && (showMessage !== ''))
+    {
+      setStatus(true)
+      setType('error')
+      setTitle(showMessage)
+    }
+  },[showSuccess, showMessage])
   const selectSeats = (event) => {
     if (!seats.includes(event.target.value))
       setSeats(prev => [...prev, event.target.value])
@@ -44,11 +60,6 @@ const SeatDisplay = ({data}) => {
 
 const bookHandler = () => {
     dispatch(bookShow({ movieId : data.selectedMovieId, showDate : data.selectedDate, userId, seats }))
-    navigate('/home')
-    // if(message === '')
-    // {setStatus(true)
-    // setTitle('successfully your tickets have been confirmed')
-    // setType('success')}
 }
 console.log("movie show : ",data.movie)
   return (<div className='row'>
@@ -143,10 +154,19 @@ console.log("movie show : ",data.movie)
     </div>
     {/* <Checkbox {...label} disabled checked /> */}
     <ReactJsAlert
-          status={status} type={type} title={title} Close = {(status) => {
-            setStatus(false)
-            navigate('/')
-          }}/>
+        status={status} type={type} title={title} Close = {(status) => {
+        if(showSuccess && showMessage)
+        {
+          setStatus(false)
+          dispatch(clearSeatError())
+          navigate('/home')
+        }
+        else if((!showSuccess) && (showMessage !== ''))
+        {
+          setStatus(false)
+          dispatch(clearSeatError())
+        }
+        }}/>
   </div>
   
   )

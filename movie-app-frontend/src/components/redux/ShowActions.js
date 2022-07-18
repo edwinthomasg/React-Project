@@ -1,5 +1,5 @@
 import axios from "axios"
-import { SET_SHOW, SET_BOOKING_STATUS, SET_SEAT_ERROR } from "./ActionTypes"
+import { SET_SHOW, SET_BOOKING_STATUS, SET_SEAT_ERROR, CLEAR_SEAT_ERROR } from "./ActionTypes"
 import { ShowBase } from "../api/BaseUrl"
 import { axiosUserInstance } from "../api/Interceptors"
 
@@ -21,6 +21,11 @@ const setSeatError = (message) => {
         payload : message
     }
 }
+const clearSeatError = () => {
+    return {
+        type : CLEAR_SEAT_ERROR
+    }
+}
 const viewShow = (movieId) => {
     return(dispatch) => {
         axios.get(`${ShowBase}/${movieId}`)
@@ -40,17 +45,18 @@ const bookShow = (bookingDetails) => {
             data : bookingDetails
         }) 
     .then( book => {
-        dispatch(setBooking(book.data))
+        console.log("message : ",book.data.message)
+        dispatch(setBooking(book.data.message))
     })
     .catch(err => {
         if(err.response.status === 400)
         {
-            console.log("error : ",err.response.data.errorMessage)
             dispatch(setSeatError(err.response.data.errorMessage))
         }
     })}
 }
 export {
     viewShow,
-    bookShow
+    bookShow,
+    clearSeatError
 }

@@ -6,6 +6,7 @@ import UserHeader from "./user/UserHeader";
 const Header = () => {
   const location = useLocation()
   const paths = location.pathname.split('/')
+  console.log("path : ",location.pathname)
   return(<>
         {
             paths.includes('admin')? <AdminHeader /> : <UserHeader />

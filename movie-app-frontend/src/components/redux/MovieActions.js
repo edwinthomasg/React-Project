@@ -1,4 +1,4 @@
-import { SET_MOVIES, SET_MOVIE, SET_UPDATED_MOVIE, SET_ADDED_MOVIE, SET_MOVIE_ERROR, CLEAR_MOVIE_ERROR } from "./ActionTypes"
+import { SET_MOVIES, SET_MOVIE, SET_UPDATED_MOVIE, SET_ADDED_MOVIE, SET_MOVIE_ERROR, CLEAR_MOVIE_ERROR, SET_DELETE_MOVIE } from "./ActionTypes"
 import axios from 'axios'
 import { MovieBase } from "../api/BaseUrl"
 import { axiosAdminInstance } from "../api/Interceptors"
@@ -38,6 +38,12 @@ const clearMovieError = () => {
         type : CLEAR_MOVIE_ERROR
     }
 }
+const setDeleteMovie = (message) => {
+    return {
+        type : SET_DELETE_MOVIE,
+        payload : message
+    }
+}
 const setCurrentMovies = (movies) => {
     return {
         type : 'SET_CURRENT_MOVIES',
@@ -75,8 +81,6 @@ const addMovies = (movieDetails) => {
             dispatch(setAddedMovie(movie.data.message))
         })
         .catch( error => {
-            console.log("error : ",error.response.data)
-            
             if(error.response.status === 400)
                 {
                     if(error.response.data[0] && error.response.data[0].startBookingDate !== '')
@@ -105,7 +109,9 @@ const deleteMovie = (movieId) => {
             url: `movies/${movieId}`,
             method: "delete"
         })
-        .then((message) => console.log(message) )
+        .then((movie) => {
+            dispatch(setDeleteMovie(movie.data.message))
+        } )
         .catch( (error) => {
             if(error.response.status === 400)
             dispatch(setMovieError(error.response.data.errorMessage))

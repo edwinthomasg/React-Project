@@ -1,6 +1,6 @@
 import axios from "axios"
 import { axiosUserInstance } from "../api/Interceptors"
-import { SET_BOOKING, SET_BOOKINGS, CLEAR_BOOKING } from "./ActionTypes"
+import { SET_BOOKING, SET_BOOKINGS, SET_BOOKING_ERROR, CLEAR_BOOKING } from "./ActionTypes"
 import { axiosAdminInstance } from "../api/Interceptors"
 
 const setBooking = (booking) => {
@@ -13,6 +13,12 @@ const setBookings = (bookings) =>  {
     return {
     type : SET_BOOKINGS,
     payload : bookings
+    }
+}
+const setBookingError = (error) => {
+    return {
+        type : SET_BOOKING_ERROR,
+        payload : error
     }
 }
 const clearBooking = () => {
@@ -29,6 +35,9 @@ const viewBooking = (userId) => {
         .then(book => {
             console.log("user book : ",book.data.bookings)
             dispatch(setBooking(book.data.bookings))
+        })
+        .catch(error => {
+            dispatch(setBookingError(error.response.data.errorMessage))
         })
     }
 }
