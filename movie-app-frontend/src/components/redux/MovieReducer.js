@@ -1,6 +1,7 @@
 let movieInitialState = {
     movies : [],
     movie : '',
+    currentMovies : [],
     movieMessage : '',
     movieSuccess : false
 }
@@ -20,6 +21,10 @@ const movieReducer = ( state = movieInitialState, action ) => {
             ...state,
             movieMessage : action.payload,
             movieSuccess : true,
+        }
+        case 'SET_CURRENT_MOVIES' : return {
+            ...state,
+            currentMovies : action.payload
         }
         case 'SET_MOVIE_ERROR' : return {
             ...state,

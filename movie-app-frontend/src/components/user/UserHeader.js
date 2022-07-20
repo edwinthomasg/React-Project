@@ -1,13 +1,14 @@
 import React, { useState,useEffect } from 'react'
 import { AppBar, Button, Box, Toolbar, Typography, Tabs, Tab, } from '@mui/material'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { appBar, headerMenu, } from '../../styles/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUserToken, viewProfile } from '../redux/UserActions'
 import { setSignOut, setSignUp } from '../redux/SignupActions'
 import { clearBooking } from '../redux/BookActions'
+import '../../styles/Style.css'
 
-
+/**Users Header Component */
 const UserHeader = () => {
     const location = useLocation()
     const user = useSelector( state => state.user )
@@ -42,15 +43,16 @@ const UserHeader = () => {
         {
             setSelectTab(3)
         }
-    },[selectTab,user._userId])
+    },[selectTab,location.pathname])
+    /**To display user name in user header */
     useEffect(() => {
         if(user._userId)
         dispatch(viewProfile(user._userId))
-    },[dispatch, user._userId]) /**To display user name in user header */
+    },[dispatch, user._userId]) 
     return (<>
         <AppBar position='sticky' style={appBar}>
             <Toolbar>
-                <Typography variant='h4' margin="0 5%">TicketNew</Typography>
+                <Typography variant='h4' className='app-title'>TicketNew</Typography>
                 <Tabs value={selectTab} onChange={ (event, value) => setSelectTab(value) } >
 
                     <Tab LinkComponent={Link} to='/home' label="Home" style={headerMenu} />
@@ -70,8 +72,7 @@ const UserHeader = () => {
                     }
                     {
                         user._userId && (<>
-                        <Typography variant='h6' style={{position : 'relative', top :'10px', right : '50px'}}>Hi {userName} </Typography>
-                        
+                        <Typography variant='h6' className='user-name-title'>Hi {userName} </Typography>
                         <Button onClick={logoutHandler} LinkComponent={Link} to='/home' variant='outlined' sx={{ margin: 1, borderRadius: 3 }} color='warning'>Logout</Button>
                         </>)
                     }

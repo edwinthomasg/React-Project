@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import '../../styles/Style.css'
 import ReactJsAlert from 'reactjs-alert'
 
+/**Login authentication page for an admin */
 const AdminLogin = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()

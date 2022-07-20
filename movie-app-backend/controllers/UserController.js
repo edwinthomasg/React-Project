@@ -55,8 +55,8 @@ const loginUser = async(req, res) => {
            throw "No account exists with this email id"
         if(! (bcrypt.compareSync(loginResult.userPassword, user.userPassword)))
             throw "Password doesn't match"
-        const message = "Succesfully logged in"
-        sendUserToken(user, 200, res, message);    
+        const receivedToken = sendUserToken(user)
+        return res.status(200).cookie("userToken", receivedToken.token, receivedToken.options).json({ accessToken : receivedToken.token , message : "Succesfully logged in" });  
     }
     catch(err){
         return res.status(400).json({ errorMessage : err })
@@ -64,7 +64,6 @@ const loginUser = async(req, res) => {
 }
 /**To view my profile */
 const viewProfile = async(req, res) => {
-    console.log("id : ",req.params.userId)
     let user
     let userId = req.params.userId
         try{
@@ -81,8 +80,6 @@ const viewProfile = async(req, res) => {
 }
 /**To update my existing profile details */
 const updateProfile = async(req, res) => {
-    console.log("id to update : ",req.params.userId)
-    console.log("to update : ",req.body)
     let user
     let userId = req.params.userId
     try{
@@ -102,7 +99,6 @@ const updateProfile = async(req, res) => {
             userContact
         })
         user = await user.save()
-        console.log("updated : ",user)
         return res.status(200).json({message:"Successfully updated"})
     }
     catch(err) {
@@ -132,5 +128,3 @@ module.exports = {
     updateProfile,
     deleteProfile
 }
-
-/**errors , salt = 10, */

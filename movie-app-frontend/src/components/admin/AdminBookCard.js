@@ -1,8 +1,8 @@
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { makeStyles } from "@material-ui/styles";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material"
+import { makeStyles } from "@material-ui/styles"
+import React from "react"
+import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
 
 const useStyles = makeStyles({
     root : {
@@ -10,9 +10,10 @@ const useStyles = makeStyles({
         maxWidth : 350,
         maxHeight : 500,
         padding : 15,
-        marginBottom : 20,
+        marginBottom : 20
     }
 })
+/**Admin can able to view all the bookings from Bookings component */
 const AdminBookCard = ({ data }) => {
     const classes = useStyles()
     const navigate = useNavigate()

@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from "axios"
 
-const baseURL = 'http://localhost:3040';
+const baseURL = 'http://localhost:3040'
 
 const axiosUserInstance = axios.create({
   baseURL: baseURL,
@@ -8,13 +8,14 @@ const axiosUserInstance = axios.create({
 
 axiosUserInstance.interceptors.request.use(
   (request) => {
-    const userToken = sessionStorage.getItem("usersToken");
-    request.headers["Authorization"] = userToken;
-    return request;
+    const userToken = sessionStorage.getItem("usersToken")
+    request.headers["Authorization"] = userToken
+    return request
   },
   (error) => {
-    return Promise.reject(error);
+    return error
   }
+  
 );
 
 const axiosAdminInstance = axios.create({
@@ -23,12 +24,12 @@ const axiosAdminInstance = axios.create({
   
   axiosAdminInstance.interceptors.request.use(
     (request) => {
-      const adminToken = sessionStorage.getItem("adminsToken");
-      request.headers["Authorization"] = adminToken;
-      return request;
+      const adminToken = sessionStorage.getItem("adminsToken")
+      request.headers["Authorization"] = adminToken
+      return request
     },
     (error) => {
-      return Promise.reject(error);
+      return error
     }
   );
 

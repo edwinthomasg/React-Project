@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from 'react-router-dom'
 import { useStyles } from "../../styles/styles"
 import { updateMovie, viewMovie } from "../redux/MovieActions"
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
+import '../../styles/Style.css'
 
-
+/**Admin can edit the movies selected from movie card page */
 const EditMovie = () => {
     const classes = useStyles()
     let { movieId } = useParams();
@@ -65,7 +67,11 @@ const EditMovie = () => {
         dispatch(updateMovie(movie, movieId))
         navigate(`/admin/movies/${movieId}`) 
     }
+    const goBack = () => {
+      navigate(-1)
+    }
     return(<>
+    <Button variant="contained" endIcon={<ArrowBackSharpIcon className="back-icon"/>} onClick={goBack} className='back-button'></Button>
     <form onSubmit={ updateHandler }>
         <Box className = {classes.loginForm}>
           <Typography padding={1} variant='h4' textAlign="center">

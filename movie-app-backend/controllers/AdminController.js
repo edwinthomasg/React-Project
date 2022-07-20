@@ -8,7 +8,6 @@ require('dotenv').config()
 const loginAdmin = async(req, res) => {
     let admin
     const { adminEmail, adminPassword } = req.body
-    console.log(req.body)
     try{
         let options = { abortEarly : false }
         const loginResult = await adminValidationSchema.validateAsync({
@@ -20,8 +19,8 @@ const loginAdmin = async(req, res) => {
            throw "No account exists with this email id"
         if(! (bcrypt.compareSync(loginResult.adminPassword, admin.adminPassword)))
             throw "Password doesn't match"
-        const message = "Succesfully logged in"
-        sendAdminToken(admin, 200, res, message)
+        const receivedToken = sendAdminToken(admin)
+        return res.status(200).cookie("adminToken", receivedToken.token, receivedToken.options).json({ accessToken : receivedToken.token , message : "Succesfully logged in" })
     }
     catch(err){
         return res.status(400).json({ errorMessage : err })
@@ -45,10 +44,8 @@ const deleteAdminProfile = async(req,res) => {
 }
 /**To view admin profile */
 const viewAdminProfile = async(req, res) => {
-    console.log("entered")
     let admin
     let adminId = req.params.adminId
-    console.log("id:",adminId)
         try{
             if(adminId.length !== 24)
             throw "Invalid Object Id"

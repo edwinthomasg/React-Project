@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { viewAllBookings } from '../redux/BookActions'
 import AdminBookCard from './AdminBookCard'
 
+/**To list all the bookings confirmed by user */
  const AdminBookings = () => {
   const dispatch = useDispatch()
   const bookings = useSelector( state => state.book.allBookings )
-  console.log("bookigs : ",bookings)
    useEffect(() => {
     dispatch(viewAllBookings())
    },[])

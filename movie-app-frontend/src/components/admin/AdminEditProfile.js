@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { updateAdminProfile, viewAdminProfile } from "../redux/AdminActions"
 import { useNavigate } from 'react-router-dom'
 import { useStyles } from "../../styles/styles"
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp'
+import '../../styles/Style.css'
 
+/**Admin can edit their profile */
 const AdminEditProfile = () => {
     const classes = useStyles()
     const adminId = useSelector( state => state.admin._adminId )
@@ -43,7 +46,11 @@ const AdminEditProfile = () => {
         dispatch(updateAdminProfile(adminCredentials, adminId))
         navigate('/admin/my-profile') 
     }
+    const goBack = () => {
+      navigate(-1)
+    }
     return(<>
+    <Button variant="contained" endIcon={<ArrowBackSharpIcon className="back-icon"/>}  onClick={goBack} className='back-button'></Button>
     <form onSubmit={ updateHandler }>
         <Box className = {classes.loginForm}>
           <Typography padding={1} variant='h4' textAlign="center">

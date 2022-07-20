@@ -25,7 +25,7 @@ const AdminSchema = new mongoose.Schema({
 
 AdminSchema.methods.generateJsonWebToken = function(){
     return jwt.sign({ id:this._id, role : this.role },process.env.SECRET_KEY,{
-        expiresIn:'20m',
+        expiresIn:'30m',
     });
 }
 

@@ -23,7 +23,8 @@ const userReducer = (state = userInitialState, action) => {
             _userId : user.id,
             userRole : user.role,
             loginMessage : action.payload,
-            profile : user,
+            signupMessage : '',
+            profile : '',
             loginSuccess : true,
             signupSuccess : false
         }

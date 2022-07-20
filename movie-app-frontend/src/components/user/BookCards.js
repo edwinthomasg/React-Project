@@ -1,32 +1,21 @@
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
-import { makeStyles } from "@material-ui/styles";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useStyles } from '../../styles/styles'
+import '../../styles/Style.css'
 
-const useStyles = makeStyles({
-    root : {
-        margin : 'auto',
-        maxWidth : 350,
-        maxHeight : 500,
-        padding : 15,
-        marginBottom : 20,
-    }
-})
+/**To display each movie in a Card from My Bookings Page */
 const BookCard = ({ data }) => {
     const classes = useStyles()
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
     return (
         <>
-            <Card className={classes.root}>
+            <Card className={classes.userBookCard}>
                 <CardMedia height={250}
                     component="img"
                     alt="No image found"
                     image={data.movie.movieImageUrl}
                 />
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom component="h6">
                     <span>Movie Name : </span>{data.movie.movieName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" component="p">

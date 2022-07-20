@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import ReactJsAlert from "reactjs-alert"
 import '../../styles/Style.css'
 
+/**Admin can add new movies to the page */
  const AdminMovies = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -21,7 +22,7 @@ import '../../styles/Style.css'
   const [title, setTitle] = useState('')
   const { movieMessage, movieSuccess } = useSelector( state => state.movie )
   useEffect(() => {
-    if(movieSuccess)
+    if(movieSuccess && movieMessage)
     {
       setStatus(true)
       setType('success')
@@ -35,7 +36,6 @@ import '../../styles/Style.css'
     }
   },[movieSuccess, movieMessage])
   const submitHandler = async(movieData) => {
-    dispatch(clearMovieError())
     dispatch(addMovies(movieData))
   }
     return(<>
@@ -71,7 +71,8 @@ import '../../styles/Style.css'
               message : 'Ticket price should be atleast 190rs'
             },
             max : {
-              value : 'Ticket price should not exceed 500rs'
+              value : 500,
+              message : 'Ticket price should not exceed 500rs'
             }
           })} type={'number'} placeholder='Ticket Cost' margin='normal'/>
           { errors.ticketCost && <small className='credential-error'>{errors.ticketCost.message}</small>}
@@ -109,6 +110,7 @@ import '../../styles/Style.css'
         if(movieSuccess && movieMessage)
         {
           setStatus(false)
+          dispatch(clearMovieError())
           navigate('/admin/home')
         }
         else if((!movieSuccess) && (movieMessage !== ''))

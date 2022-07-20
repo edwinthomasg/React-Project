@@ -10,7 +10,8 @@ import { useForm } from 'react-hook-form'
 import ReactJsAlert from "reactjs-alert"
 import '../../styles/Style.css'
  
-const Login = () => {
+/**User's Login & Register component*/
+const Auth = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { register, handleSubmit, formState : {errors}, watch , reset} = useForm({
@@ -26,6 +27,7 @@ const Login = () => {
     const [title, setTitle] = useState('')
     const { loginMessage, signupMessage, loginSuccess, signupSuccess } = useSelector( state => state.user )
     
+    /**To display success message on successfull registeration and login, alert message for bad request */
     useEffect( () => {
       if(signupSuccess)
       {
@@ -41,6 +43,7 @@ const Login = () => {
       }
     },[loginSuccess, signupSuccess, loginMessage, signupMessage])
     
+    /**To submit all the details entered by the user to the server by dispatching an action */
     const submitHandler = (userData) => {
       if(signup)
       {
@@ -56,7 +59,7 @@ const Login = () => {
     return(<>
       <form onSubmit={ handleSubmit(submitHandler) }>
         <Box className = {classes.loginForm}>
-          <Typography padding={1} variant='h4' textAlign="center">
+          <Typography className={classes.userAuthTitle} variant='h4'>
             { signup ? "Signup" : "Login" }
           </Typography>
           { signup && <TextField {...register('userName',{ required : 'Username required', 
@@ -99,7 +102,7 @@ const Login = () => {
           }
           {!loginSuccess && <small>{loginMessage}</small>}
           {!signupSuccess && <small>{signupMessage}</small>}
-          <Button type='submit' variant='contained' color='warning' style={{margin : '5% 0'}}>{ signup ? "Signup" : "Login" }</Button>
+          <Button type='submit' variant='contained' color='warning' className={classes.userAuthButton}>{ signup ? "Signup" : "Login" }</Button>
           { !signup && <Typography>Dont't have an account ?</Typography> }
           <Link onClick={signupHandler} to='/auth'>{ !signup && "Signup"}</Link>
         </Box>
@@ -118,11 +121,11 @@ const Login = () => {
         else if(loginMessage)
         {
           setStatus(false)
-          navigate('/home')
+          navigate('/home',{replace:true})
         }
       }}
       />
     </>)
  }
 
- export default Login
+ export default Auth

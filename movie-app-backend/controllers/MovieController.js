@@ -36,10 +36,9 @@ const viewMovie = async(req, res) => {
 /**To view current movies playing */
 const viewCurrentMovies = async(req,res) => {
     const currentDate = req.query.current.substring(0,10) + 'T00:00:00.000+00:00'
-    console.log("current date : ",currentDate)
     let movies
         try{
-            movies = await Movie.find({ startBookingDate : new Date(currentDate) })
+            movies = await Show.find({ showDate : new Date(currentDate) }).populate({path : 'movie'})
             return res.status(200).json({movies})
         }
         catch(err) {
@@ -50,9 +49,8 @@ const viewCurrentMovies = async(req,res) => {
 const addMovie = async(req, res) => { 
     let movie
     try{
-        // let options = { abortEarly : false }
         const movieResult = await movieValidationSchema.validateAsync(req.body)
-        movie = await Movie.findOne({ movieName : movieResult.movieName, startBookingDate : movieResult.startBookingDate, endBookingDate : movieResult.endBookingDate })
+        movie = await Movie.findOne({ movieName : movieResult.movieName })
         if(movie) 
         throw "The movie has already been added"
         movie = new Movie(movieResult)
@@ -99,7 +97,6 @@ const updateMovie = async(req, res) => {
         show = await Show.updateOne({movie : movieId, showDate : new Date(movieShow.startBookingDate.getTime() + (1000 * i * 86400))},
         {showDate : new Date(movie.startBookingDate.getTime() + (1000 * i * 86400))})
         }
-        console.log("updated : ",movie)
         return res.status(200).json({message:"Successfully updated"})
     }
     catch(err) {
@@ -114,7 +111,6 @@ const deleteMovie = async(req, res) => {
             if(movieId.length !== 24)
             throw "Invalid Object Id"
             user = await Book.find({ movie : movieId })
-            console.log("user : ",user.length)
             if(user.length > 0)
             throw "Movie has already been booked by a user"
             movie = await Movie.findByIdAndDelete(movieId)

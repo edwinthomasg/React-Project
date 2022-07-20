@@ -33,6 +33,7 @@ const setAdminLoginError = (error) => {
     }
 }
 
+/**To post the details entered by admin in login page */
 const storeAdminToken = (admin) => {
     return(dispatch) => {
         axios.post(`${AdminBase}/login`,admin)
@@ -48,7 +49,7 @@ const storeAdminToken = (admin) => {
         })
     }
 }
-
+/**To retreive the token from session storage that is already been stored in the store while signing in */
 const retrieveAdminToken = () => {
     return(dispatch, getState) => {
         const token = getState().admin.adminToken
@@ -57,7 +58,7 @@ const retrieveAdminToken = () => {
         } 
     }
 }
-
+/**To get admin details from db and store it in state */
 const viewAdminProfile = (adminId) => {
     return(dispatch) => {
         axiosAdminInstance({
@@ -70,7 +71,7 @@ const viewAdminProfile = (adminId) => {
         .catch( err => console.log(err) )
     }
 }
-
+/**To update the details entered by admin in db */
 const updateAdminProfile = (adminDetails,adminId) => {
     return (dispatch) => {
         axiosAdminInstance({

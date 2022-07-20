@@ -6,7 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SeatDisplay from '../movie/SeatDisplay';
 import { viewShow } from "../redux/ShowActions";
 
-
+/**Show Page that is going to list all the dates sheduled for the movie selected */
 const Shows = () => {
   const [display, setDisplay] = useState(false)
   const location = useLocation()
@@ -16,13 +16,15 @@ const Shows = () => {
   const dates = useSelector(state => (state.show.shows))
   const [date, setDate] = useState('')
   const [toggle, setToggle] = useState('');
+  /**To toggle between dates */
   const tabChange = (event, newTab) => {
     setToggle(newTab);
   };
+  /**To display all the dates sheduled for the movie selected by getting the movieId from the params */
   useEffect(() => {
     dispatch(viewShow(movieId))
   }, [movieId])
- 
+  /**To display the seats when date is selected */
   const displaySeats = (event) => {
     setDate(event.target.value)
     setDisplay(true)

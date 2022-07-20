@@ -3,7 +3,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { viewMovie } from "../redux/MovieActions";
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
+import '../../styles/Style.css'
 
+/**Admin can select and see particular movie */
 const AboutMovieAdmin = () => {
     let { movieId } = useParams();
     const dispatch = useDispatch()
@@ -16,7 +19,11 @@ const AboutMovieAdmin = () => {
     const editHandler = () => {
         navigate(`/admin/movies/${movieId}/edit`)
     }
+    const goBack = () => {
+        navigate(-1)
+    }
     return (<>
+    <Button variant="contained" endIcon={<ArrowBackSharpIcon className="back-icon"/>} onClick={goBack} className='back-button'></Button>
         <Box sx={{
             width: 400,
             height: 370,

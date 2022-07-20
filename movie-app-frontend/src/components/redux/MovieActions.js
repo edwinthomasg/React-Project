@@ -1,4 +1,4 @@
-import { SET_MOVIES, SET_MOVIE, SET_UPDATED_MOVIE, SET_ADDED_MOVIE, SET_MOVIE_ERROR, CLEAR_MOVIE_ERROR, SET_DELETE_MOVIE } from "./ActionTypes"
+import { SET_MOVIES, SET_MOVIE, SET_UPDATED_MOVIE, SET_ADDED_MOVIE, SET_CURRENT_MOVIES, SET_MOVIE_ERROR, CLEAR_MOVIE_ERROR, SET_DELETE_MOVIE } from "./ActionTypes"
 import axios from 'axios'
 import { MovieBase } from "../api/BaseUrl"
 import { axiosAdminInstance } from "../api/Interceptors"
@@ -46,7 +46,7 @@ const setDeleteMovie = (message) => {
 }
 const setCurrentMovies = (movies) => {
     return {
-        type : 'SET_CURRENT_MOVIES',
+        type : SET_CURRENT_MOVIES,
         payload : movies
     }
 }
@@ -59,17 +59,19 @@ const viewMovies = () => {
         .catch( err => console.log(err) )
     }
 }
+/**To fetch todays movies that has been showing */
 const viewCurrentMovies = (currentDate) => {
     return(dispatch) => {
         axios.get(`${MovieBase}/today/?current=${currentDate}`)
         .then(movies => {
-            console.log("Current Movies : ",movies.data)
+            dispatch(setCurrentMovies(movies.data.movies))
         })
         .catch( err => {
             console.log("error : ",err)
         })
     }
 }
+/**To add a new movie by posting the movie details */
 const addMovies = (movieDetails) => {
     return (dispatch) => {
         axiosAdminInstance({
@@ -94,6 +96,7 @@ const addMovies = (movieDetails) => {
         )
     }
 }
+/**To fetch a single movie based on its id */
 const viewMovie = (movieId) => {
     return(dispatch) => {
         axios.get(`${MovieBase}/${movieId}`)
@@ -103,6 +106,7 @@ const viewMovie = (movieId) => {
         .catch( err => console.log(err) )
     }
 }
+/**To delete a specific movie */
 const deleteMovie = (movieId) => {
     return(dispatch) => {
         axiosAdminInstance({
@@ -118,6 +122,7 @@ const deleteMovie = (movieId) => {
         })
     }
 }
+/**To update a edited movie to the db */
 const updateMovie = (movieDetails,movieId) => {
     return(dispatch) => {
         axiosAdminInstance({

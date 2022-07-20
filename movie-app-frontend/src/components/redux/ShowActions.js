@@ -26,6 +26,7 @@ const clearSeatError = () => {
         type : CLEAR_SEAT_ERROR
     }
 }
+/**To fetch all the show available for the movie id received */
 const viewShow = (movieId) => {
     return(dispatch) => {
         axios.get(`${ShowBase}/${movieId}`)
@@ -35,8 +36,8 @@ const viewShow = (movieId) => {
         .catch((err) => console.log(err))
     }
 }
+/**To post the booking details to db */
 const bookShow = (bookingDetails) => {
-    console.log("booking details : ",bookingDetails)
     return(dispatch) =>
     {
         axiosUserInstance({
@@ -45,7 +46,6 @@ const bookShow = (bookingDetails) => {
             data : bookingDetails
         }) 
     .then( book => {
-        console.log("message : ",book.data.message)
         dispatch(setBooking(book.data.message))
     })
     .catch(err => {

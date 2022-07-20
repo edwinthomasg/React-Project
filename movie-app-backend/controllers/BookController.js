@@ -6,7 +6,6 @@ const User = require('../model/User')
 /**To save my bookings */
 const saveBookings = async(book) => {
     let bookings,booked
-    console.log("book controller : ",book)
     bookings = await new Book(book)
     return booked = await bookings.save()
 }
@@ -14,7 +13,6 @@ const saveBookings = async(book) => {
 const viewMyBookings = async(req,res) => {
     let bookings,user
     let userId = req.params.userId
-    console.log("book requested from : ",userId)
     try{
         if(userId.length !== 24)
         throw "Invalid Object Id"
@@ -22,7 +20,6 @@ const viewMyBookings = async(req,res) => {
         if(user === null)
         throw "No user found with the id mentioned"
         bookings = await Book.find({ user : userId }).populate([{ path : 'user' },{ path : 'movie' }])
-        console.log("found : ",bookings)
         if(bookings.length <= 0)
         throw "No bookings have been recorded"
         return res.status(200).json({bookings})

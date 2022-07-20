@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { useStyles } from "../../styles/styles"
 import { updateProfile, viewProfile } from "../redux/UserActions"
 import { useNavigate } from 'react-router-dom'
+import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp'
+import '../../styles/Style.css'
 
+/**User's Edit Profile Component*/
 const EditProfile = () => {
     const classes = useStyles()
     const userId = useSelector( state => state.user._userId )
@@ -19,7 +22,7 @@ const EditProfile = () => {
       userPassword,
       userContact
     })
-
+    /**To display the users personal information */
     useEffect(() => {
       dispatch(viewProfile(userId))
     },[dispatch])
@@ -33,7 +36,9 @@ const EditProfile = () => {
           userContact
         })
     },[profile])
-    
+    const goBack = () => {
+      navigate(-1)
+    }
     const changeCredentialHandler = (event) => {
         setUserCredentials((prevState) => ({
             ...prevState,
@@ -46,16 +51,17 @@ const EditProfile = () => {
         navigate('/my-profile') 
     }
     return(<>
+    <Button variant="contained" endIcon={<ArrowBackSharpIcon className="back-icon"/>} onClick={goBack} className='back-button'></Button>
     <form onSubmit={ updateHandler }>
         <Box className = {classes.loginForm}>
-          <Typography padding={1} variant='h4' textAlign="center">
+          <Typography className='user-profile-title' variant='h4'>
           My Details
           </Typography>
           <TextField type={'text'} name='userName' value={userCredentials.userName || ""}  onChange={changeCredentialHandler} placeholder='Username' margin='normal' required/> 
           <TextField type={'email'} name='userEmail' value={userCredentials.userEmail || ""} onChange={changeCredentialHandler} placeholder='EmailID' margin='normal' required/>
           <TextField type={'password'} name='userPassword' value={userCredentials.userPassword || ""} onChange={changeCredentialHandler} placeholder='Password' margin='normal' required/>
           <TextField type={'text'} name='userContact' value={userCredentials.userContact || ""}  onChange={changeCredentialHandler} placeholder='Contact Number' margin='normal' required/>
-          <Button type='submit' variant='contained' color='warning' style={{margin : '5% 0'}}>Update</Button>
+          <Button type='submit' variant='contained' color='warning' className='user-profile-update-button'>Update</Button>
         </Box>
       </form>
     </>)

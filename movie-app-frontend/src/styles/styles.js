@@ -24,6 +24,29 @@ export const useStyles = makeStyles(() => ({
       marginTop : '70px',
       boxShadow : '10px 10px 20px #ccc',
       borderRadius : '5px'
+    },
+    userBookCard : {
+      margin : 'auto',
+      maxWidth : '350px',
+      maxHeight : '500px',
+      padding : '15px',
+      marginBottom : '20px',
+    },
+    userAuthTitle : {
+      padding : '1px',
+      fontVariant : 'h4',
+      textAlign : 'center'
+    },
+    userAuthButton : {
+      margin : '5% 0'
+    },
+    bookingBox : {
+      padding : '15px',
+      paddingTop : '15px'
+    },
+    movieToggle : {
+      marginLeft : '600px', 
+      marginTop : '80px',
     }
   }))
 

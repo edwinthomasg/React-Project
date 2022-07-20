@@ -1,24 +1,28 @@
-const sendUserToken = (user, statusCode, res, message) => {
+const sendUserToken = (user) => {
     const token = user.generateJsonWebToken();
     const options = {
       expires: new Date(
-        Date.now() + 20 * 60 * 1000 
+        Date.now() + 30 * 60 * 1000 
       ),
       httpOnly: true
     };
-  
-    return res.status(statusCode).cookie("userToken", token, options).json({ accessToken : token , message});
+    return ({
+      token,
+      options
+    })
   };
-const sendAdminToken = (admin, statusCode, res, message) => {
+const sendAdminToken = (admin) => {
     const token = admin.generateJsonWebToken();
     const options = {
       expires: new Date(
-        Date.now() + 20 * 60 * 1000 
+        Date.now() + 30 * 60 * 1000 
       ),
       httpOnly: true
     };
-  
-    return res.status(statusCode).cookie("adminToken", token, options).json({ accessToken : token , message });
+    return ({
+      token,
+      options
+    })
   };
   
   module.exports = {

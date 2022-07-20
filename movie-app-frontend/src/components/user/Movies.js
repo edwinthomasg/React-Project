@@ -6,9 +6,12 @@ import MovieDisplay from '../movie/MovieDisplay'
 import { useDispatch, useSelector } from 'react-redux'
 import { viewMovies } from '../redux/MovieActions'
 
+/**User's Movie Page */
 const Movies = () => {
   const dispatch = useDispatch()
   const movies = useSelector( state => state.movie.movies )
+
+  /**To view all the movies that are available from Movie collection and passing that data as props to movie cards component */
   useEffect(() => {
     dispatch(viewMovies())
   }, [])

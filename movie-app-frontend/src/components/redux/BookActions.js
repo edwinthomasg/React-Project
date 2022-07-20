@@ -1,6 +1,6 @@
 import axios from "axios"
 import { axiosUserInstance } from "../api/Interceptors"
-import { SET_BOOKING, SET_BOOKINGS, SET_BOOKING_ERROR, CLEAR_BOOKING } from "./ActionTypes"
+import { SET_BOOKING, SET_BOOKINGS, SET_BOOKING_ERROR, CLEAR_BOOKING, CLEAR_BOOKING_ERROR } from "./ActionTypes"
 import { axiosAdminInstance } from "../api/Interceptors"
 
 const setBooking = (booking) => {
@@ -26,6 +26,12 @@ const clearBooking = () => {
         type : CLEAR_BOOKING,
     }
 }
+const clearBookingError = () => {
+    return {
+        type : CLEAR_BOOKING_ERROR
+    }
+}
+/**To fetch the bookings of single user */
 const viewBooking = (userId) => {
     return(dispatch) => {
         axiosUserInstance({
@@ -33,7 +39,6 @@ const viewBooking = (userId) => {
             method: "get"
         })
         .then(book => {
-            console.log("user book : ",book.data.bookings)
             dispatch(setBooking(book.data.bookings))
         })
         .catch(error => {
@@ -41,6 +46,7 @@ const viewBooking = (userId) => {
         })
     }
 }
+/**To fetch all the movies that have been booked */
 const viewAllBookings = () => {
     return(dispatch) => {
         axiosAdminInstance({
@@ -48,16 +54,15 @@ const viewAllBookings = () => {
             method: "get"
         })
         .then( bookings => {
-            console.log("book : ",bookings)
             dispatch(setBookings(bookings.data.bookings))
         })
         .catch((err) => console.log("err : ",err))
     }
 }
 
-
 export {
     viewBooking,
     viewAllBookings,
-    clearBooking
+    clearBooking,
+    clearBookingError
 }

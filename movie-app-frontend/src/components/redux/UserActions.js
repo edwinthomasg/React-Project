@@ -50,6 +50,7 @@ const setSignUp = (success) => {
         payload : success
     }
 }
+/**To login as user by posting all the login credetials */
 const loginUser = (user) => {
     return (dispatch) => {
         axios.post(`${UserBase}/login`,user)
@@ -62,6 +63,7 @@ const loginUser = (user) => {
         })
     }
 }
+/**To register a new user */
 const signUpUser = (user) => {
     return(dispatch) => {
         axios.post(`${UserBase}/signup`,user)
@@ -73,6 +75,7 @@ const signUpUser = (user) => {
          })
     }
 }
+/**To retreive the token when the page is refreshed */
 const retrieveUserToken = () => {
     return(dispatch, getState) => {
         const token = getState().user.userToken
@@ -81,6 +84,7 @@ const retrieveUserToken = () => {
         } 
     }
 }
+/**To fetch a single user details */
 const viewProfile = (userId) => {
     return(dispatch) => {
         axiosUserInstance({
@@ -93,6 +97,7 @@ const viewProfile = (userId) => {
         .catch( error => console.log(error) )
     }
 }
+/**To update a user details to the db */
 const updateProfile = (userDetails,userId) => {
     return (dispatch) => {
         axiosUserInstance({

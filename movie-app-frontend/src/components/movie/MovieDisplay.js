@@ -2,6 +2,7 @@ import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
     root : {
@@ -12,13 +13,19 @@ const useStyles = makeStyles({
         marginBottom : 20,
     }
 })
+/**Movie Display Page for admin side */
 const MovieDisplay = ({ data }) => {
     const classes = useStyles()
     const navigate = useNavigate()
+    const userId = useSelector(state => state.user._userId)
+    /**To view the particular movie that is selected by an user by navigating the movie id to seperate page */
     const viewHandler = () => {
         navigate(`/movies/${data._id}`)
     }
+    /**To book the movie selected by user by navigating it to shows page*/
     const bookHandler = () => {
+        if(userId === '')
+        return navigate('/auth',{replace:true})
         navigate(`/movies/shows/${data._id}`)
     }
     return (

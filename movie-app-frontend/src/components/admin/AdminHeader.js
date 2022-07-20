@@ -1,13 +1,12 @@
 import React, { useState,useEffect } from 'react'
 import { AppBar, Button, Box, Toolbar, Typography, Tabs, Tab, } from '@mui/material'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useStyles } from '../../styles/styles'
+import { Link, useLocation } from 'react-router-dom'
 import { appBar, headerMenu, } from '../../styles/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteAdminToken, viewAdminProfile } from '../redux/AdminActions'
+import { deleteAdminToken } from '../redux/AdminActions'
 
+/**Admins Header Component */
 const AdminHeader = () => {
-    const classes = useStyles()
     const location = useLocation()
     const admin = useSelector( state => state.admin )
     const dispatch = useDispatch()
@@ -15,7 +14,6 @@ const AdminHeader = () => {
     const logoutHandler = () => {
         dispatch(deleteAdminToken())
     }
-    const navigate = useNavigate()
     useEffect( () => {
         if(location.pathname === "/admin" || location.pathname === '/admin/home')
         {
@@ -33,14 +31,7 @@ const AdminHeader = () => {
         {
             setSelectTab(3)
         }
-        else if(location.pathname === "/admin/feedbacks")
-        {
-            setSelectTab(4)
-        }
-    },[selectTab,admin._adminId])
-    // useEffect(() => {
-    //     dispatch(viewAdminProfile(admin._adminId))
-    // },[admin._adminId])
+    },[selectTab,location.pathname])
     return (<>
         <AppBar position='sticky' style={appBar}>
             <Toolbar>
@@ -55,7 +46,6 @@ const AdminHeader = () => {
                     {
                         admin._adminId  && <Tab LinkComponent={Link} to='/admin/my-profile' label="My Profile" style={headerMenu} />
                     }
-                    <Tab LinkComponent={Link} to='/admin/feedbacks' label="Feedbacks" style={headerMenu} />
 
                 </Tabs>
 

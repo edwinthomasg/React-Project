@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { bookShow, clearSeatError } from '../redux/ShowActions';
 import ReactJsAlert from "reactjs-alert"
+import { clearBookingError } from '../redux/BookActions';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 const useStyles = makeStyles({
@@ -21,19 +22,18 @@ const useStyles = makeStyles({
         padding : 15
     }
 })
-
+/**Seat Display Component */
 const SeatDisplay = ({data}) => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const userId = useSelector( state => state.user._userId )
-
   const navigate = useNavigate()
   const [status, setStatus] = useState(false)
   const [title, setTitle] = useState('')
   const [type, setType] = useState('')
   const [seats, setSeats] = useState([])
   const { showMessage, showSuccess } = useSelector( state => state.show )
-  console.log("from comp : ",showMessage,showSuccess)
+  /**To display success and error pop up's on each time it renders respect to dependent array*/
   useEffect(() => {
     if(showSuccess)
     {
@@ -48,6 +48,7 @@ const SeatDisplay = ({data}) => {
       setTitle(showMessage)
     }
   },[showSuccess, showMessage])
+  /**To select and unselect seats */
   const selectSeats = (event) => {
     if (!seats.includes(event.target.value))
       setSeats(prev => [...prev, event.target.value])
@@ -57,11 +58,11 @@ const SeatDisplay = ({data}) => {
       setSeats(filteredSeats)
     }
   }
-
-const bookHandler = () => {
+  /**To book the show after the seats are selected by an user */
+  const bookHandler = () => {
     dispatch(bookShow({ movieId : data.selectedMovieId, showDate : data.selectedDate, userId, seats }))
-}
-console.log("movie show : ",data.movie)
+  }
+
   return (<div className='row'>
     <div className='col-md-8'>
     <Box ml={41} >
@@ -146,6 +147,9 @@ console.log("movie show : ",data.movie)
                     <span>Ticket Cost : </span>{data.movie.ticketCost}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" component="p">
+                    <span>Total Price : </span>{seats.length * data.movie.ticketCost}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" component="p">
                     <span>Show Date : </span>{data.selectedDate}
                     </Typography>
                 </CardContent>
@@ -159,6 +163,7 @@ console.log("movie show : ",data.movie)
         {
           setStatus(false)
           dispatch(clearSeatError())
+          dispatch(clearBookingError())
           navigate('/home')
         }
         else if((!showSuccess) && (showMessage !== ''))

@@ -1,12 +1,11 @@
 import { Grid } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
 import MovieCard from '../movie/MovieCard'
 import { Box } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearMovieError, viewMovies } from '../redux/MovieActions'
+import { viewMovies } from '../redux/MovieActions'
 
-
+/**All the movies added by admin will be shown here */
 const AdminHome = () => {
   const movies = useSelector( state => state.movie.movies )
   const dispatch = useDispatch()

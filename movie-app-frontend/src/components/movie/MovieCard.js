@@ -15,6 +15,7 @@ const useStyles = makeStyles({
         marginBottom : 20,
     }
 })
+/**Movie Card component to display all the movies */
 const MovieCard = ({ data }) => {
     const classes = useStyles()
     const admin = useSelector( state => state.admin )
@@ -39,7 +40,6 @@ const MovieCard = ({ data }) => {
       setStatus(true)
       setType('success')
       setTitle(movieMessage)
-      dispatch(clearMovieError())
     }
     else if((!movieSuccess) && (movieMessage !== ''))
     {
@@ -77,10 +77,12 @@ const MovieCard = ({ data }) => {
             if(movieSuccess && movieMessage)
             {
             setStatus(false)
+            dispatch(clearMovieError())
             }
             else if((!movieSuccess) && (movieMessage !== ''))
             {
             setStatus(false)
+            dispatch(clearMovieError())
             }
       }}
       />
